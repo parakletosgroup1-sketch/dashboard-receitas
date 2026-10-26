@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>365 Receitas — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07100d;--s:rgba(18,32,26,.72);--s2:#13241d;--bd:#223a30;--tx:#f1f6f3;--mu:#7f988c;--g:#3fd1a0;--g2:#2b8f6e;--o:#ff8a3d;--o2:#e8590c;--r:#f87171}
+body{font-family:'Bricolage Grotesque',sans-serif;color:var(--tx);padding:20px 16px 40px;min-height:100vh;background:radial-gradient(900px 500px at 12% -10%,rgba(63,209,160,.13),transparent 60%),radial-gradient(700px 420px at 100% 0,rgba(255,138,61,.09),transparent 55%),var(--bg);background-attachment:fixed}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#2a4a3d;border-radius:5px}
+.wrap{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--s);border:1px solid var(--bd);border-radius:18px;padding:20px;backdrop-filter:blur(8px)}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,rgba(43,106,88,.55),rgba(18,32,26,.75) 55%);border-color:#2f5a4b}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:linear-gradient(135deg,var(--g2),var(--g));box-shadow:0 6px 22px rgba(63,209,160,.35)}
+h1{font-size:23px;font-weight:700;letter-spacing:-.5px}
+.sub{font-size:12px;color:var(--mu);margin-top:3px;display:flex;align-items:center;gap:7px}
+.sub:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 0 0 rgba(63,209,160,.6);animation:pl 2s infinite}
+@keyframes pl{70%{box-shadow:0 0 0 7px rgba(63,209,160,0)}100%{box-shadow:0 0 0 0 rgba(63,209,160,0)}}
+.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--mu)}
+.ctl label{display:flex;flex-direction:column;gap:4px;font-weight:500}
+select,input{background:rgba(7,16,13,.65);border:1px solid var(--bd);color:var(--tx);padding:8px 11px;border-radius:10px;font:inherit;font-size:13px;font-weight:600;outline:none;transition:border-color .15s}
+select:focus,input:focus{border-color:var(--g)}input{width:110px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden}
+.kv{font-size:28px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1.1}.kl{font-size:11px;color:var(--mu);margin-top:6px;font-weight:500}
+.kpi.hero{grid-column:span 2;background:linear-gradient(135deg,rgba(255,138,61,.2),rgba(232,89,12,.06));border-color:rgba(255,138,61,.45)}
+.kpi.hero .kv{font-size:40px;color:#ffc08f}.kpi.hero .kl{color:#e8b48f}
+.kpi.live .kv{color:var(--g)}
+.kpi.live:after{content:"";position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--g);animation:pl 2s infinite}
+h2{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;letter-spacing:-.1px}
+h2:before{content:"";width:4px;height:16px;border-radius:3px;background:linear-gradient(var(--g),var(--g2))}
+h2 .mu{font-weight:500;font-size:12px}
+.fn{display:flex;flex-direction:column;gap:10px}
+.fr{display:grid;grid-template-columns:150px 1fr 100px;gap:14px;align-items:center;font-size:13px;font-weight:500}
+.fb{height:30px;background:rgba(7,16,13,.6);border-radius:9px;overflow:hidden;border:1px solid #1a2f26}
+.fb i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--g2),var(--g));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.fr:nth-child(4) .fb i{background:linear-gradient(90deg,#d97706,var(--o))}.fr:nth-child(5) .fb i{background:linear-gradient(90deg,var(--o2),#ffb27a)}
+.fr span:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:15px}.fr em{color:var(--mu);font-style:normal;font-size:11px;font-weight:500;margin-left:3px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;color:var(--mu);text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);font-weight:600}
+td{padding:10px;border-bottom:1px solid rgba(34,58,48,.5);font-variant-numeric:tabular-nums;font-weight:500}
+tbody tr:hover td{background:rgba(63,209,160,.05)}tr:last-child td{border:0}td:first-child{font-weight:600}
+.up{color:var(--g);font-size:11px;font-weight:700}.dn{color:var(--r);font-size:11px;font-weight:700}.ov{overflow-x:auto}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px}
+.spy{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;max-height:480px;overflow-y:auto;padding-right:3px}
+.it{background:var(--s2);border:1px solid var(--bd);border-left:3px solid #35564a;border-radius:12px;padding:12px 14px;font-size:12px;display:flex;flex-direction:column;gap:5px;transition:transform .15s}
+.it:hover{transform:translateY(-2px)}
+.it.on{border-left-color:var(--g)}.it.hot{border-left-color:var(--o);background:linear-gradient(135deg,rgba(255,138,61,.1),var(--s2))}
+.it b{font-size:13px;letter-spacing:.3px}.row{display:flex;justify-content:space-between;gap:6px;align-items:center}.mu{color:var(--mu)}
+.bar{display:flex;gap:3px;margin-top:3px}.bar i{flex:1;height:5px;border-radius:3px;background:#1d342b}.bar i.d{background:var(--g)}.it.hot .bar i.d{background:var(--o)}
+.sl{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto}
+.sa{display:flex;justify-content:space-between;align-items:center;background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;font-size:13px}
+.sa b{font-weight:600}.sa strong{color:#ffc08f;font-size:17px;letter-spacing:-.3px}.empty{color:var(--mu);font-size:13px;padding:26px;text-align:center}
+.pill{display:inline-block;background:rgba(255,138,61,.15);color:#ffc08f;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:6px}
+@media(max-width:620px){.kpi.hero{grid-column:span 2}.fr{grid-template-columns:100px 1fr 76px;gap:8px}h1{font-size:19px}.two{grid-template-columns:1fr}}
+</style></head><body>
+<div class="wrap">
+<div class="card hd"><div class="brand"><div class="logo">🥗</div><div><h1>365 Receitas</h1><div class="sub" id="st">Conectando…</div></div></div>
+<div class="ctl"><label>Origem <select id="src"><option value="meta">Só Meta</option><option value="all">Todas</option></select></label>
+<label>Período <select id="per"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d">7 dias</option><option value="30d">30 dias</option></select></label>
+<label>Gasto do período R$ <input id="spend" inputmode="decimal" placeholder="0,00"></label></div></div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="card"><h2>Funil da página <span id="fsub" class="mu"></span></h2><div class="fn" id="fn"></div></div>
+
+<div class="two">
+<div class="card ov"><h2>Comparação de períodos</h2><table><thead><tr><th>Métrica</th><th>Hoje</th><th>Ontem</th><th>7 dias</th><th>30 dias</th></tr></thead><tbody id="cmp"></tbody></table></div>
+<div class="card ov"><h2>Criativos / campanhas</h2><table><thead><tr><th>utm_content</th><th>Visitas</th><th>Planos</th><th>Cliques</th><th>CTR plano</th></tr></thead><tbody id="cr"></tbody></table></div>
+</div>
+
+<div class="card"><h2>Espião ao vivo <span class="mu" id="sc"></span></h2><div class="spy" id="spy"></div></div>
+<div class="card"><h2>Últimas vendas</h2><div class="sl" id="sales"></div></div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import{getFirestore,collection,onSnapshot,limit,query,orderBy}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const CFG={product:'lp-receitas',prices:[10,18],pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
+const FB={apiKey:"AIzaSyDs8d7vR6gcqhzycJ3oPokIxnhVT-No6tE",authDomain:"lp-receitas.firebaseapp.com",projectId:"lp-receitas",storageBucket:"lp-receitas.firebasestorage.app",messagingSenderId:"137885130898",appId:"1:137885130898:web:5f76c46e409dba61e6064b"};
+if(CFG.pass){let ok=false;try{ok=sessionStorage.getItem('dk')===CFG.pass}catch(e){}if(!ok){const p=prompt('Senha:');if(p!==CFG.pass){document.body.innerHTML='';throw 0}try{sessionStorage.setItem('dk',p)}catch(e){}}}
+const $=id=>document.getElementById(id);
+const toDate=t=>!t?null:t.toDate?t.toDate():t.seconds?new Date(t.seconds*1e3):new Date(t);
+const brl=v=>'R$ '+Number(v).toFixed(2).replace('.',',');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const paid=s=>s.isPaid===true||s.paid===true||['pago','paid','approved','completed'].includes(String(s.status||'').toLowerCase());
+const net=s=>{const v=Number(s.amount||0);return String(s.paymentMethod||'').toLowerCase()==='pix'?v*.95:v*.9};
+const isLpSale=s=>paid(s)&&(s.product===CFG.product||CFG.prices.includes(Number(s.amount)));
+const ago=t=>{const d=toDate(t);if(!d)return'?';const s=Math.floor((Date.now()-d)/1e3);return s<5?'agora':s<60?s+'s':s<3600?Math.floor(s/60)+'min':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
+const range=p=>{const n=new Date(),s=new Date();s.setHours(0,0,0,0);if(p==='yesterday'){const e=new Date(s);e.setMilliseconds(-1);s.setDate(s.getDate()-1);return[s,e]}if(p==='7d')s.setDate(s.getDate()-6);if(p==='30d')s.setDate(s.getDate()-29);return[s,n]};
+const inR=(t,r)=>{const d=toDate(t);return d&&d>=r[0]&&d<=r[1]};
+const stage=s=>s.checkout||s.clickedPlan?4:s.viewedPlans?3:(s.maxScroll||0)>=50?2:1;
+let sess=[],sales=[],ready=[false,false];
+const getSess=()=>{const m=$('src').value==='meta';return sess.filter(s=>!m||CFG.metaSrc.includes(s.utm_source||'')||!s.utm_source)};
+const spendKey='lp_spend_'+$('per').value;
+function metrics(r,S,V){
+  const ss=S.filter(s=>inR(s.enteredAt||s.lastActivity,r)),vv=V.filter(v=>inR(v.createdAt,r));
+  const c=n=>ss.filter(s=>stage(s)>=n).length;
+  return{visits:ss.length,scroll:c(2),plans:c(3),clicks:c(4),p1:ss.filter(s=>s.clickedPlan==='p1').length,p2:ss.filter(s=>s.clickedPlan==='p2').length,sales:vv.length,rev:vv.reduce((a,v)=>a+net(v),0),ss,vv};
+}
+function render(){
+  const S=getSess(),V=sales.filter(isLpSale),per=$('per').value,r=range(per),m=metrics(r,S,V);
+  const online=S.filter(s=>{const d=toDate(s.lastActivity);return d&&Date.now()-d<90e3}).length;
+  const spend=parseFloat(String($('spend').value).replace(',','.'))||0;
+  const kp=[[online,'Online agora'],[m.visits,'Visitas'],[m.clicks,'Cliques em plano'],[m.sales,'Vendas'],[brl(m.rev),'Receita líquida'],[m.visits?(m.sales/m.visits*100).toFixed(2)+'%':'—','Conversão'],[spend&&m.visits?brl(spend/m.visits):'—','Custo / visita'],[spend&&m.sales?brl(spend/m.sales):'—','CPA'],[spend?(m.rev/spend).toFixed(2)+'x':'—','ROAS']];
+  $('kpis').innerHTML=kp.map((k,i)=>`<div class="kpi${i===4?' hero':i===0?' live':''}"><div class="kv">${k[0]}</div><div class="kl">${k[1]}</div></div>`).join('');
+  const steps=[['Entrou na página',m.visits],['Rolou 50%+',m.scroll],['Viu os planos',m.plans],['Clicou em um plano',m.clicks],['Venda confirmada',m.sales]];
+  $('fn').innerHTML=steps.map((x,i)=>`<div class="fr"><span>${x[0]}</span><div class="fb"><i style="width:${m.visits?Math.max(2,x[1]/m.visits*100):0}%"></i></div><span>${x[1]} <em>${i&&steps[i-1][1]?Math.round(x[1]/steps[i-1][1]*100)+'%':''}</em></span></div>`).join('');
+  $('fsub').textContent=`· plano R$10: ${m.p1} cliques · plano R$18: ${m.p2} cliques`;
+  const per4=['today','yesterday','7d','30d'].map(p=>metrics(range(p),S,V));
+  const rows=[['Visitas',x=>x.visits],['Viram planos',x=>x.plans],['Cliques no plano',x=>x.clicks],['Vendas',x=>x.sales],['Receita líq.',x=>brl(x.rev)],['Conv. %',x=>x.visits?(x.sales/x.visits*100).toFixed(2)+'%':'0%']];
+  $('cmp').innerHTML=rows.map((r2,i)=>{let b='';if(i<4){const t=r2[1](per4[0]),y=r2[1](per4[1]);if(y>0){const p=Math.round((t-y)/y*100);if(p)b=` <span class="${p>0?'up':'dn'}">${p>0?'▲':'▼'}${Math.abs(p)}%</span>`}}return`<tr><td class="mu">${r2[0]}</td>${per4.map((x,j)=>`<td>${r2[1](x)}${j===0?b:''}</td>`).join('')}</tr>`}).join('');
+  const g={};m.ss.forEach(s=>{const k=s.utm_content||'(sem utm_content)';(g[k]=g[k]||{v:0,p:0,c:0});g[k].v++;if(stage(s)>=3)g[k].p++;if(stage(s)>=4)g[k].c++});
+  const cr=Object.entries(g).sort((a,b)=>b[1].v-a[1].v).slice(0,12);
+  $('cr').innerHTML=cr.length?cr.map(([k,x])=>`<tr><td>${esc(k.slice(0,28))}</td><td>${x.v}</td><td>${x.p}</td><td>${x.c}</td><td>${x.v?Math.round(x.c/x.v*100)+'%':'—'}</td></tr>`).join(''):'<tr><td colspan="5" class="empty">Sem dados no período</td></tr>';
+  const list=[...S].sort((a,b)=>(toDate(b.lastActivity)||0)-(toDate(a.lastActivity)||0)).slice(0,40);
+  $('sc').textContent='· '+list.length+' últimos';
+  const lbl=['Entrou','Rolando','Viu os planos','Foi pro checkout'];
+  $('spy').innerHTML=list.length?list.map(s=>{const st=stage(s),on=toDate(s.lastActivity)&&Date.now()-toDate(s.lastActivity)<90e3;
+    return`<div class="it ${st===4?'hot':on?'on':''}"><div class="row"><b>#${esc(String(s.sessionId||s.id).slice(-6).toUpperCase())}</b><span class="mu">${on?'🟢 ':''}${ago(s.lastActivity)}</span></div><div>${lbl[st-1]}${s.clickedPlan?`<span class="pill">${s.clickedPlan==='p1'?'R$10':'R$18'}</span>`:''}</div><div class="mu">${esc(s.utm_source||'direto')} · ${esc(s.device||'')} · scroll ${s.maxScroll||0}%</div><div class="bar">${[1,2,3,4].map(i=>`<i class="${i<=st?'d':''}"></i>`).join('')}</div></div>`}).join(''):'<div class="empty">Nenhuma visita ainda</div>';
+  const sl=V.filter(v=>inR(v.createdAt,range('30d'))).sort((a,b)=>(toDate(b.createdAt)||0)-(toDate(a.createdAt)||0)).slice(0,30);
+  $('sales').innerHTML=sl.length?sl.map(v=>`<div class="sa"><div><b>${esc(v.customerName||v.customer_name||v.name||'Cliente')}</b><div class="mu">${esc((v.paymentMethod||'pix').toUpperCase())} · ${toDate(v.createdAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div></div><strong>${brl(net(v))}</strong></div>`).join(''):'<div class="empty">Nenhuma venda desta LP nos últimos 30 dias</div>';
+  $('st').textContent='Tempo real ativo';
+}
+let pend=false;const sched=()=>{if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;if(ready[0]&&ready[1])render()})};
+try{$('spend').value=localStorage.getItem('lp_spend')||''}catch(e){}
+['src','per'].forEach(i=>$(i).onchange=sched);
+$('spend').oninput=()=>{try{localStorage.setItem('lp_spend',$('spend').value)}catch(e){}sched()};
+const db=getFirestore(initializeApp(FB));
+const err=()=>{$('st').textContent='⚠️ Erro no Firebase (veja as regras do Firestore)'};
+onSnapshot(query(collection(db,'lp_sessions'),orderBy('lastActivity','desc'),limit(800)),n=>{sess=n.docs.map(d=>({id:d.id,...d.data()}));ready[0]=true;sched()},err);
+onSnapshot(query(collection(db,'sales'),orderBy('createdAt','desc'),limit(300)),n=>{sales=n.docs.map(d=>({id:d.id,...d.data()}));ready[1]=true;sched()},err);
+setInterval(()=>{if(!document.hidden&&ready[0]&&ready[1])render()},15000);
+</script></body></html>
