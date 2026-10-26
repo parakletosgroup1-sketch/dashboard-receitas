@@ -1,133 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>365 Receitas — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&display=swap" rel="stylesheet">
+<title>365 Receitas — Meta Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#07100d;--s:rgba(18,32,26,.72);--s2:#13241d;--bd:#223a30;--tx:#f1f6f3;--mu:#7f988c;--g:#3fd1a0;--g2:#2b8f6e;--o:#ff8a3d;--o2:#e8590c;--r:#f87171}
-body{font-family:'Bricolage Grotesque',sans-serif;color:var(--tx);padding:20px 16px 40px;min-height:100vh;background:radial-gradient(900px 500px at 12% -10%,rgba(63,209,160,.13),transparent 60%),radial-gradient(700px 420px at 100% 0,rgba(255,138,61,.09),transparent 55%),var(--bg);background-attachment:fixed}
-::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#2a4a3d;border-radius:5px}
-.wrap{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-.card{background:var(--s);border:1px solid var(--bd);border-radius:18px;padding:20px;backdrop-filter:blur(8px)}
-.hd{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,rgba(43,106,88,.55),rgba(18,32,26,.75) 55%);border-color:#2f5a4b}
-.brand{display:flex;align-items:center;gap:14px}
-.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:linear-gradient(135deg,var(--g2),var(--g));box-shadow:0 6px 22px rgba(63,209,160,.35)}
-h1{font-size:23px;font-weight:700;letter-spacing:-.5px}
-.sub{font-size:12px;color:var(--mu);margin-top:3px;display:flex;align-items:center;gap:7px}
-.sub:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 0 0 rgba(63,209,160,.6);animation:pl 2s infinite}
-@keyframes pl{70%{box-shadow:0 0 0 7px rgba(63,209,160,0)}100%{box-shadow:0 0 0 0 rgba(63,209,160,0)}}
-.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--mu)}
-.ctl label{display:flex;flex-direction:column;gap:4px;font-weight:500}
-select,input{background:rgba(7,16,13,.65);border:1px solid var(--bd);color:var(--tx);padding:8px 11px;border-radius:10px;font:inherit;font-size:13px;font-weight:600;outline:none;transition:border-color .15s}
-select:focus,input:focus{border-color:var(--g)}input{width:110px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.kpi{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden}
-.kv{font-size:28px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1.1}.kl{font-size:11px;color:var(--mu);margin-top:6px;font-weight:500}
-.kpi.hero{grid-column:span 2;background:linear-gradient(135deg,rgba(255,138,61,.2),rgba(232,89,12,.06));border-color:rgba(255,138,61,.45)}
-.kpi.hero .kv{font-size:40px;color:#ffc08f}.kpi.hero .kl{color:#e8b48f}
-.kpi.live .kv{color:var(--g)}
-.kpi.live:after{content:"";position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--g);animation:pl 2s infinite}
-h2{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;letter-spacing:-.1px}
-h2:before{content:"";width:4px;height:16px;border-radius:3px;background:linear-gradient(var(--g),var(--g2))}
-h2 .mu{font-weight:500;font-size:12px}
-.fn{display:flex;flex-direction:column;gap:10px}
-.fr{display:grid;grid-template-columns:150px 1fr 100px;gap:14px;align-items:center;font-size:13px;font-weight:500}
-.fb{height:30px;background:rgba(7,16,13,.6);border-radius:9px;overflow:hidden;border:1px solid #1a2f26}
-.fb i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--g2),var(--g));transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.fr:nth-child(4) .fb i{background:linear-gradient(90deg,#d97706,var(--o))}.fr:nth-child(5) .fb i{background:linear-gradient(90deg,var(--o2),#ffb27a)}
-.fr span:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:15px}.fr em{color:var(--mu);font-style:normal;font-size:11px;font-weight:500;margin-left:3px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{font-size:11px;color:var(--mu);text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);font-weight:600}
-td{padding:10px;border-bottom:1px solid rgba(34,58,48,.5);font-variant-numeric:tabular-nums;font-weight:500}
-tbody tr:hover td{background:rgba(63,209,160,.05)}tr:last-child td{border:0}td:first-child{font-weight:600}
-.up{color:var(--g);font-size:11px;font-weight:700}.dn{color:var(--r);font-size:11px;font-weight:700}.ov{overflow-x:auto}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px}
-.spy{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;max-height:480px;overflow-y:auto;padding-right:3px}
-.it{background:var(--s2);border:1px solid var(--bd);border-left:3px solid #35564a;border-radius:12px;padding:12px 14px;font-size:12px;display:flex;flex-direction:column;gap:5px;transition:transform .15s}
-.it:hover{transform:translateY(-2px)}
-.it.on{border-left-color:var(--g)}.it.hot{border-left-color:var(--o);background:linear-gradient(135deg,rgba(255,138,61,.1),var(--s2))}
-.it b{font-size:13px;letter-spacing:.3px}.row{display:flex;justify-content:space-between;gap:6px;align-items:center}.mu{color:var(--mu)}
-.bar{display:flex;gap:3px;margin-top:3px}.bar i{flex:1;height:5px;border-radius:3px;background:#1d342b}.bar i.d{background:var(--g)}.it.hot .bar i.d{background:var(--o)}
-.sl{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto}
-.sa{display:flex;justify-content:space-between;align-items:center;background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;font-size:13px}
-.sa b{font-weight:600}.sa strong{color:#ffc08f;font-size:17px;letter-spacing:-.3px}.empty{color:var(--mu);font-size:13px;padding:26px;text-align:center}
-.pill{display:inline-block;background:rgba(255,138,61,.15);color:#ffc08f;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:6px}
-@media(max-width:620px){.kpi.hero{grid-column:span 2}.fr{grid-template-columns:100px 1fr 76px;gap:8px}h1{font-size:19px}.two{grid-template-columns:1fr}}
+:root{--blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.35);--blue-dark:#1d4ed8;--green:#22c55e;--gold:#f59e0b;--red:#ef4444;--purple:#a78bfa;--bg:#070709;--surface:#0f1014;--surface2:#15171d;--border:#1e2028;--text:#f1f1f3;--muted:#5a5d6b;--subtle:#2a2d38}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);padding:16px;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px}
+.wrap{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.header{background:linear-gradient(135deg,#0a0f1e,#0f1a2e);border:1px solid #1a2540;border-radius:16px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hb{display:flex;align-items:center;gap:12px}
+.hlogo{width:40px;height:40px;background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px var(--blue-glow);flex-shrink:0}
+.htitle{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px}.hsub{font-size:10px;color:var(--muted);margin-top:1px}
+.hr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hbadge{display:flex;align-items:center;gap:7px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);padding:6px 12px;border-radius:7px;font-size:10px;font-weight:700;color:var(--blue)}
+.pdot{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pdot 1.5s infinite}@keyframes pdot{0%,100%{opacity:1}50%{opacity:.3}}
+select,input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;font-family:inherit;outline:none}
+input{width:92px}select:focus,input:focus{border-color:var(--blue)}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi-bar{position:absolute;top:0;left:0;width:3px;height:100%}.kpi-icon{font-size:16px;margin-bottom:5px;display:block}
+.kpi-v{font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:#fff}
+.kpi-l{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px}
+.ctitle{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cmp{width:100%;border-collapse:collapse}
+.cmp th{font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;padding:6px 9px;text-align:left;border-bottom:1px solid var(--border)}
+.cmp td{padding:8px 9px;font-size:13px;font-weight:700;border-bottom:1px solid #0d0e11;font-variant-numeric:tabular-nums}
+.cmp tr:last-child td{border-bottom:none}.cl{color:var(--muted);font-size:11px}.cv{color:#fff}.cv.hi{color:var(--green)}
+.delta-up,.delta-down{display:inline-flex;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;margin-left:4px;border:1px solid}
+.delta-up{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.2)}.delta-down{background:rgba(239,68,68,.1);color:var(--red);border-color:rgba(239,68,68,.2)}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:11px;max-height:640px;overflow-y:auto}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.tab{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:800;cursor:pointer;font-family:inherit;outline:none}
+.tab.active{background:var(--blue-dim);border-color:rgba(59,130,246,.35);color:var(--blue)}
+.spy-count-badge{background:var(--surface2);border:1px solid var(--border);padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;color:var(--muted)}
+.spy-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)}
+.spy-leg-item{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;color:var(--muted)}.spy-leg-dot{width:10px;height:10px;border-radius:2px}
+.spy-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.spy-item.checkout{border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.025)}.spy-item.sale{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.035)}.spy-item.online-now{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.03)}
+.spy-av{width:34px;height:34px;background:var(--subtle);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--muted);font-size:12px;flex-shrink:0}
+.spy-b{flex:1;min-width:0}.spy-row{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.spy-id{font-size:11px;font-weight:900;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.spy-t{font-size:9px;color:var(--muted)}
+.tela-badge{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:900;border:1px solid}
+.screen-early{background:rgba(59,130,246,.1);color:var(--blue);border-color:rgba(59,130,246,.25)}.screen-mid{background:rgba(245,158,11,.1);color:var(--gold);border-color:rgba(245,158,11,.25)}
+.screen-late{background:rgba(167,139,250,.1);color:var(--purple);border-color:rgba(167,139,250,.25)}.screen-checkout{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.25)}
+.screen-sale{background:rgba(245,158,11,.15);color:var(--gold);border-color:rgba(245,158,11,.3)}
+.screen-stepper{display:flex;gap:2px;margin-top:5px}.ss{width:14px;height:10px;border-radius:2px;background:var(--subtle)}
+.ss.done{background:var(--blue)}.ss.current{background:var(--gold);animation:sfp .9s infinite alternate}.ss.sale-done{background:var(--green)}@keyframes sfp{0%{opacity:.5}100%{opacity:1}}
+.spy-src{font-size:8px;color:var(--blue);font-weight:800;text-transform:uppercase;margin-top:2px;letter-spacing:.3px}
+.spy-r{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.odot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 7px var(--green)}
+.bchk{background:rgba(34,197,94,.1);color:var(--green);font-size:8px;font-weight:900;padding:2px 5px;border-radius:3px;border:1px solid rgba(34,197,94,.28)}
+.bsale{background:rgba(245,158,11,.1);color:var(--gold);font-size:8px;font-weight:900;padding:2px 5px;border-radius:3px;border:1px solid rgba(245,158,11,.28)}
+.empty{text-align:center;padding:26px;color:var(--muted);font-size:12px;grid-column:1/-1}
+.sale-item{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:9px}
+.sale-av{width:36px;height:36px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--gold);flex-shrink:0}
+.sale-info{flex:1;min-width:0}.sale-name{font-size:12px;font-weight:900;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sale-meta{font-size:10px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sale-method{background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);color:var(--blue);font-size:8px;font-weight:900;padding:1px 6px;border-radius:3px;text-transform:uppercase}
+.sale-amt{font-size:15px;font-weight:900;color:var(--gold);flex-shrink:0}
 </style></head><body>
 <div class="wrap">
-<div class="card hd"><div class="brand"><div class="logo">🥗</div><div><h1>365 Receitas</h1><div class="sub" id="st">Conectando…</div></div></div>
-<div class="ctl"><label>Origem <select id="src"><option value="meta">Só Meta</option><option value="all">Todas</option></select></label>
-<label>Período <select id="per"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d">7 dias</option><option value="30d">30 dias</option></select></label>
-<label>Gasto do período R$ <input id="spend" inputmode="decimal" placeholder="0,00"></label></div></div>
+<div class="header"><div class="hb"><div class="hlogo">🥗</div><div><div class="htitle">365 Receitas — Meta Ads</div><div class="hsub">Dashboard Tráfego Pago · Facebook &amp; Instagram</div></div></div>
+<div class="hr"><select id="src"><option value="meta">Só Meta</option><option value="all">Todas as origens</option></select><input id="spend" inputmode="decimal" placeholder="Gasto hoje R$"><div class="hbadge"><div class="pdot"></div><span id="st">Conectando…</span></div></div></div>
 
-<div class="kpis" id="kpis"></div>
+<div class="kpi-strip" id="kpis"></div>
 
-<div class="card"><h2>Funil da página <span id="fsub" class="mu"></span></h2><div class="fn" id="fn"></div></div>
+<div class="card"><div class="ctitle">📅 Comparação de Períodos</div>
+<div style="overflow-x:auto"><table class="cmp"><thead><tr><th>Métrica</th><th>Hoje</th><th>Ontem</th><th>7 Dias</th><th>30 Dias</th></tr></thead><tbody id="cmp"></tbody></table></div></div>
 
-<div class="two">
-<div class="card ov"><h2>Comparação de períodos</h2><table><thead><tr><th>Métrica</th><th>Hoje</th><th>Ontem</th><th>7 dias</th><th>30 dias</th></tr></thead><tbody id="cmp"></tbody></table></div>
-<div class="card ov"><h2>Criativos / campanhas</h2><table><thead><tr><th>utm_content</th><th>Visitas</th><th>Planos</th><th>Cliques</th><th>CTR plano</th></tr></thead><tbody id="cr"></tbody></table></div>
-</div>
+<div class="card"><div class="ctitle">🕵️ Espião ao Vivo — Etapa por Etapa
+<div class="tabs"><button class="tab active" data-f="all">TODOS</button><button class="tab" data-f="online">🟢 ONLINE</button><button class="tab" data-f="checkout">CHECKOUT</button><button class="tab" data-f="sale">VENDAS</button></div>
+<span class="spy-count-badge"><strong id="spy-count">0</strong> leads</span></div>
+<div class="spy-legend"><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--blue)"></div>Etapa concluída</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--gold)"></div>Etapa atual</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--green)"></div>Comprou</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--subtle)"></div>Não atingido</div></div>
+<div class="ga" id="spy-grid"><div class="empty">Conectando ao Firebase…</div></div></div>
 
-<div class="card"><h2>Espião ao vivo <span class="mu" id="sc"></span></h2><div class="spy" id="spy"></div></div>
-<div class="card"><h2>Últimas vendas</h2><div class="sl" id="sales"></div></div>
+<div class="card"><div class="ctitle">💰 Últimas Compras
+<select id="sales-filter" style="margin-left:auto"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 Dias</option><option value="30d">30 Dias</option></select></div>
+<div id="sales-list" style="display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto"></div></div>
 </div>
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import{getFirestore,collection,onSnapshot,limit,query,orderBy}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const CFG={product:'lp-receitas',prices:[10,18],pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
+const CFG={product:'lp-receitas',pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
 const FB={apiKey:"AIzaSyDs8d7vR6gcqhzycJ3oPokIxnhVT-No6tE",authDomain:"lp-receitas.firebaseapp.com",projectId:"lp-receitas",storageBucket:"lp-receitas.firebasestorage.app",messagingSenderId:"137885130898",appId:"1:137885130898:web:5f76c46e409dba61e6064b"};
 if(CFG.pass){let ok=false;try{ok=sessionStorage.getItem('dk')===CFG.pass}catch(e){}if(!ok){const p=prompt('Senha:');if(p!==CFG.pass){document.body.innerHTML='';throw 0}try{sessionStorage.setItem('dk',p)}catch(e){}}}
 const $=id=>document.getElementById(id);
 const toDate=t=>!t?null:t.toDate?t.toDate():t.seconds?new Date(t.seconds*1e3):new Date(t);
-const brl=v=>'R$ '+Number(v).toFixed(2).replace('.',',');
+const brl=v=>'R$\u00a0'+Number(v).toFixed(2).replace('.',',');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const paid=s=>s.isPaid===true||s.paid===true||['pago','paid','approved','completed'].includes(String(s.status||'').toLowerCase());
 const net=s=>{const v=Number(s.amount||0);return String(s.paymentMethod||'').toLowerCase()==='pix'?v*.95:v*.9};
-const isLpSale=s=>paid(s)&&(s.product===CFG.product||CFG.prices.includes(Number(s.amount)));
 const ago=t=>{const d=toDate(t);if(!d)return'?';const s=Math.floor((Date.now()-d)/1e3);return s<5?'agora':s<60?s+'s':s<3600?Math.floor(s/60)+'min':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
 const range=p=>{const n=new Date(),s=new Date();s.setHours(0,0,0,0);if(p==='yesterday'){const e=new Date(s);e.setMilliseconds(-1);s.setDate(s.getDate()-1);return[s,e]}if(p==='7d')s.setDate(s.getDate()-6);if(p==='30d')s.setDate(s.getDate()-29);return[s,n]};
 const inR=(t,r)=>{const d=toDate(t);return d&&d>=r[0]&&d<=r[1]};
-const stage=s=>s.checkout||s.clickedPlan?4:s.viewedPlans?3:(s.maxScroll||0)>=50?2:1;
-let sess=[],sales=[],ready=[false,false];
+const online=s=>{const d=toDate(s.lastActivity);return d&&Date.now()-d<90e3};
+const isChk=s=>!!(s.checkout||s.clickedPlan);
+const sIdx=s=>isChk(s)?6:s.viewedPlans?5:Math.min(4,Math.round((s.maxScroll||0)/25));
+const LBL=['Entrou na página','Rolou 25%','Rolou 50%','Rolou 75%','Rolou 100%','Viu os planos','Foi pro checkout'];
+const planOf=s=>s.clickedPlan==='p1'?'R$10':s.clickedPlan==='p2'?'R$18':'';
+let sess=[],sales=[],spyF='all',ready=[false,false];
 const getSess=()=>{const m=$('src').value==='meta';return sess.filter(s=>!m||CFG.metaSrc.includes(s.utm_source||'')||!s.utm_source)};
-const spendKey='lp_spend_'+$('per').value;
-function metrics(r,S,V){
-  const ss=S.filter(s=>inR(s.enteredAt||s.lastActivity,r)),vv=V.filter(v=>inR(v.createdAt,r));
-  const c=n=>ss.filter(s=>stage(s)>=n).length;
-  return{visits:ss.length,scroll:c(2),plans:c(3),clicks:c(4),p1:ss.filter(s=>s.clickedPlan==='p1').length,p2:ss.filter(s=>s.clickedPlan==='p2').length,sales:vv.length,rev:vv.reduce((a,v)=>a+net(v),0),ss,vv};
-}
+const getSales=()=>sales.filter(s=>paid(s)&&s.product===CFG.product);
+// liga cada venda ao lead de checkout mais provável (mesmo plano, atividade até 3h antes da venda)
+function match(S,V){const used=new Set(),map=new Map(),chk=S.filter(isChk);
+  [...V].sort((a,b)=>(toDate(a.createdAt)||0)-(toDate(b.createdAt)||0)).forEach(v=>{const vt=toDate(v.createdAt);if(!vt)return;const pl=v.amount>0?(v.amount<14?'p1':'p2'):'';let best=null,bd=1/0;
+    chk.forEach(s=>{if(used.has(s.id))return;if(pl&&s.clickedPlan&&s.clickedPlan!==pl)return;const lt=toDate(s.lastActivity);if(!lt)return;const d=vt-lt;if(d<-3e5||d>108e5)return;if(Math.abs(d)<bd){bd=Math.abs(d);best=s}});
+    if(best){used.add(best.id);map.set(best.id,v)}});return map}
+const cnt=(r,S,V)=>{const ss=S.filter(s=>inR(s.enteredAt||s.lastActivity,r)),vv=V.filter(v=>inR(v.createdAt,r));return{leads:ss.length,chk:ss.filter(isChk).length,sales:vv.length,rev:vv.reduce((a,v)=>a+net(v),0)}};
 function render(){
-  const S=getSess(),V=sales.filter(isLpSale),per=$('per').value,r=range(per),m=metrics(r,S,V);
-  const online=S.filter(s=>{const d=toDate(s.lastActivity);return d&&Date.now()-d<90e3}).length;
-  const spend=parseFloat(String($('spend').value).replace(',','.'))||0;
-  const kp=[[online,'Online agora'],[m.visits,'Visitas'],[m.clicks,'Cliques em plano'],[m.sales,'Vendas'],[brl(m.rev),'Receita líquida'],[m.visits?(m.sales/m.visits*100).toFixed(2)+'%':'—','Conversão'],[spend&&m.visits?brl(spend/m.visits):'—','Custo / visita'],[spend&&m.sales?brl(spend/m.sales):'—','CPA'],[spend?(m.rev/spend).toFixed(2)+'x':'—','ROAS']];
-  $('kpis').innerHTML=kp.map((k,i)=>`<div class="kpi${i===4?' hero':i===0?' live':''}"><div class="kv">${k[0]}</div><div class="kl">${k[1]}</div></div>`).join('');
-  const steps=[['Entrou na página',m.visits],['Rolou 50%+',m.scroll],['Viu os planos',m.plans],['Clicou em um plano',m.clicks],['Venda confirmada',m.sales]];
-  $('fn').innerHTML=steps.map((x,i)=>`<div class="fr"><span>${x[0]}</span><div class="fb"><i style="width:${m.visits?Math.max(2,x[1]/m.visits*100):0}%"></i></div><span>${x[1]} <em>${i&&steps[i-1][1]?Math.round(x[1]/steps[i-1][1]*100)+'%':''}</em></span></div>`).join('');
-  $('fsub').textContent=`· plano R$10: ${m.p1} cliques · plano R$18: ${m.p2} cliques`;
-  const per4=['today','yesterday','7d','30d'].map(p=>metrics(range(p),S,V));
-  const rows=[['Visitas',x=>x.visits],['Viram planos',x=>x.plans],['Cliques no plano',x=>x.clicks],['Vendas',x=>x.sales],['Receita líq.',x=>brl(x.rev)],['Conv. %',x=>x.visits?(x.sales/x.visits*100).toFixed(2)+'%':'0%']];
-  $('cmp').innerHTML=rows.map((r2,i)=>{let b='';if(i<4){const t=r2[1](per4[0]),y=r2[1](per4[1]);if(y>0){const p=Math.round((t-y)/y*100);if(p)b=` <span class="${p>0?'up':'dn'}">${p>0?'▲':'▼'}${Math.abs(p)}%</span>`}}return`<tr><td class="mu">${r2[0]}</td>${per4.map((x,j)=>`<td>${r2[1](x)}${j===0?b:''}</td>`).join('')}</tr>`}).join('');
-  const g={};m.ss.forEach(s=>{const k=s.utm_content||'(sem utm_content)';(g[k]=g[k]||{v:0,p:0,c:0});g[k].v++;if(stage(s)>=3)g[k].p++;if(stage(s)>=4)g[k].c++});
-  const cr=Object.entries(g).sort((a,b)=>b[1].v-a[1].v).slice(0,12);
-  $('cr').innerHTML=cr.length?cr.map(([k,x])=>`<tr><td>${esc(k.slice(0,28))}</td><td>${x.v}</td><td>${x.p}</td><td>${x.c}</td><td>${x.v?Math.round(x.c/x.v*100)+'%':'—'}</td></tr>`).join(''):'<tr><td colspan="5" class="empty">Sem dados no período</td></tr>';
-  const list=[...S].sort((a,b)=>(toDate(b.lastActivity)||0)-(toDate(a.lastActivity)||0)).slice(0,40);
-  $('sc').textContent='· '+list.length+' últimos';
-  const lbl=['Entrou','Rolando','Viu os planos','Foi pro checkout'];
-  $('spy').innerHTML=list.length?list.map(s=>{const st=stage(s),on=toDate(s.lastActivity)&&Date.now()-toDate(s.lastActivity)<90e3;
-    return`<div class="it ${st===4?'hot':on?'on':''}"><div class="row"><b>#${esc(String(s.sessionId||s.id).slice(-6).toUpperCase())}</b><span class="mu">${on?'🟢 ':''}${ago(s.lastActivity)}</span></div><div>${lbl[st-1]}${s.clickedPlan?`<span class="pill">${s.clickedPlan==='p1'?'R$10':'R$18'}</span>`:''}</div><div class="mu">${esc(s.utm_source||'direto')} · ${esc(s.device||'')} · scroll ${s.maxScroll||0}%</div><div class="bar">${[1,2,3,4].map(i=>`<i class="${i<=st?'d':''}"></i>`).join('')}</div></div>`}).join(''):'<div class="empty">Nenhuma visita ainda</div>';
-  const sl=V.filter(v=>inR(v.createdAt,range('30d'))).sort((a,b)=>(toDate(b.createdAt)||0)-(toDate(a.createdAt)||0)).slice(0,30);
-  $('sales').innerHTML=sl.length?sl.map(v=>`<div class="sa"><div><b>${esc(v.customerName||v.customer_name||v.name||'Cliente')}</b><div class="mu">${esc((v.paymentMethod||'pix').toUpperCase())} · ${toDate(v.createdAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div></div><strong>${brl(net(v))}</strong></div>`).join(''):'<div class="empty">Nenhuma venda desta LP nos últimos 30 dias</div>';
-  $('st').textContent='Tempo real ativo';
+  const S=getSess(),V=getSales(),t=cnt(range('today'),S,V),w=cnt(range('7d'),S,V);
+  const h1=V.filter(v=>{const d=toDate(v.createdAt);return d&&Date.now()-d<36e5}).length;
+  const sp=parseFloat(String($('spend').value).replace(',','.'))||0,onl=S.filter(online).length;
+  const kp=[['var(--blue)','🟢',onl,'Online Agora'],['var(--green)','👥',t.leads,'Leads Hoje'],['#8b5cf6','🛒',t.chk,'Checkouts Hoje'],['var(--gold)','💰',t.sales,'Vendas Hoje'],['var(--green)','💵',brl(t.rev),'Receita Hoje'],['var(--gold)','💲',sp&&t.leads?brl(sp/t.leads):'—','CPL (hoje)'],['var(--blue)','📈',w.leads?(w.sales/w.leads*100).toFixed(1)+'%':'0%','Conv. 7 Dias'],['var(--red)','🕐',h1,'Vendas Última Hora']];
+  $('kpis').innerHTML=kp.map(k=>`<div class="kpi"><div class="kpi-bar" style="background:${k[0]}"></div><span class="kpi-icon">${k[1]}</span><div class="kpi-v">${k[2]}</div><div class="kpi-l">${k[3]}</div></div>`).join('');
+  const P=['today','yesterday','7d','30d'].map(p=>cnt(range(p),S,V));
+  const rows=[['Leads',x=>x.leads],['Checkouts',x=>x.chk],['Vendas',x=>x.sales],['Receita Líq.',x=>brl(x.rev),1],['Conv. %',x=>x.leads?(x.sales/x.leads*100).toFixed(1)+'%':'0.0%']];
+  $('cmp').innerHTML=rows.map((r,i)=>`<tr><td class="cl">${r[0]}</td>${P.map((x,j)=>{let b='';if(j===1&&i<4){const a=i===3?P[0].rev:r[1](P[0]),y=i===3?P[1].rev:r[1](P[1]);if(y>0){const p=Math.round((a-y)/y*100);if(p)b=`<span class="${p>0?'delta-up':'delta-down'}">${p>0?'▲':'▼'}${Math.abs(p)}%</span>`}}return`<td class="cv${j===0?' hi':''}">${r[1](x)}${b}</td>`}).join('')}</tr>`).join('');
+  renderSpy();renderSales();$('st').textContent='Tempo real ativo';
 }
+function renderSpy(){
+  const S=getSess(),V=getSales(),r30=range('30d'),S30=S.filter(s=>inR(s.enteredAt||s.lastActivity,r30)),bought=match(S30,V.filter(v=>inR(v.createdAt,r30)));
+  let items=S30.map(s=>({s,sale:bought.get(s.id)}));
+  const matchedSales=new Set([...bought.values()].map(v=>v.id));
+  const orphans=V.filter(v=>inR(v.createdAt,r30)&&!matchedSales.has(v.id)).map(v=>({s:{id:v.id,lastActivity:v.createdAt,enteredAt:v.createdAt,utm_source:'',_o:1},sale:v}));
+  if(spyF==='online')items=items.filter(x=>online(x.s));else if(spyF==='checkout')items=items.filter(x=>isChk(x.s)&&!x.sale);else if(spyF==='sale')items=[...items.filter(x=>x.sale),...orphans];
+  else items=[...items,...orphans];
+  items.sort((a,b)=>(toDate(b.s.lastActivity)||0)-(toDate(a.s.lastActivity)||0));items=items.slice(0,60);
+  $('spy-count').textContent=items.length;
+  $('spy-grid').innerHTML=items.length?items.map(({s,sale})=>{
+    const on=online(s)&&!sale,chk=isChk(s)&&!sale,i=sale?7:sIdx(s),pl=planOf(s);
+    const name=sale?(sale.customerName||'Cliente'):'Lead #'+String(s.sessionId||s.id).slice(-6).toUpperCase();
+    const cls=sale?'sale':chk?'checkout':on?'online-now':'',bc=sale?'screen-sale':i>=6?'screen-checkout':i===5?'screen-late':i>=2?'screen-mid':'screen-early';
+    const lab=sale?'✅ Comprou':'📍 '+LBL[i]+(pl&&i===6?' · '+pl:'');
+    const st=Array.from({length:7},(_,k)=>sale?'sale-done':k<i?'done':k===i?'current':'').map(c=>`<div class="ss ${c}"></div>`).join('');
+    const m=sale?String(sale.paymentMethod||'pix').toUpperCase():'';
+    return`<div class="spy-item ${cls}"><div class="spy-av">${esc(name.replace('Lead #','').charAt(0).toUpperCase())}</div><div class="spy-b"><div class="spy-row"><div class="spy-id">${esc(name)}</div><div class="spy-t">${ago(s.lastActivity)}</div></div><div class="tela-badge ${bc}">${lab}</div><div class="spy-src">🥗 ${s._o?'META':esc((s.utm_source||'direto').toUpperCase())}${on?' · 🟢':''}${m?' · '+esc(m):''}${s.device&&!s._o?' · '+esc(s.device.toUpperCase()):''}</div><div class="screen-stepper">${st}</div></div><div class="spy-r">${on?'<div class="odot"></div>':''}${chk?'<div class="bchk">CHK</div>':''}${sale?`<div class="bsale">${brl(net(sale))}</div>`:''}</div></div>`}).join(''):'<div class="empty">Nenhum lead encontrado</div>';
+}
+function renderSales(){
+  const r=range($('sales-filter').value),list=getSales().filter(v=>inR(v.createdAt,r)).sort((a,b)=>(toDate(b.createdAt)||0)-(toDate(a.createdAt)||0)).slice(0,30);
+  $('sales-list').innerHTML=list.length?list.map(v=>{const name=v.customerName||'Cliente',d=toDate(v.createdAt),m=String(v.paymentMethod||'pix').toUpperCase();
+    return`<div class="sale-item"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta"><span class="sale-method">${m==='PIX'?'⚡':'💳'} ${esc(m)}</span><span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(net(v))}</div></div>`}).join(''):'<div class="empty">Nenhuma venda no período selecionado</div>';
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{spyF=b.dataset.f;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));renderSpy()});
 let pend=false;const sched=()=>{if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;if(ready[0]&&ready[1])render()})};
-try{$('spend').value=localStorage.getItem('lp_spend')||''}catch(e){}
-['src','per'].forEach(i=>$(i).onchange=sched);
-$('spend').oninput=()=>{try{localStorage.setItem('lp_spend',$('spend').value)}catch(e){}sched()};
+try{$('spend').value=localStorage.getItem('lp_spend_day')||''}catch(e){}
+$('src').onchange=sched;$('sales-filter').onchange=renderSales;
+$('spend').oninput=()=>{try{localStorage.setItem('lp_spend_day',$('spend').value)}catch(e){}sched()};
 const db=getFirestore(initializeApp(FB));
-const err=()=>{$('st').textContent='⚠️ Erro no Firebase (veja as regras do Firestore)'};
+const err=()=>{$('st').textContent='Erro no Firebase'};
 onSnapshot(query(collection(db,'lp_sessions'),orderBy('lastActivity','desc'),limit(800)),n=>{sess=n.docs.map(d=>({id:d.id,...d.data()}));ready[0]=true;sched()},err);
 onSnapshot(query(collection(db,'sales'),orderBy('createdAt','desc'),limit(300)),n=>{sales=n.docs.map(d=>({id:d.id,...d.data()}));ready[1]=true;sched()},err);
 setInterval(()=>{if(!document.hidden&&ready[0]&&ready[1])render()},15000);
