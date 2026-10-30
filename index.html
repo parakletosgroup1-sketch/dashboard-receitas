@@ -60,9 +60,14 @@ input{width:92px}select:focus,input:focus{border-color:var(--blue)}
 .sale-meta{font-size:10px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .sale-method{background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);color:var(--blue);font-size:8px;font-weight:900;padding:1px 6px;border-radius:3px;text-transform:uppercase}
 .sale-amt{font-size:15px;font-weight:900;color:var(--gold);flex-shrink:0}
+.ptabs{display:flex;gap:8px;flex-wrap:wrap}
+.ptab{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:9px 16px;border-radius:10px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;outline:none;transition:all .15s}
+.ptab:hover{color:var(--text)}
+.ptab.active{background:var(--blue-dim);border-color:rgba(59,130,246,.45);color:var(--blue);box-shadow:0 0 14px var(--blue-glow)}
 </style></head><body>
 <div class="wrap">
-<div class="header"><div class="hb"><div class="hlogo">🥗</div><div><div class="htitle">365 Receitas — Meta Ads</div><div class="hsub">Dashboard Tráfego Pago · Facebook &amp; Instagram</div></div></div>
+<div class="ptabs" id="ptabs"></div>
+<div class="header"><div class="hb"><div class="hlogo" id="lg">🥗</div><div><div class="htitle" id="ttl">365 Receitas — Meta Ads</div><div class="hsub">Dashboard Tráfego Pago · Facebook &amp; Instagram</div></div></div>
 <div class="hr"><select id="src"><option value="meta">Só Meta</option><option value="all">Todas as origens</option></select><input id="spend" inputmode="decimal" placeholder="Gasto hoje R$"><div class="hbadge"><div class="pdot"></div><span id="st">Conectando…</span></div></div></div>
 
 <div class="kpi-strip" id="kpis"></div>
@@ -84,7 +89,8 @@ input{width:92px}select:focus,input:focus{border-color:var(--blue)}
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import{getFirestore,collection,onSnapshot,limit,query,orderBy}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const CFG={product:'lp-receitas',pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
+const CFG={tabs:[{key:'lp-receitas',name:'365 Receitas',icon:'🥗',prices:[10,18],legacy:true},{key:'receitinhas-nanna',name:'Receitinhas da Nanna',icon:'🍼',prices:[10,18]}],pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
+let tab=CFG.tabs[0];
 const FB={apiKey:"AIzaSyDs8d7vR6gcqhzycJ3oPokIxnhVT-No6tE",authDomain:"lp-receitas.firebaseapp.com",projectId:"lp-receitas",storageBucket:"lp-receitas.firebasestorage.app",messagingSenderId:"137885130898",appId:"1:137885130898:web:5f76c46e409dba61e6064b"};
 if(CFG.pass){let ok=false;try{ok=sessionStorage.getItem('dk')===CFG.pass}catch(e){}if(!ok){const p=prompt('Senha:');if(p!==CFG.pass){document.body.innerHTML='';throw 0}try{sessionStorage.setItem('dk',p)}catch(e){}}}
 const $=id=>document.getElementById(id);
@@ -100,10 +106,10 @@ const online=s=>{const d=toDate(s.lastActivity);return d&&Date.now()-d<90e3};
 const isChk=s=>!!(s.checkout||s.clickedPlan);
 const sIdx=s=>isChk(s)?6:s.viewedPlans?5:Math.min(4,Math.round((s.maxScroll||0)/25));
 const LBL=['Entrou na página','Rolou 25%','Rolou 50%','Rolou 75%','Rolou 100%','Viu os planos','Foi pro checkout'];
-const planOf=s=>s.clickedPlan==='p1'?'R$10':s.clickedPlan==='p2'?'R$18':'';
+const planOf=s=>s.clickedPlan==='p1'?'R$'+tab.prices[0]:s.clickedPlan==='p2'?'R$'+tab.prices[1]:'';
 let sess=[],sales=[],spyF='all',ready=[false,false];
-const getSess=()=>{const m=$('src').value==='meta';return sess.filter(s=>!m||CFG.metaSrc.includes(s.utm_source||'')||!s.utm_source)};
-const getSales=()=>sales.filter(s=>paid(s)&&s.product===CFG.product);
+const getSess=()=>{const m=$('src').value==='meta';return sess.filter(s=>(s.product||CFG.tabs[0].key)===tab.key&&(!m||CFG.metaSrc.includes(s.utm_source||'')||!s.utm_source))};
+const getSales=()=>sales.filter(s=>paid(s)&&s.product===tab.key);
 // liga cada venda ao lead de checkout mais provável (mesmo plano, atividade até 3h antes da venda)
 function match(S,V){const used=new Set(),map=new Map(),chk=S.filter(isChk);
   [...V].sort((a,b)=>(toDate(a.createdAt)||0)-(toDate(b.createdAt)||0)).forEach(v=>{const vt=toDate(v.createdAt);if(!vt)return;const pl=v.amount>0?(v.amount<14?'p1':'p2'):'';let best=null,bd=1/0;
@@ -137,7 +143,7 @@ function renderSpy(){
     const lab=sale?'✅ Comprou':'📍 '+LBL[i]+(pl&&i===6?' · '+pl:'');
     const st=Array.from({length:7},(_,k)=>sale?'sale-done':k<i?'done':k===i?'current':'').map(c=>`<div class="ss ${c}"></div>`).join('');
     const m=sale?String(sale.paymentMethod||'pix').toUpperCase():'';
-    return`<div class="spy-item ${cls}"><div class="spy-av">${esc(name.replace('Lead #','').charAt(0).toUpperCase())}</div><div class="spy-b"><div class="spy-row"><div class="spy-id">${esc(name)}</div><div class="spy-t">${ago(s.lastActivity)}</div></div><div class="tela-badge ${bc}">${lab}</div><div class="spy-src">🥗 ${s._o?'META':esc((s.utm_source||'direto').toUpperCase())}${on?' · 🟢':''}${m?' · '+esc(m):''}${s.device&&!s._o?' · '+esc(s.device.toUpperCase()):''}</div><div class="screen-stepper">${st}</div></div><div class="spy-r">${on?'<div class="odot"></div>':''}${chk?'<div class="bchk">CHK</div>':''}${sale?`<div class="bsale">${brl(net(sale))}</div>`:''}</div></div>`}).join(''):'<div class="empty">Nenhum lead encontrado</div>';
+    return`<div class="spy-item ${cls}"><div class="spy-av">${esc(name.replace('Lead #','').charAt(0).toUpperCase())}</div><div class="spy-b"><div class="spy-row"><div class="spy-id">${esc(name)}</div><div class="spy-t">${ago(s.lastActivity)}</div></div><div class="tela-badge ${bc}">${lab}</div><div class="spy-src">${tab.icon} ${s._o?'META':esc((s.utm_source||'direto').toUpperCase())}${on?' · 🟢':''}${m?' · '+esc(m):''}${s.device&&!s._o?' · '+esc(s.device.toUpperCase()):''}</div><div class="screen-stepper">${st}</div></div><div class="spy-r">${on?'<div class="odot"></div>':''}${chk?'<div class="bchk">CHK</div>':''}${sale?`<div class="bsale">${brl(net(sale))}</div>`:''}</div></div>`}).join(''):'<div class="empty">Nenhum lead encontrado</div>';
 }
 function renderSales(){
   const r=range($('sales-filter').value),list=getSales().filter(v=>inR(v.createdAt,r)).sort((a,b)=>(toDate(b.createdAt)||0)-(toDate(a.createdAt)||0)).slice(0,30);
@@ -146,9 +152,13 @@ function renderSales(){
 }
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{spyF=b.dataset.f;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));renderSpy()});
 let pend=false;const sched=()=>{if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;if(ready[0]&&ready[1])render()})};
-try{$('spend').value=localStorage.getItem('lp_spend_day')||''}catch(e){}
+const spKey=()=>tab.legacy?'lp_spend_day':'lp_spend_day_'+tab.key;
+function drawTabs(){$('ptabs').innerHTML=CFG.tabs.map(t=>`<button class="ptab${t===tab?' active':''}" data-k="${t.key}">${t.icon} ${t.name}</button>`).join('');$('ttl').textContent=tab.name+' — Meta Ads';$('lg').textContent=tab.icon;document.title=tab.name+' — Meta Ads';try{$('spend').value=localStorage.getItem(spKey())||''}catch(e){$('spend').value=''}}
+try{const k=localStorage.getItem('lp_tab');tab=CFG.tabs.find(t=>t.key===k)||tab}catch(e){}
+drawTabs();
+$('ptabs').onclick=e=>{const b=e.target.closest('.ptab');if(!b)return;tab=CFG.tabs.find(t=>t.key===b.dataset.k)||tab;try{localStorage.setItem('lp_tab',tab.key)}catch(x){}drawTabs();sched()};
 $('src').onchange=sched;$('sales-filter').onchange=renderSales;
-$('spend').oninput=()=>{try{localStorage.setItem('lp_spend_day',$('spend').value)}catch(e){}sched()};
+$('spend').oninput=()=>{try{localStorage.setItem(spKey(),$('spend').value)}catch(e){}sched()};
 const db=getFirestore(initializeApp(FB));
 const err=()=>{$('st').textContent='Erro no Firebase'};
 onSnapshot(query(collection(db,'lp_sessions'),orderBy('lastActivity','desc'),limit(800)),n=>{sess=n.docs.map(d=>({id:d.id,...d.data()}));ready[0]=true;sched()},err);
