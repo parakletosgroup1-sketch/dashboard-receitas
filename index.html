@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>365 Receitas — Meta Ads</title>
+<title>Painel de Produtos — Ao Vivo</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.35);--blue-dark:#1d4ed8;--green:#22c55e;--gold:#f59e0b;--red:#ef4444;--purple:#a78bfa;--bg:#070709;--surface:#0f1014;--surface2:#15171d;--border:#1e2028;--text:#f1f1f3;--muted:#5a5d6b;--subtle:#2a2d38}
+:root{--blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.35);--blue-dark:#1d4ed8;--green:#22c55e;--gold:#f59e0b;--red:#ef4444;--purple:#a78bfa;--bg:#070709;--surface:#0f1014;--surface2:#15171d;--border:#1e2028;--text:#f1f1f3;--muted:#6b6e7c;--subtle:#2a2d38}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);padding:16px;min-height:100vh}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#2a2d38;border-radius:4px}
 .wrap{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 .header{background:linear-gradient(135deg,#0a0f1e,#0f1a2e);border:1px solid #1a2540;border-radius:16px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .hb{display:flex;align-items:center;gap:12px}
 .hlogo{width:40px;height:40px;background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px var(--blue-glow);flex-shrink:0}
 .htitle{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px}.hsub{font-size:10px;color:var(--muted);margin-top:1px}
-.hr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .hbadge{display:flex;align-items:center;gap:7px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);padding:6px 12px;border-radius:7px;font-size:10px;font-weight:700;color:var(--blue)}
-.pdot{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pdot 1.5s infinite}@keyframes pdot{0%,100%{opacity:1}50%{opacity:.3}}
-select,input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;font-family:inherit;outline:none}
-input{width:92px}select:focus,input:focus{border-color:var(--blue)}
-.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}
-.kpi{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px;position:relative;overflow:hidden}
-.kpi-bar{position:absolute;top:0;left:0;width:3px;height:100%}.kpi-icon{font-size:16px;margin-bottom:5px;display:block}
-.kpi-v{font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:#fff}
-.kpi-l{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px}
+.hbadge.err{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--red)}
+.pdot{width:6px;height:6px;background:currentColor;border-radius:50%;animation:pdot 1.5s infinite}@keyframes pdot{0%,100%{opacity:1}50%{opacity:.3}}
+select,input,button.btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;font-family:inherit;outline:none}
+button.btn{cursor:pointer}button.btn.on{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35);color:var(--green)}
+input{width:100px}input[type=date]{width:auto}select:focus,input:focus{border-color:var(--blue)}
+.spendbox{display:flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:2px 2px 2px 8px;font-size:10px;color:var(--muted);font-weight:700}
+.spendbox input{border:none;background:transparent;padding:5px 6px}.spendbox input[type=date]{color:var(--muted)}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:9px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 15px;position:relative;overflow:hidden}
+.kpi-bar{position:absolute;top:0;left:0;width:3px;height:100%}.kpi-icon{font-size:15px;margin-bottom:5px;display:block}
+.kpi-v{font-size:22px;font-weight:900;line-height:1;letter-spacing:-1px;color:#fff;white-space:nowrap}
+.kpi-v.pos{color:var(--green)}.kpi-v.neg{color:var(--red)}
+.kpi-l{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px;min-width:0}
 .ctitle{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ctitle .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px}
 .cmp{width:100%;border-collapse:collapse}
-.cmp th{font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;padding:6px 9px;text-align:left;border-bottom:1px solid var(--border)}
-.cmp td{padding:8px 9px;font-size:13px;font-weight:700;border-bottom:1px solid #0d0e11;font-variant-numeric:tabular-nums}
+.cmp th{font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;padding:6px 9px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+.cmp td{padding:8px 9px;font-size:13px;font-weight:700;border-bottom:1px solid #0d0e11;font-variant-numeric:tabular-nums;white-space:nowrap}
 .cmp tr:last-child td{border-bottom:none}.cl{color:var(--muted);font-size:11px}.cv{color:#fff}.cv.hi{color:var(--green)}
+.cmp td.num,.cmp th.num{text-align:right}.cmp tr.tot td{border-top:1px solid var(--border);color:#fff}
+.pos{color:var(--green)}.neg{color:var(--red)}.mut{color:var(--muted)}
 .delta-up,.delta-down{display:inline-flex;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;margin-left:4px;border:1px solid}
 .delta-up{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.2)}.delta-down{background:rgba(239,68,68,.1);color:var(--red);border-color:rgba(239,68,68,.2)}
-.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:11px;max-height:640px;overflow-y:auto}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:11px;max-height:640px;overflow-y:auto}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
 .tab{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:800;cursor:pointer;font-family:inherit;outline:none}
 .tab.active{background:var(--blue-dim);border-color:rgba(59,130,246,.35);color:var(--blue)}
 .spy-count-badge{background:var(--surface2);border:1px solid var(--border);padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;color:var(--muted)}
-.spy-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)}
-.spy-leg-item{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;color:var(--muted)}.spy-leg-dot{width:10px;height:10px;border-radius:2px}
 .spy-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px}
 .spy-item.checkout{border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.025)}.spy-item.sale{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.035)}.spy-item.online-now{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.03)}
 .spy-av{width:34px;height:34px;background:var(--subtle);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--muted);font-size:12px;flex-shrink:0}
@@ -48,120 +55,516 @@ input{width:92px}select:focus,input:focus{border-color:var(--blue)}
 .screen-sale{background:rgba(245,158,11,.15);color:var(--gold);border-color:rgba(245,158,11,.3)}
 .screen-stepper{display:flex;gap:2px;margin-top:5px}.ss{width:14px;height:10px;border-radius:2px;background:var(--subtle)}
 .ss.done{background:var(--blue)}.ss.current{background:var(--gold);animation:sfp .9s infinite alternate}.ss.sale-done{background:var(--green)}@keyframes sfp{0%{opacity:.5}100%{opacity:1}}
-.spy-src{font-size:8px;color:var(--blue);font-weight:800;text-transform:uppercase;margin-top:2px;letter-spacing:.3px}
+.spy-src{font-size:8px;color:var(--blue);font-weight:800;text-transform:uppercase;margin-top:2px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .spy-r{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
 .odot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 7px var(--green)}
 .bchk{background:rgba(34,197,94,.1);color:var(--green);font-size:8px;font-weight:900;padding:2px 5px;border-radius:3px;border:1px solid rgba(34,197,94,.28)}
 .bsale{background:rgba(245,158,11,.1);color:var(--gold);font-size:8px;font-weight:900;padding:2px 5px;border-radius:3px;border:1px solid rgba(245,158,11,.28)}
-.empty{text-align:center;padding:26px;color:var(--muted);font-size:12px;grid-column:1/-1}
+.empty{text-align:center;padding:22px;color:var(--muted);font-size:12px;grid-column:1/-1}
 .sale-item{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:9px}
 .sale-av{width:36px;height:36px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--gold);flex-shrink:0}
 .sale-info{flex:1;min-width:0}.sale-name{font-size:12px;font-weight:900;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sale-meta{font-size:10px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.sale-method{background:var(--blue-dim);border:1px solid rgba(59,130,246,.2);color:var(--blue);font-size:8px;font-weight:900;padding:1px 6px;border-radius:3px;text-transform:uppercase}
+.sale-meta{font-size:10px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.tag{font-size:8px;font-weight:900;padding:1px 6px;border-radius:3px;text-transform:uppercase;border:1px solid;letter-spacing:.2px}
+.t-blue{background:var(--blue-dim);border-color:rgba(59,130,246,.25);color:var(--blue)}.t-green{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.25);color:var(--green)}
+.t-gold{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--gold)}.t-purple{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.25);color:var(--purple)}
+.t-red{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:var(--red)}.t-gray{background:var(--surface);border-color:var(--border);color:var(--muted)}
 .sale-amt{font-size:15px;font-weight:900;color:var(--gold);flex-shrink:0}
 .ptabs{display:flex;gap:8px;flex-wrap:wrap}
 .ptab{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:9px 16px;border-radius:10px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;outline:none;transition:all .15s}
 .ptab:hover{color:var(--text)}
 .ptab.active{background:var(--blue-dim);border-color:rgba(59,130,246,.45);color:var(--blue);box-shadow:0 0 14px var(--blue-glow)}
+.ptab.all{margin-left:auto}.ptab.all.active{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.4);color:var(--green);box-shadow:0 0 14px rgba(34,197,94,.25)}
+.ptab .live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-left:6px;vertical-align:middle;box-shadow:0 0 6px var(--green)}
+/* funil */
+.fun{display:flex;flex-direction:column;gap:7px}
+.fr{display:grid;grid-template-columns:118px 1fr 92px;align-items:center;gap:10px;font-size:11px}
+.fl{color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fb{height:20px;background:var(--surface2);border-radius:5px;overflow:hidden;position:relative}
+.fbi{height:100%;background:linear-gradient(90deg,var(--blue-dark),var(--blue));border-radius:5px;min-width:2px}
+.fbi.g{background:linear-gradient(90deg,#15803d,var(--green))}.fbi.o{background:linear-gradient(90deg,#b45309,var(--gold))}
+.fbn{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:900;color:#fff}
+.fd{text-align:right;font-weight:800;font-size:10px;font-variant-numeric:tabular-nums}
+.fr.worst .fl{color:var(--red)}.fr.worst .fd{color:var(--red)}
+/* origem */
+.split{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--surface2);margin-bottom:12px}
+.split div{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;min-width:0;overflow:hidden;white-space:nowrap}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.lg{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.lg .v{font-size:18px;font-weight:900;color:#fff}.lg .l{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-top:3px;display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:2px;display:inline-block}
+/* insights */
+.ins{display:flex;flex-direction:column;gap:8px}
+.in{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);font-size:12px;line-height:1.45}
+.in .ic{font-size:15px;line-height:1.2;flex-shrink:0}.in b{color:#fff}
+.in.good{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.04)}.in.warn{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
+.in.bad{border-color:rgba(239,68,68,.32);background:rgba(239,68,68,.045)}.in.info{border-color:rgba(59,130,246,.25)}
+.ai{white-space:pre-wrap;font-size:12px;line-height:1.55;color:#d6d7dc;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:13px 15px;max-height:420px;overflow:auto}
+.note{font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5}
+/* toasts */
+#toasts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:calc(100vw - 32px)}
+.toast{background:#101318;border:1px solid var(--border);border-left:4px solid var(--green);border-radius:10px;padding:12px 16px;font-size:12px;font-weight:700;box-shadow:0 8px 30px rgba(0,0,0,.5);animation:tin .25s ease-out;max-width:340px}
+.toast.sale{border-left-color:var(--gold)}.toast small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+@keyframes tin{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.chart{width:100%;height:180px}
+.hidden{display:none!important}
+.banner{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:#f3d9a4;border-radius:11px;padding:11px 14px;font-size:12px;line-height:1.5}
+@media(max-width:600px){body{padding:10px}.header{padding:14px}.fr{grid-template-columns:90px 1fr 74px}.ptab.all{margin-left:0}.kpi-v{font-size:19px}}
 </style></head><body>
 <div class="wrap">
 <div class="ptabs" id="ptabs"></div>
-<div class="header"><div class="hb"><div class="hlogo" id="lg">🥗</div><div><div class="htitle" id="ttl">365 Receitas — Meta Ads</div><div class="hsub">Dashboard Tráfego Pago · Facebook &amp; Instagram</div></div></div>
-<div class="hr"><select id="src"><option value="meta">Só Meta</option><option value="all">Todas as origens</option></select><input id="spend" inputmode="decimal" placeholder="Gasto hoje R$"><div class="hbadge"><div class="pdot"></div><span id="st">Conectando…</span></div></div></div>
+<div id="banner" class="banner hidden"></div>
+<div class="header"><div class="hb"><div class="hlogo" id="lg">📊</div><div><div class="htitle" id="ttl">Carregando…</div><div class="hsub" id="hsub">Dashboard Tráfego Pago · ao vivo</div></div></div>
+<div class="hr">
+<select id="src"><option value="meta">Só Meta</option><option value="all">Todas as origens</option></select>
+<div class="spendbox" id="spendbox">💸 Gasto <input id="spend-date" type="date"><input id="spend" inputmode="decimal" placeholder="R$ 0,00"></div>
+<button class="btn" id="snd">🔇 Ativar sons</button>
+<div class="hbadge" id="stb"><div class="pdot"></div><span id="st">Conectando…</span></div></div></div>
 
+<!-- ===== VISÃO PRODUTO ===== -->
+<div id="v-prod" class="wrap" style="padding:0;width:100%">
 <div class="kpi-strip" id="kpis"></div>
 
-<div class="card"><div class="ctitle">📅 Comparação de Períodos</div>
-<div style="overflow-x:auto"><table class="cmp"><thead><tr><th>Métrica</th><th>Hoje</th><th>Ontem</th><th>7 Dias</th><th>30 Dias</th></tr></thead><tbody id="cmp"></tbody></table></div></div>
+<div class="card"><div class="ctitle">🧭 Diagnóstico do produto <span class="mut" style="text-transform:none;letter-spacing:0;font-weight:600">· atualiza sozinho com os dados de hoje e dos últimos dias</span></div><div class="ins" id="ins"></div></div>
 
-<div class="card"><div class="ctitle">🕵️ Espião ao Vivo — Etapa por Etapa
-<div class="tabs"><button class="tab active" data-f="all">TODOS</button><button class="tab" data-f="online">🟢 ONLINE</button><button class="tab" data-f="checkout">CHECKOUT</button><button class="tab" data-f="sale">VENDAS</button></div>
-<span class="spy-count-badge"><strong id="spy-count">0</strong> leads</span></div>
-<div class="spy-legend"><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--blue)"></div>Etapa concluída</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--gold)"></div>Etapa atual</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--green)"></div>Comprou</div><div class="spy-leg-item"><div class="spy-leg-dot" style="background:var(--subtle)"></div>Não atingido</div></div>
-<div class="ga" id="spy-grid"><div class="empty">Conectando ao Firebase…</div></div></div>
-
-<div class="card"><div class="ctitle">💰 Últimas Compras
-<select id="sales-filter" style="margin-left:auto"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 Dias</option><option value="30d">30 Dias</option></select></div>
-<div id="sales-list" style="display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto"></div></div>
+<div class="g2">
+<div class="card"><div class="ctitle">🔻 Funil — onde o lead sai<div class="r"><select id="fun-p"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d">7 dias</option><option value="30d">30 dias</option></select></div></div><div class="fun" id="fun"></div><div class="note" id="fun-note"></div></div>
+<div class="card"><div class="ctitle">🔁 De onde vêm as vendas<div class="r"><select id="org-p"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 dias</option><option value="30d">30 dias</option></select></div></div><div id="org"></div></div>
 </div>
 
+<div class="card"><div class="ctitle">🎬 Criativos — qual traz venda<div class="r"><select id="cr-p"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 dias</option><option value="30d">30 dias</option></select></div></div><div style="overflow-x:auto"><table class="cmp" id="crt"></table></div><div class="note">Criativo = <b>utm_content</b> do anúncio (se não tiver, usa utm_term / utm_campaign). A venda é ligada ao lead que clicou no checkout, ou à UTM que a própria plataforma de checkout manda.</div></div>
+
+<div class="g2">
+<div class="card"><div class="ctitle">➕ Order bump &amp; upsell<div class="r"><select id="bu-p"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 dias</option><option value="30d">30 dias</option></select></div></div><div id="bu"></div></div>
+<div class="card"><div class="ctitle">🧠 Resumo do Claude (23h)</div><div id="ai"></div></div>
+</div>
+
+<div class="card"><div class="ctitle">📅 Comparação de Períodos</div>
+<div style="overflow-x:auto"><table class="cmp"><thead><tr><th>Métrica</th><th>Hoje</th><th>Ontem</th><th>7 Dias</th><th>30 Dias</th></tr></thead><tbody id="cmp"></tbody></table></div><div class="note" id="cmp-note"></div></div>
+
+<div class="card"><div class="ctitle">🕵️ Espião ao Vivo — hoje
+<div class="tabs"><button class="tab active" data-f="all">TODOS</button><button class="tab" data-f="online">🟢 ONLINE</button><button class="tab" data-f="checkout">CHECKOUT</button><button class="tab" data-f="sale">VENDAS</button></div>
+<span class="spy-count-badge"><strong id="spy-count">0</strong> leads</span></div>
+<div class="ga" id="spy-grid"><div class="empty">Conectando ao Firebase…</div></div></div>
+
+<div class="card"><div class="ctitle">💰 Últimas Compras<div class="r"><select id="sales-filter"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 Dias</option><option value="30d">30 Dias</option></select></div></div>
+<div id="sales-list" style="display:flex;flex-direction:column;gap:6px;max-height:460px;overflow-y:auto"></div></div>
+</div>
+
+<!-- ===== VISÃO CONSOLIDADA ===== -->
+<div id="v-all" class="wrap hidden" style="padding:0;width:100%">
+<div class="kpi-strip" id="akpis"></div>
+<div class="card"><div class="ctitle">📈 Lucro por dia — todos os produtos (30 dias)</div><svg class="chart" id="achart" preserveAspectRatio="none"></svg></div>
+<div class="g2">
+<div class="card"><div class="ctitle">🏷️ Por produto<div class="r"><select id="ap-p"><option value="today">Hoje</option><option value="7d">7 dias</option><option value="month" selected>Mês atual</option><option value="lastmonth">Mês passado</option><option value="30d">30 dias</option></select></div></div><div style="overflow-x:auto"><table class="cmp" id="apt"></table></div></div>
+<div class="card"><div class="ctitle">🗓️ Fechamento semanal &amp; mensal</div><div style="overflow-x:auto"><table class="cmp" id="awt"></table></div></div>
+</div>
+<div class="card"><div class="ctitle">📆 Dia a dia</div><div style="overflow-x:auto;max-height:520px;overflow-y:auto"><table class="cmp" id="adt"></table></div><div class="note">Lucro = faturamento líquido (já sem a taxa da plataforma) − gasto em anúncio lançado no campo "💸 Gasto". Dias sem gasto lançado aparecem com "—" no ROI.</div></div>
+</div>
+</div>
+<div id="toasts"></div>
+
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import{getFirestore,collection,onSnapshot,limit,query,orderBy}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const CFG={tabs:[{key:'lp-receitas',name:'365 Receitas',icon:'🥗',prices:[10,18],legacy:true},{key:'receitinhas-nanna',name:'Receitinhas da Nanna',icon:'🍼',prices:[10,18]}],pass:'',metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads']};
-let tab=CFG.tabs[0];
+/* =================== CONFIG =================== */
+// Produtos conhecidos (nome/ícone/preços dos planos p1,p2). Produto NOVO não precisa estar aqui:
+// basta a landing page gravar  product:'slug-do-produto'  nas sessões e vendas que ele aparece sozinho.
+const CFG={
+  products:{
+    'lp-receitas':{name:'365 Receitas',icon:'🥗',prices:[10,18]},
+    'receitinhas-nanna':{name:'Receitinhas da Nanna',icon:'🍼',prices:[10,18]}
+  },
+  defaultProduct:'lp-receitas',          // sessões antigas sem campo "product" caem aqui
+  fees:{pix:.05,other:.10},              // taxa da plataforma usada no faturamento líquido
+  metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads','an','msg'],
+  recoveryMin:30,                        // venda paga +30 min depois do último clique do lead = recuperada (provável)
+  historyDays:30, backfillPerLoad:7,     // histórico é montado aos poucos para não estourar a cota do Firebase
+  pass:''
+};
 const FB={apiKey:"AIzaSyDs8d7vR6gcqhzycJ3oPokIxnhVT-No6tE",authDomain:"lp-receitas.firebaseapp.com",projectId:"lp-receitas",storageBucket:"lp-receitas.firebasestorage.app",messagingSenderId:"137885130898",appId:"1:137885130898:web:5f76c46e409dba61e6064b"};
-if(CFG.pass){let ok=false;try{ok=sessionStorage.getItem('dk')===CFG.pass}catch(e){}if(!ok){const p=prompt('Senha:');if(p!==CFG.pass){document.body.innerHTML='';throw 0}try{sessionStorage.setItem('dk',p)}catch(e){}}}
+const DEMO=new URLSearchParams(location.search).has('demo');
+
+if(CFG.pass&&!DEMO){let ok=false;try{ok=sessionStorage.getItem('dk')===CFG.pass}catch(e){}if(!ok){const p=prompt('Senha:');if(p!==CFG.pass){document.body.innerHTML='';throw 0}try{sessionStorage.setItem('dk',p)}catch(e){}}}
+
+/* =================== HELPERS =================== */
 const $=id=>document.getElementById(id);
-const toDate=t=>!t?null:t.toDate?t.toDate():t.seconds?new Date(t.seconds*1e3):new Date(t);
-const brl=v=>'R$\u00a0'+Number(v).toFixed(2).replace('.',',');
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const toDate=t=>{if(!t)return null;if(t.toDate)return t.toDate();if(t.seconds!=null)return new Date(t.seconds*1e3);if(typeof t==='number')return new Date(t<1e12?t*1e3:t);const d=new Date(t);return isNaN(d)?null:d};
+const brl=v=>(v<0?'-':'')+'R$ '+Math.abs(Number(v)||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const brl0=v=>(v<0?'-':'')+'R$ '+Math.round(Math.abs(Number(v)||0)).toLocaleString('pt-BR');
+const pct=(a,b,d=1)=>b?(a/b*100).toFixed(d).replace('.',',')+'%':'—';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const paid=s=>s.isPaid===true||s.paid===true||['pago','paid','approved','completed'].includes(String(s.status||'').toLowerCase());
-const net=s=>{const v=Number(s.amount||0);return String(s.paymentMethod||'').toLowerCase()==='pix'?v*.95:v*.9};
-const ago=t=>{const d=toDate(t);if(!d)return'?';const s=Math.floor((Date.now()-d)/1e3);return s<5?'agora':s<60?s+'s':s<3600?Math.floor(s/60)+'min':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
-const range=p=>{const n=new Date(),s=new Date();s.setHours(0,0,0,0);if(p==='yesterday'){const e=new Date(s);e.setMilliseconds(-1);s.setDate(s.getDate()-1);return[s,e]}if(p==='7d')s.setDate(s.getDate()-6);if(p==='30d')s.setDate(s.getDate()-29);return[s,n]};
-const inR=(t,r)=>{const d=toDate(t);return d&&d>=r[0]&&d<=r[1]};
+const low=x=>String(x||'').toLowerCase();
+const pad=n=>String(n).padStart(2,'0');
+const dk=d=>{d=toDate(d)||d;return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+const dStart=k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)};
+const addD=(k,n)=>{const d=dStart(k);d.setDate(d.getDate()+n);return dk(d)};
+const todayK=()=>dk(new Date());
+const fmtD=k=>{const d=dStart(k);return pad(d.getDate())+'/'+pad(d.getMonth()+1)};
+const WD=['dom','seg','ter','qua','qui','sex','sáb'];
+function period(p){const t=todayK();
+  if(p==='today')return[t,t];if(p==='yesterday'){const y=addD(t,-1);return[y,y]}
+  if(p==='7d')return[addD(t,-6),t];if(p==='30d')return[addD(t,-29),t];
+  if(p==='month')return[t.slice(0,8)+'01',t];
+  if(p==='lastmonth'){const d=dStart(t.slice(0,8)+'01');d.setDate(0);const e=dk(d);return[e.slice(0,8)+'01',e]}
+  return[t,t]}
+const daysIn=(a,b)=>{const o=[];for(let k=a;k<=b;k=addD(k,1))o.push(k);return o};
+const prodOf=x=>x.product||CFG.defaultProduct;
+const sessDay=s=>{const d=toDate(s.enteredAt)||toDate(s.lastActivity);return d?dk(d):null};
+
+/* -------- vendas: campos flexíveis (funciona com vários formatos de webhook) -------- */
+const ST=v=>low(v.status||v.paymentStatus||v.payment_status||v.order_status);
+const paid=v=>v.isPaid===true||v.paid===true||['pago','paid','approved','aprovado','aprovada','completed','complete','confirmed'].includes(ST(v));
+const pending=v=>!paid(v)&&(v.isPending===true||['pending','pendente','waiting','waiting_payment','aguardando','aguardando_pagamento','pix_generated','pix_gerado','boleto_impresso','billet_printed','processing','created','unpaid'].includes(ST(v)));
+const method=v=>low(v.paymentMethod||v.payment_method||v.method||'pix');
+const amt=v=>Number(v.amount??v.value??v.total??v.price??0)||0;
+const net=v=>{const a=amt(v);if(v.fee!=null&&!isNaN(v.fee))return a-Number(v.fee);return method(v)==='pix'?a*(1-CFG.fees.pix):a*(1-CFG.fees.other)};
+const isUpsell=v=>v.isUpsell===true||v.upsell===true||v.isDownsell===true||/upsell|downsell|one.?click/i.test(String(v.type||v.offerType||v.offer_type||v.saleType||''));
+const offerName=v=>v.offerName||v.offer_name||v.offer||v.productName||v.product_name||(isUpsell(v)?'Upsell':'Produto principal');
+function bumpsOf(v){
+  let a=v.orderBumps||v.order_bumps||v.bumps||v.orderbumps||v.orderBump||v.order_bump||v.bump;
+  const out=[];const push=x=>{if(!x)return;if(typeof x==='string')out.push({name:x,amount:0});else if(typeof x==='object')out.push({name:x.name||x.title||x.product||x.offerName||x.offer_name||'Order bump',amount:Number(x.amount??x.price??x.value??0)||0});};
+  if(Array.isArray(a))a.forEach(push);else if(a===true)push('Order bump');else push(a);
+  const items=v.items||v.products;if(Array.isArray(items))items.forEach(it=>{if(/bump/i.test(String(it.type||it.kind||'')))push(it)});
+  return out}
+const recFlag=v=>v.recovered===true||(v.pendingAt&&paid(v)&&(toDate(v.paidAt||v.createdAt)-toDate(v.pendingAt))>CFG.recoveryMin*6e4)||v.isRecovery===true||v.recovery===true||/recup|recover|abandon|remarket|resgate/i.test([v.source,v.origin,v.saleOrigin,v.utm_source,v.utm_medium,v.utm_campaign].join(' '));
+// Meta manda "NOME DO ANÚNCIO|id::lixo" — fica só o nome
+const cln=x=>String(x||'').split('|')[0].split('::')[0].trim();
+const creativeOfSale=v=>cln(v.utm_content||v.utmContent||(v.utm&&v.utm.content)||(v.tracking&&(v.tracking.utm_content||v.tracking.content))||'');
+const creativeOf=s=>cln(s.utm_content||s.ad_name||s.creative||s.utm_campaign)||'(sem UTM)';
+const campOf=s=>cln(s.utm_campaign)||'(sem campanha)';
+const isMeta=s=>!s.utm_source||CFG.metaSrc.includes(low(s.utm_source));
+
+// Wiapy: se a venda foi gravada com o payload cru do webhook (payment/checkout/tracking), achata nos campos que o painel usa.
+// Valores da Wiapy vêm em centavos.
+function norm(v){if(v.payment&&typeof v.payment==='object'){const p=v.payment,c=v.checkout||{},t=v.tracking||{};
+    return{...v,...t,status:p.status,amount:(Number(p.amount)||0)/100,fee:p.fee!=null?(Number(p.fee)||0)/100:undefined,paymentMethod:p.payment_method==='credit_card'?'card':p.payment_method,
+      createdAt:v.createdAt||p.dt_create,customerName:v.customerName||(v.customer&&v.customer.name),offerName:v.offerName||c.title,
+      orderBumps:Array.isArray(c.orderbump)?c.orderbump.map(b=>({name:b.title,amount:(Number(b.amount)||0)/100})):v.orderBumps}}
+  if(v.payment===null&&v.checkout)return{...v,status:'abandoned'};
+  if(v.checkout&&Array.isArray(v.checkout.orderbump)&&!v.orderBumps)return{...v,orderBumps:v.checkout.orderbump.map(b=>({name:b.title,amount:Number(b.amount)||0}))};
+  return v}
+/* -------- sessões -------- */
 const online=s=>{const d=toDate(s.lastActivity);return d&&Date.now()-d<90e3};
 const isChk=s=>!!(s.checkout||s.clickedPlan);
 const sIdx=s=>isChk(s)?6:s.viewedPlans?5:Math.min(4,Math.round((s.maxScroll||0)/25));
-const LBL=['Entrou na página','Rolou 25%','Rolou 50%','Rolou 75%','Rolou 100%','Viu os planos','Foi pro checkout'];
-const planOf=s=>s.clickedPlan==='p1'?'R$'+tab.prices[0]:s.clickedPlan==='p2'?'R$'+tab.prices[1]:'';
-let sess=[],sales=[],spyF='all',ready=[false,false];
-const getSess=()=>{const m=$('src').value==='meta';return sess.filter(s=>(s.product||CFG.tabs[0].key)===tab.key&&(!m||CFG.metaSrc.includes(s.utm_source||'')||!s.utm_source))};
-const getSales=()=>sales.filter(s=>paid(s)&&s.product===tab.key);
-// liga cada venda ao lead de checkout mais provável (mesmo plano, atividade até 3h antes da venda)
-function match(S,V){const used=new Set(),map=new Map(),chk=S.filter(isChk);
-  [...V].sort((a,b)=>(toDate(a.createdAt)||0)-(toDate(b.createdAt)||0)).forEach(v=>{const vt=toDate(v.createdAt);if(!vt)return;const pl=v.amount>0?(v.amount<14?'p1':'p2'):'';let best=null,bd=1/0;
-    chk.forEach(s=>{if(used.has(s.id))return;if(pl&&s.clickedPlan&&s.clickedPlan!==pl)return;const lt=toDate(s.lastActivity);if(!lt)return;const d=vt-lt;if(d<-3e5||d>108e5)return;if(Math.abs(d)<bd){bd=Math.abs(d);best=s}});
-    if(best){used.add(best.id);map.set(best.id,v)}});return map}
-const cnt=(r,S,V)=>{const ss=S.filter(s=>inR(s.enteredAt||s.lastActivity,r)),vv=V.filter(v=>inR(v.createdAt,r));return{leads:ss.length,chk:ss.filter(isChk).length,sales:vv.length,rev:vv.reduce((a,v)=>a+net(v),0)}};
-function render(){
-  const S=getSess(),V=getSales(),t=cnt(range('today'),S,V),w=cnt(range('7d'),S,V);
-  const h1=V.filter(v=>{const d=toDate(v.createdAt);return d&&Date.now()-d<36e5}).length;
-  const sp=parseFloat(String($('spend').value).replace(',','.'))||0,onl=S.filter(online).length;
-  const kp=[['var(--blue)','🟢',onl,'Online Agora'],['var(--green)','👥',t.leads,'Leads Hoje'],['#8b5cf6','🛒',t.chk,'Checkouts Hoje'],['var(--gold)','💰',t.sales,'Vendas Hoje'],['var(--green)','💵',brl(t.rev),'Receita Hoje'],['var(--gold)','💲',sp&&t.leads?brl(sp/t.leads):'—','CPL (hoje)'],['var(--blue)','📈',w.leads?(w.sales/w.leads*100).toFixed(1)+'%':'0%','Conv. 7 Dias'],['var(--red)','🕐',h1,'Vendas Última Hora']];
-  $('kpis').innerHTML=kp.map(k=>`<div class="kpi"><div class="kpi-bar" style="background:${k[0]}"></div><span class="kpi-icon">${k[1]}</span><div class="kpi-v">${k[2]}</div><div class="kpi-l">${k[3]}</div></div>`).join('');
-  const P=['today','yesterday','7d','30d'].map(p=>cnt(range(p),S,V));
-  const rows=[['Leads',x=>x.leads],['Checkouts',x=>x.chk],['Vendas',x=>x.sales],['Receita Líq.',x=>brl(x.rev),1],['Conv. %',x=>x.leads?(x.sales/x.leads*100).toFixed(1)+'%':'0.0%']];
-  $('cmp').innerHTML=rows.map((r,i)=>`<tr><td class="cl">${r[0]}</td>${P.map((x,j)=>{let b='';if(j===1&&i<4){const a=i===3?P[0].rev:r[1](P[0]),y=i===3?P[1].rev:r[1](P[1]);if(y>0){const p=Math.round((a-y)/y*100);if(p)b=`<span class="${p>0?'delta-up':'delta-down'}">${p>0?'▲':'▼'}${Math.abs(p)}%</span>`}}return`<td class="cv${j===0?' hi':''}">${r[1](x)}${b}</td>`}).join('')}</tr>`).join('');
-  renderSpy();renderSales();$('st').textContent='Tempo real ativo';
-}
-function renderSpy(){
-  const S=getSess(),V=getSales(),r30=range('30d'),S30=S.filter(s=>inR(s.enteredAt||s.lastActivity,r30)),bought=match(S30,V.filter(v=>inR(v.createdAt,r30)));
-  let items=S30.map(s=>({s,sale:bought.get(s.id)}));
-  const matchedSales=new Set([...bought.values()].map(v=>v.id));
-  const orphans=V.filter(v=>inR(v.createdAt,r30)&&!matchedSales.has(v.id)).map(v=>({s:{id:v.id,lastActivity:v.createdAt,enteredAt:v.createdAt,utm_source:'',_o:1},sale:v}));
-  if(spyF==='online')items=items.filter(x=>online(x.s));else if(spyF==='checkout')items=items.filter(x=>isChk(x.s)&&!x.sale);else if(spyF==='sale')items=[...items.filter(x=>x.sale),...orphans];
-  else items=[...items,...orphans];
-  items.sort((a,b)=>(toDate(b.s.lastActivity)||0)-(toDate(a.s.lastActivity)||0));items=items.slice(0,60);
-  $('spy-count').textContent=items.length;
+const LBL=['Entrou na página','Rolou 25%','Rolou 50%','Rolou 75%','Rolou 100%','Viu os planos','Foi pro checkout','Comprou'];
+
+/* =================== PRODUTOS (auto) =================== */
+const pretty=k=>k.replace(/^lp[-_]/,'').replace(/[-_]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+const extraProducts={}; // vindos da coleção "products" do Firebase (opcional)
+const pinfo=k=>({key:k,...{name:pretty(k),icon:'📦',prices:null},...(CFG.products[k]||{}),...(extraProducts[k]||{})});
+let view=LS.get('v4_view')||CFG.defaultProduct;
+
+/* =================== ESTADO =================== */
+let dataVer=0,live=[],sales=[],hist=new Map(),spend=new Map(),aiReports=[],spyF='all',ready={s:false,v:false},canWrite=true,histNote='';
+const HK=(p,d)=>p+'|'+d;
+
+/* ---- casamento venda ⇄ lead (mesmo plano, lead ativo até 3h antes da venda) ---- */
+function planFromAmount(v,pi){if(!pi.prices)return'';const a=Number(v.checkoutAmount)||amt(v); // valor do plano sem o bump
+ if(!a)return'';const[p1,p2]=pi.prices;return Math.abs(a-p1)<=Math.abs(a-p2)?'p1':'p2'}
+function match(S,V,pi){const used=new Set(),map=new Map(),chk=S.filter(isChk);
+  [...V].sort((a,b)=>(toDate(a.createdAt)||0)-(toDate(b.createdAt)||0)).forEach(v=>{const vt=toDate(v.createdAt);if(!vt)return;const pl=planFromAmount(v,pi);let best=null,bd=1/0;
+    chk.forEach(s=>{if(used.has(s.id))return;if(pl&&s.clickedPlan&&/^p[12]$/.test(s.clickedPlan)&&s.clickedPlan!==pl)return;const lt=toDate(s.lastActivity);if(!lt)return;const d=vt-lt;if(d<-3e5||d>108e5)return;if(Math.abs(d)<bd){bd=Math.abs(d);best=s}});
+    if(best){used.add(best.id);map.set(v.id,{s:best,gap:vt-toDate(best.lastActivity)})}});return map}
+
+/* ---- agregado de um dia de um produto ---- */
+function core(S){const st=new Array(7).fill(0),cr={},cp={};let chk=0;
+  S.forEach(s=>{const i=sIdx(s);for(let k=0;k<=i;k++)st[k]++;if(isChk(s))chk++;
+    const c=creativeOf(s);(cr[c]=cr[c]||{l:0,c:0}).l++;if(isChk(s))cr[c].c++;
+    const g=campOf(s);(cp[g]=cp[g]||{l:0,c:0}).l++;if(isChk(s))cp[g].c++;});
+  return{leads:S.length,st,chk,cr,cp}}
+function buildAgg(p,day,S,V){const pi=pinfo(p);
+  const Sd=S.filter(s=>prodOf(s)===p&&sessDay(s)===day);
+  const Vd=V.filter(v=>prodOf(v)===p&&paid(v)&&dk(toDate(v.createdAt))===day);
+  const main=Vd.filter(v=>!isUpsell(v)),m=match(Sd,main,pi),attr={};
+  Vd.forEach(v=>{if(isUpsell(v)){attr[v.id]={up:1,cr:creativeOfSale(v)||''};return}
+    const hit=m.get(v.id);const cr=creativeOfSale(v)||(hit?creativeOf(hit.s):'(sem rastreio)');
+    attr[v.id]={cr,cp:v.utm_campaign||(hit?campOf(hit.s):''),rec:recFlag(v)?'rec':hit?(hit.gap>CFG.recoveryMin*6e4?'rec':'dir'):'nt',sid:hit?hit.s.id:null}});
+  return{product:p,date:day,v:4,final:Date.now()>dStart(addD(day,1)).getTime()+3*36e5,all:core(Sd),meta:core(Sd.filter(isMeta)),attr}}
+
+/* =================== DADOS — ESTATÍSTICAS =================== */
+const todayAggCache={k:'',m:new Map()};
+function aggOf(p,d){if(d===todayK()){const key=dataVer+':'+todayK();if(todayAggCache.k!==key){todayAggCache.k=key;todayAggCache.m.clear()}
+    if(!todayAggCache.m.has(p))todayAggCache.m.set(p,buildAgg(p,d,live,sales));return todayAggCache.m.get(p)}
+  return hist.get(HK(p,d))}
+const spendOf=(p,d)=>spend.get(HK(p,d))||0;
+function attrOf(v){const a=aggOf(prodOf(v),dk(toDate(v.createdAt)));return(a&&a.attr[v.id])||{cr:creativeOfSale(v)||'(sem rastreio)',rec:recFlag(v)?'rec':'nt',up:isUpsell(v)?1:0}}
+
+function stats(p,per){const[a,b]=Array.isArray(per)?per:period(per),meta=$('src').value==='meta';
+  const r={leads:0,st:new Array(7).fill(0),chk:0,cr:{},cp:{},sales:0,ups:0,pend:0,pendV:0,rev:0,gross:0,spend:0,aband:0,rec:{dir:0,rec:0,nt:0},recRev:{dir:0,rec:0,nt:0},bumps:{},upsells:{},bumpSales:0,missing:0,days:0};
+  daysIn(a,b).forEach(d=>{r.days++;r.spend+=spendOf(p,d);const g=aggOf(p,d);if(!g){if(d>=firstDataDay)r.missing++;return}const c=meta?g.meta:g.all;
+    r.leads+=c.leads;c.st.forEach((x,i)=>r.st[i]+=x);r.chk+=c.chk;
+    for(const[k,x]of Object.entries(c.cr)){const o=r.cr[k]=r.cr[k]||{l:0,c:0,v:0,rev:0};o.l+=x.l;o.c+=x.c}});
+  const t0=dStart(a).getTime(),t1=dStart(addD(b,1)).getTime();
+  sales.forEach(v=>{if(prodOf(v)!==p)return;const t=toDate(v.createdAt);if(!t||t<t0||t>=t1)return;
+    if(ST(v)==='abandoned'){r.aband++;return}if(pending(v)){r.pend++;r.pendV+=amt(v);return}if(!paid(v))return;
+    const n=net(v);r.rev+=n;r.gross+=amt(v);const at=attrOf(v);
+    if(isUpsell(v)){r.ups++;const k=offerName(v);(r.upsells[k]=r.upsells[k]||{n:0,rev:0}).n++;r.upsells[k].rev+=n;return}
+    r.sales++;r.rec[at.rec||'nt']++;r.recRev[at.rec||'nt']+=n;
+    const o=r.cr[at.cr]=r.cr[at.cr]||{l:0,c:0,v:0,rev:0};o.v++;o.rev+=n;
+    const bs=bumpsOf(v);if(bs.length)r.bumpSales++;bs.forEach(x=>{(r.bumps[x.name]=r.bumps[x.name]||{n:0,rev:0}).n++;r.bumps[x.name].rev+=x.amount})});
+  r.st.push(r.sales);r.profit=r.rev-r.spend;r.roi=r.spend?r.profit/r.spend:null;r.roas=r.spend?r.rev/r.spend:null;
+  r.cpa=r.spend&&r.sales?r.spend/r.sales:null;r.ticket=r.sales?r.rev/r.sales:0;return r}
+function money(p,per){const[a,b]=Array.isArray(per)?per:period(per);const t0=dStart(a).getTime(),t1=dStart(addD(b,1)).getTime();let rev=0,n=0,sp=0;
+  sales.forEach(v=>{if(prodOf(v)!==p||!paid(v))return;const t=toDate(v.createdAt);if(t&&t>=t0&&t<t1){rev+=net(v);if(!isUpsell(v))n++}});
+  daysIn(a,b).forEach(d=>sp+=spendOf(p,d));return{rev,n,spend:sp,profit:rev-sp,roi:sp?(rev-sp)/sp:null}}
+let firstDataDay='0000-00-00';
+
+/* =================== PRODUTOS VISÍVEIS =================== */
+function productKeys(){const s=new Set(Object.keys(CFG.products));Object.keys(extraProducts).forEach(k=>s.add(k));
+  live.forEach(x=>s.add(prodOf(x)));sales.forEach(x=>s.add(prodOf(x)));for(const g of hist.values())s.add(g.product);for(const k of spend.keys())s.add(k.split('|')[0]);
+  s.delete('teste');return[...s]} // vendas de teste da Wiapy ficam fora do painel
+
+/* =================== RENDER =================== */
+function drawTabs(){const ks=productKeys();if(view!=='__all'&&!ks.includes(view))view=ks[0];
+  const liveSet=new Set(live.filter(online).map(prodOf));
+  $('ptabs').innerHTML=ks.map(k=>{const p=pinfo(k);return`<button class="ptab${k===view?' active':''}" data-k="${esc(k)}">${p.icon} ${esc(p.name)}${liveSet.has(k)?'<span class="live"></span>':''}</button>`}).join('')+`<button class="ptab all${view==='__all'?' active':''}" data-k="__all">📊 Consolidado</button>`;
+  const all=view==='__all',p=pinfo(view);
+  $('v-prod').classList.toggle('hidden',all);$('v-all').classList.toggle('hidden',!all);$('src').classList.toggle('hidden',all);$('spendbox').classList.toggle('hidden',all);
+  $('ttl').textContent=all?'Consolidado — todos os produtos':p.name+' — Meta Ads';$('lg').textContent=all?'📊':p.icon;$('hsub').textContent=all?'Faturamento, gasto e lucro somados · dia, semana e mês':'Dashboard Tráfego Pago · Facebook & Instagram · ao vivo';
+  document.title=(all?'Consolidado':p.name)+' — Painel';
+  if(!all)syncSpendInput()}
+
+function render(){if(!(ready.s&&ready.v))return;drawTabs();
+  if(view==='__all')renderAll();else{renderKpis();renderIns();renderFunnel();renderOrigin();renderCreatives();renderBU();renderAI();renderCmp();renderSpy();renderSales()}
+  setStatus(DEMO?'Modo demonstração':'Tempo real ativo')}
+
+function kpiHTML(k){return`<div class="kpi"><div class="kpi-bar" style="background:${k[0]}"></div><span class="kpi-icon">${k[1]}</span><div class="kpi-v ${k[4]||''}">${k[2]}</div><div class="kpi-l">${k[3]}</div></div>`}
+function renderKpis(){const p=view,t=stats(p,'today'),onl=live.filter(s=>prodOf(s)===p&&online(s)&&($('src').value!=='meta'||isMeta(s))).length;
+  const h1=sales.filter(v=>prodOf(v)===p&&paid(v)&&Date.now()-toDate(v.createdAt)<36e5).length;
+  const k=[['var(--blue)','🟢',onl,'Online agora'],['var(--green)','👥',t.leads,'Leads hoje'],['#8b5cf6','🛒',t.chk,'Checkouts hoje'],['var(--gold)','💰',t.sales,'Vendas hoje'],
+    ['var(--green)','💵',brl(t.rev),'Faturamento líq.'],['var(--red)','💸',t.spend?brl(t.spend):'—','Gasto hoje'],
+    ['var(--green)','🏦',t.spend?brl(t.profit):'—','Lucro hoje',t.spend?(t.profit>=0?'pos':'neg'):''],['var(--gold)','📈',t.roi!=null?pct(t.profit,t.spend,0):'—','ROI hoje',t.roi!=null?(t.roi>=0?'pos':'neg'):''],
+    ['var(--purple)','🎯',t.cpa?brl(t.cpa):'—','Custo por venda'],['var(--blue)','🔁',pct(t.chk?t.sales:0,t.chk,0),'Checkout → venda'],['var(--gold)','⏳',t.pend,'Pendentes hoje'],['var(--red)','🕐',h1,'Vendas última hora']];
+  $('kpis').innerHTML=k.map(kpiHTML).join('')}
+
+/* ---------- DIAGNÓSTICO (regras) ---------- */
+function insights(p){const out=[],t=stats(p,'today'),w=stats(p,'7d'),y=stats(p,'yesterday');const add=(lv,ic,tx)=>out.push({lv,ic,tx});
+  const L=LBL;
+  // 1) maior queda no funil, e se repete há 3 dias
+  const worst=s=>{let wi=-1,wv=0;for(let i=1;i<=6;i++){if(s.st[i-1]<20)continue;const d=1-s.st[i]/s.st[i-1];if(d>wv){wv=d;wi=i}}return[wi,wv]};
+  const days=[1,2,3].map(n=>stats(p,[addD(todayK(),-n),addD(todayK(),-n)]));const ws=days.map(worst);
+  const[ti,tv]=worst(t.leads>=30?t:w);
+  if(ws.every(x=>x[0]>0&&x[0]===ws[0][0]&&x[1]>=.35))add('bad','📉',`Há <b>3 dias seguidos</b> a maior perda é entre <b>${L[ws[0][0]-1]}</b> → <b>${L[ws[0][0]]}</b> (média ${Math.round(ws.reduce((a,x)=>a+x[1],0)/3*100)}% saindo). Vale mexer nesse trecho da página: headline da dobra, prova, oferta mais cedo.`);
+  else if(ti>0&&tv>=.4)add('warn','🔻',`Maior saída ${t.leads>=30?'hoje':'nos últimos 7 dias'}: <b>${Math.round(tv*100)}%</b> saem entre <b>${L[ti-1]}</b> e <b>${L[ti]}</b>.`);
+  // 2) metade da página
+  const base=t.leads>=30?t:w;if(base.leads>=30){const half=1-base.st[2]/base.st[0];if(half>=.5)add('warn','📜',`<b>${Math.round(half*100)}%</b> dos leads não chegam na <b>metade da página</b>. O topo não está segurando: teste outra headline/vídeo ou suba a oferta.`)}
+  // 3) taxa de checkout
+  if(base.leads>=50){const cr=base.chk/base.leads;if(cr<.05)add('bad','🛒',`Só <b>${pct(base.chk,base.leads)}</b> dos leads clicam no checkout. Página ou preço não estão convencendo.`);else if(cr>=.15)add('good','🛒',`<b>${pct(base.chk,base.leads)}</b> dos leads vão pro checkout. Página convertendo bem.`)}
+  // 4) abandono de checkout
+  if(base.chk>=10){const c=base.sales/base.chk;if(c<.3)add('bad','🚪',`Abandono alto: só <b>${pct(base.sales,base.chk,0)}</b> de quem foi pro checkout comprou (${base.chk-base.sales} abandonos). Revise o checkout e reforce a recuperação (WhatsApp/e-mail).`);else if(c>=.5)add('good','✅',`Checkout fechando <b>${pct(base.sales,base.chk,0)}</b> de quem entra nele.`)}
+  // 5) order bump
+  for(const[k,x]of Object.entries(w.bumps)){const tk=x.n/(w.sales||1);if(w.sales>=10&&tk>=.3)add('good','⭐',`Order bump <b>${esc(k)}</b> com <b>${pct(x.n,w.sales,0)}</b> de saída em 7 dias. Acima de 30%: <b>vale criar um produto desse bump</b> e testar como oferta principal.`);else if(w.sales>=20&&tk<.1)add('warn','🔄',`Order bump <b>${esc(k)}</b> saindo só <b>${pct(x.n,w.sales,0)}</b>. Vale trocar a oferta ou o preço do bump.`)}
+  if(w.sales>=20&&!Object.keys(w.bumps).length)add('info','➕',`Nenhum order bump registrado nas vendas dos últimos 7 dias. Se você tem bump ativo, confira se o webhook está mandando esse dado (veja o guia).`);
+  // 6) upsell
+  if(w.sales>=20){const tk=w.ups/w.sales;if(w.ups===0)add('warn','⬆️',`Nenhum upsell vendido em 7 dias (${w.sales} vendas). Se o upsell está ativo, vale trocar a oferta.`);else if(tk<.05)add('warn','⬆️',`Upsell com saída baixa: <b>${pct(w.ups,w.sales)}</b>. Teste outro produto ou um preço menor.`);else if(tk>=.15)add('good','⬆️',`Upsell saindo bem: <b>${pct(w.ups,w.sales)}</b> das vendas.`)}
+  // 7) pendentes
+  const pb=t.sales+t.pend>=8?t:w;if(pb.sales+pb.pend>=8){const pr=pb.pend/(pb.sales+pb.pend);if(pr>=.4)add('warn','⏳',`<b>${pct(pb.pend,pb.sales+pb.pend,0)}</b> dos pedidos ${pb===t?'de hoje':'da semana'} estão <b>pendentes</b> (${brl(pb.pendV)} parados). Reforce a recuperação de PIX gerado.`)}
+  // 8) recuperação
+  if(w.sales>=10){const rr=w.rec.rec/w.sales;if(rr>=.3)add('info','🔁',`<b>${pct(w.rec.rec,w.sales,0)}</b> das vendas da semana foram <b>recuperação</b>. A recuperação está segurando o resultado: mantenha e veja por que a venda não fecha na hora.`)}
+  if(w.sales>=5&&w.rec.nt/w.sales>=.4)add('info','🔍',`${pct(w.rec.nt,w.sales,0)} das vendas estão <b>sem rastreio</b> (não deu para ligar ao lead). Confira se o link do checkout leva as UTMs.`);
+  // 9) ROI
+  const rb=t.spend?t:(w.spend?w:null);
+  if(rb){const tag=rb===t?'hoje':'em 7 dias';if(rb.roi<0)add('bad','🩸',`ROI ${tag} negativo: <b>${pct(rb.profit,rb.spend,0)}</b> (prejuízo de ${brl(-rb.profit)}). Vale analisar campanha e criativos antes de escalar.`);else if(rb.roi<.3)add('warn','⚖️',`ROI ${tag} apertado: <b>${pct(rb.profit,rb.spend,0)}</b>. Custo por venda ${rb.cpa?brl(rb.cpa):'—'} contra ticket de ${brl(rb.ticket)}.`);else add('good','🚀',`ROI ${tag}: <b>${pct(rb.profit,rb.spend,0)}</b> (lucro ${brl(rb.profit)}). Campanha saudável; dá para testar escala.`)}
+  else add('info','💸','Lance o <b>gasto do dia</b> no campo 💸 lá em cima para ver lucro, ROI e custo por venda.');
+  const dROI=days.filter(d=>d.spend>0);if(dROI.length===3&&dROI.every(d=>d.roi<0))add('bad','📛','<b>3 dias seguidos com ROI negativo</b>. Hora de pausar ou trocar o que não está vendendo.');
+  // 10) criativos
+  const crs=Object.entries(w.cr).filter(([k])=>k!=='(sem rastreio)').map(([k,x])=>({k,...x}));
+  const win=crs.filter(c=>c.v>=3).sort((a,b)=>(b.v/b.l||0)-(a.v/a.l||0))[0];
+  if(win&&win.l)add('good','🏆',`Criativo <b>${esc(win.k)}</b> é o destaque da semana: ${win.v} vendas, conversão ${pct(win.v,win.l)}. <b>Vale modelar</b> (variações do mesmo gancho).`);
+  crs.filter(c=>c.l>=120&&c.v===0).slice(0,2).forEach(c=>add('bad','✂️',`Criativo <b>${esc(c.k)}</b> trouxe ${c.l} leads e <b>nenhuma venda</b> em 7 dias. Candidato a pausar.`));
+  // 11) tendência
+  if(y.sales>=3&&t.sales>=0&&new Date().getHours()>=20){const d=(t.sales-y.sales)/y.sales;if(d<=-.4)add('warn','📆',`Vendas de hoje <b>${Math.round(-d*100)}% abaixo</b> de ontem (${t.sales} vs ${y.sales}).`);else if(d>=.3)add('good','📆',`Vendas de hoje <b>${Math.round(d*100)}% acima</b> de ontem (${t.sales} vs ${y.sales}).`)}
+  if(!out.length)add('info','⌛','Ainda há poucos dados para um diagnóstico. Ele aparece conforme os leads e as vendas chegam.');
+  const ord={bad:0,warn:1,good:2,info:3};return out.sort((a,b)=>ord[a.lv]-ord[b.lv])}
+function renderIns(){$('ins').innerHTML=insights(view).map(i=>`<div class="in ${i.lv}"><span class="ic">${i.ic}</span><div>${i.tx}</div></div>`).join('')}
+
+function renderFunnel(){const s=stats(view,$('fun-p').value),max=s.st[0]||1;let wi=-1,wv=0;
+  for(let i=1;i<s.st.length;i++){if(s.st[i-1]<10)continue;const d=1-s.st[i]/s.st[i-1];if(d>wv){wv=d;wi=i}}
+  $('fun').innerHTML=s.st.map((n,i)=>{const prev=i?s.st[i-1]:null,drop=prev?1-n/prev:0;
+    return`<div class="fr${i===wi?' worst':''}"><div class="fl" title="${LBL[i]}">${LBL[i]}</div><div class="fb"><div class="fbi ${i===7?'o':i===6?'g':''}" style="width:${n/max*100}%"></div><div class="fbn">${n}</div></div><div class="fd">${i===0?'100%':prev?(drop>0?'−'+Math.round(drop*100)+'% saiu':'0%'):'—'}</div></div>`}).join('');
+  $('fun-note').innerHTML=(wi>0?`🔴 Maior saída: <b>${LBL[wi-1]} → ${LBL[wi]}</b>. `:'')+(s.missing?` · ${s.missing} dia(s) ainda sem histórico montado.`:'')}
+
+function renderOrigin(){const s=stats(view,$('org-p').value),T=s.sales||0;
+  const seg=[['dir','Direta (do anúncio)','var(--green)'],['rec','Recuperada','var(--purple)'],['nt','Sem rastreio','var(--subtle)']];
+  $('org').innerHTML=(T?`<div class="split">${seg.map(([k,,c])=>s.rec[k]?`<div style="width:${s.rec[k]/T*100}%;background:${c}">${pct(s.rec[k],T,0)}</div>`:'').join('')}</div>`:'<div class="empty" style="padding:10px 0 18px">Sem vendas no período</div>')+
+  `<div class="legend">${seg.map(([k,l,c])=>`<div class="lg"><div class="v">${s.rec[k]}</div><div class="l"><span class="dot" style="background:${c}"></span>${l}</div><div class="l" style="text-transform:none">${brl(s.recRev[k])}</div></div>`).join('')}
+  <div class="lg"><div class="v" style="color:var(--gold)">${s.pend}</div><div class="l"><span class="dot" style="background:var(--gold)"></span>Pendentes</div><div class="l" style="text-transform:none">${brl(s.pendV)} parados</div></div><div class="lg"><div class="v" style="color:var(--red)">${s.aband}</div><div class="l"><span class="dot" style="background:var(--red)"></span>Carrinhos abandonados</div><div class="l" style="text-transform:none">preencheu e não gerou o pagamento</div></div></div>
+  <div class="note"><b>Direta</b>: pagou logo após clicar no checkout. <b>Recuperada</b>: pagou ${CFG.recoveryMin}+ min depois de gerar o PIX ou de clicar no checkout. <b>Sem rastreio</b>: não deu para ligar ao lead da página.</div>`}
+
+function renderCreatives(){const s=stats(view,$('cr-p').value);const rows=Object.entries(s.cr).map(([k,x])=>({k,...x})).sort((a,b)=>b.v-a.v||b.rev-a.rev||b.l-a.l);
+  const tv=s.sales||1,best=rows.filter(r=>r.v>=2&&r.l).sort((a,b)=>b.v/b.l-a.v/a.l)[0];
+  $('crt').innerHTML=`<thead><tr><th>Criativo</th><th class="num">Leads</th><th class="num">Checkouts</th><th class="num">Vendas</th><th class="num">Conv.</th><th class="num">Faturamento</th><th class="num">% das vendas</th></tr></thead><tbody>`+
+  (rows.length?rows.map(r=>`<tr><td class="cv">${r===best?'🏆 ':''}${esc(r.k)}</td><td class="num">${r.l||'—'}</td><td class="num">${r.c||'—'}</td><td class="num ${r.v?'pos':''}">${r.v}</td><td class="num">${r.l?pct(r.v,r.l):'—'}</td><td class="num">${brl(r.rev)}</td><td class="num mut">${pct(r.v,tv,0)}</td></tr>`).join(''):'<tr><td colspan="7" class="empty">Sem dados no período</td></tr>')+'</tbody>'}
+
+function renderBU(){const s=stats(view,$('bu-p').value),T=s.sales;const row=(k,x,kind)=>{const tk=T?x.n/T:0,cls=kind==='bump'?(tk>=.3?'t-green':tk<.1?'t-red':'t-gold'):(tk>=.15?'t-green':tk<.05?'t-red':'t-gold');
+    return`<tr><td class="cv"><span class="tag ${kind==='bump'?'t-blue':'t-purple'}">${kind==='bump'?'BUMP':'UPSELL'}</span> ${esc(k)}</td><td class="num">${x.n}</td><td class="num"><span class="tag ${cls}">${pct(x.n,T,0)}</span></td><td class="num">${brl(x.rev)}</td></tr>`};
+  const b=Object.entries(s.bumps).sort((a,c)=>c[1].n-a[1].n),u=Object.entries(s.upsells).sort((a,c)=>c[1].n-a[1].n);
+  $('bu').innerHTML=`<div class="legend" style="margin-bottom:12px"><div class="lg"><div class="v">${T}</div><div class="l">Vendas principais</div></div><div class="lg"><div class="v">${pct(s.bumpSales,T,0)}</div><div class="l">Levaram bump</div></div><div class="lg"><div class="v">${pct(s.ups,T,0)}</div><div class="l">Levaram upsell</div></div></div>`+
+  ((b.length||u.length)?`<div style="overflow-x:auto"><table class="cmp"><thead><tr><th>Oferta</th><th class="num">Qtd</th><th class="num">Saída</th><th class="num">Receita</th></tr></thead><tbody>${b.map(([k,x])=>row(k,x,'bump')).join('')}${u.map(([k,x])=>row(k,x,'up')).join('')}</tbody></table></div>`:'<div class="empty">Nenhum order bump ou upsell registrado no período.</div>')+
+  `<div class="note">Bump ≥ 30% = forte, vale virar produto · &lt; 10% = trocar. Upsell ≥ 15% = bom · &lt; 5% = trocar.</div>`}
+
+function renderAI(){const r=aiReports.find(x=>x.product===view)||aiReports.find(x=>!x.product||x.product==='__all');
+  $('ai').innerHTML=r?`<div class="note" style="margin:0 0 8px">📅 ${esc(r.date||'')}${r.product&&r.product!==view?' · geral':''}</div><div class="ai">${esc(r.text||'')}</div>`:`<div class="empty">Todo dia às 23h o Claude analisa o dia e o resumo aparece aqui.</div>`}
+
+function renderCmp(){const P=['today','yesterday','7d','30d'].map(p=>stats(view,p));
+  const rows=[['Leads',x=>x.leads,x=>x.leads],['Checkouts',x=>x.chk,x=>x.chk],['Vendas',x=>x.sales,x=>x.sales],['Faturamento líq.',x=>brl(x.rev),x=>x.rev],['Gasto',x=>x.spend?brl(x.spend):'—',null],['Lucro',x=>x.spend?`<span class="${x.profit>=0?'pos':'neg'}">${brl(x.profit)}</span>`:'—',x=>x.spend?x.profit:0],['ROI',x=>x.roi!=null?pct(x.profit,x.spend,0):'—',null],['Conv. %',x=>pct(x.sales,x.leads),null],['Checkout → venda',x=>pct(x.sales,x.chk,0),null],['Pendentes',x=>x.pend,null],['Recuperadas',x=>x.rec.rec,null]];
+  $('cmp').innerHTML=rows.map(r=>`<tr><td class="cl">${r[0]}</td>${P.map((x,j)=>{let b='';if(j===0&&r[2]){const a=r[2](P[0]),y=r[2](P[1]);if(y>0&&new Date().getHours()>=18){const p=Math.round((a-y)/y*100);if(p)b=`<span class="${p>0?'delta-up':'delta-down'}">${p>0?'▲':'▼'}${Math.abs(p)}%</span>`}}return`<td class="cv${j===0?' hi':''}">${r[1](x)}${b}</td>`}).join('')}</tr>`).join('');
+  const m=P[3].missing;$('cmp-note').innerHTML=(m?`⏳ ${m} dia(s) do histórico ainda estão sendo montados (alguns por vez, para não estourar a cota do Firebase). `:'')+(histNote?esc(histNote):'')}
+
+function renderSpy(){const p=view,meta=$('src').value==='meta',S=live.filter(s=>prodOf(s)===p&&sessDay(s)===todayK()&&(!meta||isMeta(s))),g=aggOf(p,todayK());
+  const bySid=new Map();sales.forEach(v=>{const a=g&&g.attr[v.id];if(a&&a.sid)bySid.set(a.sid,v)});
+  let items=S.map(s=>({s,sale:bySid.get(s.id)}));
+  const matched=new Set([...bySid.values()].map(v=>v.id));
+  const orphans=sales.filter(v=>prodOf(v)===p&&paid(v)&&!isUpsell(v)&&dk(toDate(v.createdAt))===todayK()&&!matched.has(v.id)).map(v=>({s:{id:v.id,lastActivity:v.createdAt,utm_source:'',_o:1},sale:v}));
+  if(spyF==='online')items=items.filter(x=>online(x.s));else if(spyF==='checkout')items=items.filter(x=>isChk(x.s)&&!x.sale);else if(spyF==='sale')items=[...items.filter(x=>x.sale),...orphans];else items=[...items,...orphans];
+  items.sort((a,b)=>(toDate(b.s.lastActivity)||0)-(toDate(a.s.lastActivity)||0));items=items.slice(0,60);$('spy-count').textContent=items.length;
+  const pi=pinfo(p);
   $('spy-grid').innerHTML=items.length?items.map(({s,sale})=>{
-    const on=online(s)&&!sale,chk=isChk(s)&&!sale,i=sale?7:sIdx(s),pl=planOf(s);
+    const on=online(s)&&!sale,chk=isChk(s)&&!sale,i=sale?7:sIdx(s),pl=s.clickedPlan==='p1'&&pi.prices?'R$'+pi.prices[0]:s.clickedPlan==='p2'&&pi.prices?'R$'+pi.prices[1]:'';
     const name=sale?(sale.customerName||'Cliente'):'Lead #'+String(s.sessionId||s.id).slice(-6).toUpperCase();
     const cls=sale?'sale':chk?'checkout':on?'online-now':'',bc=sale?'screen-sale':i>=6?'screen-checkout':i===5?'screen-late':i>=2?'screen-mid':'screen-early';
     const lab=sale?'✅ Comprou':'📍 '+LBL[i]+(pl&&i===6?' · '+pl:'');
     const st=Array.from({length:7},(_,k)=>sale?'sale-done':k<i?'done':k===i?'current':'').map(c=>`<div class="ss ${c}"></div>`).join('');
-    const m=sale?String(sale.paymentMethod||'pix').toUpperCase():'';
-    return`<div class="spy-item ${cls}"><div class="spy-av">${esc(name.replace('Lead #','').charAt(0).toUpperCase())}</div><div class="spy-b"><div class="spy-row"><div class="spy-id">${esc(name)}</div><div class="spy-t">${ago(s.lastActivity)}</div></div><div class="tela-badge ${bc}">${lab}</div><div class="spy-src">${tab.icon} ${s._o?'META':esc((s.utm_source||'direto').toUpperCase())}${on?' · 🟢':''}${m?' · '+esc(m):''}${s.device&&!s._o?' · '+esc(s.device.toUpperCase()):''}</div><div class="screen-stepper">${st}</div></div><div class="spy-r">${on?'<div class="odot"></div>':''}${chk?'<div class="bchk">CHK</div>':''}${sale?`<div class="bsale">${brl(net(sale))}</div>`:''}</div></div>`}).join(''):'<div class="empty">Nenhum lead encontrado</div>';
-}
-function renderSales(){
-  const r=range($('sales-filter').value),list=getSales().filter(v=>inR(v.createdAt,r)).sort((a,b)=>(toDate(b.createdAt)||0)-(toDate(a.createdAt)||0)).slice(0,30);
-  $('sales-list').innerHTML=list.length?list.map(v=>{const name=v.customerName||'Cliente',d=toDate(v.createdAt),m=String(v.paymentMethod||'pix').toUpperCase();
-    return`<div class="sale-item"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta"><span class="sale-method">${m==='PIX'?'⚡':'💳'} ${esc(m)}</span><span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(net(v))}</div></div>`}).join(''):'<div class="empty">Nenhuma venda no período selecionado</div>';
-}
+    const cr=s._o?(creativeOfSale(sale)||''):creativeOf(s);
+    return`<div class="spy-item ${cls}"><div class="spy-av">${esc(name.replace('Lead #','').charAt(0).toUpperCase())}</div><div class="spy-b"><div class="spy-row"><div class="spy-id">${esc(name)}</div><div class="spy-t">${ago(s.lastActivity)}</div></div><div class="tela-badge ${bc}">${lab}</div><div class="spy-src">${pi.icon} ${s._o?'SEM RASTREIO':esc((s.utm_source||'direto').toUpperCase())}${cr&&cr!=='(sem UTM)'?' · 🎬 '+esc(cr):''}${on?' · 🟢':''}${s.device&&!s._o?' · '+esc(s.device.toUpperCase()):''}</div><div class="screen-stepper">${st}</div></div><div class="spy-r">${on?'<div class="odot"></div>':''}${chk?'<div class="bchk">CHK</div>':''}${sale?`<div class="bsale">${brl(net(sale))}</div>`:''}</div></div>`}).join(''):'<div class="empty">Nenhum lead hoje ainda</div>'}
+const ago=t=>{const d=toDate(t);if(!d)return'?';const s=Math.floor((Date.now()-d)/1e3);return s<5?'agora':s<60?s+'s':s<3600?Math.floor(s/60)+'min':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
+
+function renderSales(){const[a,b]=period($('sales-filter').value),t0=dStart(a).getTime(),t1=dStart(addD(b,1)).getTime();
+  const list=sales.filter(v=>{if(prodOf(v)!==view||!(paid(v)||pending(v)))return false;const t=toDate(v.createdAt);return t&&t>=t0&&t<t1}).sort((x,y)=>(toDate(y.createdAt)||0)-(toDate(x.createdAt)||0)).slice(0,40);
+  $('sales-list').innerHTML=list.length?list.map(v=>{const name=v.customerName||'Cliente',d=toDate(v.createdAt),m=method(v).toUpperCase(),at=attrOf(v),bs=bumpsOf(v),pd=pending(v);
+    const tags=[`<span class="tag t-blue">${m==='PIX'?'⚡':'💳'} ${esc(m)}</span>`,
+      pd?'<span class="tag t-gold">⏳ Pendente</span>':isUpsell(v)?'<span class="tag t-purple">⬆️ Upsell</span>':at.rec==='rec'?'<span class="tag t-purple">🔁 Recuperada</span>':at.rec==='dir'?'<span class="tag t-green">🎯 Direta</span>':'<span class="tag t-gray">Sem rastreio</span>',
+      at.cr&&!pd&&at.cr!=='(sem rastreio)'?`<span class="tag t-gray">🎬 ${esc(at.cr)}</span>`:'',...bs.map(x=>`<span class="tag t-gold">+ ${esc(x.name)}</span>`)].join('');
+    return`<div class="sale-item" style="${pd?'opacity:.6':''}"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta">${tags}<span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(pd?amt(v):net(v))}</div></div>`}).join(''):'<div class="empty">Nenhuma venda no período selecionado</div>'}
+
+/* ---------- CONSOLIDADO ---------- */
+function renderAll(){const ks=productKeys(),sum=per=>ks.reduce((a,k)=>{const m=money(k,per);a.rev+=m.rev;a.n+=m.n;a.spend+=m.spend;return a},{rev:0,n:0,spend:0});
+  const T=sum('today'),W=sum('7d'),M=sum('month');const pr=x=>x.rev-x.spend,cl=v=>v>=0?'pos':'neg';
+  $('akpis').innerHTML=[['var(--gold)','💰',T.n,'Vendas hoje'],['var(--green)','💵',brl(T.rev),'Faturamento hoje'],['var(--red)','💸',brl(T.spend),'Gasto hoje'],['var(--green)','🏦',brl(pr(T)),'Lucro hoje',cl(pr(T))],
+    ['var(--blue)','📅',brl(pr(W)),'Lucro 7 dias',cl(pr(W))],['var(--purple)','🗓️',brl(M.rev),'Faturamento do mês'],['var(--red)','📤',brl(M.spend),'Gasto do mês'],['var(--green)','🏆',brl(pr(M)),'Lucro do mês',cl(pr(M))],['var(--gold)','📈',M.spend?pct(pr(M),M.spend,0):'—','ROI do mês']].map(kpiHTML).join('');
+  // por produto
+  const per=$('ap-p').value;let tot={rev:0,n:0,spend:0};
+  $('apt').innerHTML=`<thead><tr><th>Produto</th><th class="num">Vendas</th><th class="num">Faturamento</th><th class="num">Gasto</th><th class="num">Lucro</th><th class="num">ROI</th></tr></thead><tbody>`+ks.map(k=>{const m=money(k,per),p=pinfo(k);tot.rev+=m.rev;tot.n+=m.n;tot.spend+=m.spend;
+    return`<tr><td class="cv">${p.icon} ${esc(p.name)}</td><td class="num">${m.n}</td><td class="num">${brl(m.rev)}</td><td class="num">${m.spend?brl(m.spend):'—'}</td><td class="num ${cl(m.profit)}">${brl(m.profit)}</td><td class="num">${m.roi!=null?pct(m.profit,m.spend,0):'—'}</td></tr>`}).join('')+
+    `<tr class="tot"><td>Total</td><td class="num">${tot.n}</td><td class="num">${brl(tot.rev)}</td><td class="num">${brl(tot.spend)}</td><td class="num ${cl(tot.rev-tot.spend)}">${brl(tot.rev-tot.spend)}</td><td class="num">${tot.spend?pct(tot.rev-tot.spend,tot.spend,0):'—'}</td></tr></tbody>`;
+  // semanas / meses
+  const t=todayK(),rowsW=[];for(let i=0;i<5;i++){const e=addD(t,-7*i),s=addD(e,-6);rowsW.push([i===0?'Últimos 7 dias':`${fmtD(s)} – ${fmtD(e)}`,[s,e]])}
+  rowsW.push(['Mês atual',period('month')],['Mês passado',period('lastmonth')]);
+  $('awt').innerHTML=`<thead><tr><th>Período</th><th class="num">Vendas</th><th class="num">Faturamento</th><th class="num">Gasto</th><th class="num">Lucro</th></tr></thead><tbody>`+rowsW.map(([l,r],i)=>{const x=sum(r);return`<tr${i===5?' class="tot"':''}><td class="cl">${l}</td><td class="num">${x.n}</td><td class="num">${brl(x.rev)}</td><td class="num">${brl(x.spend)}</td><td class="num ${cl(pr(x))}">${brl(pr(x))}</td></tr>`}).join('')+'</tbody>';
+  // dia a dia
+  const days=daysIn(addD(t,-29),t).reverse();
+  $('adt').innerHTML=`<thead><tr><th>Dia</th>${ks.map(k=>`<th class="num">${pinfo(k).icon} Lucro</th>`).join('')}<th class="num">Vendas</th><th class="num">Faturamento</th><th class="num">Gasto</th><th class="num">Lucro</th><th class="num">ROI</th></tr></thead><tbody>`+days.map(d=>{const x=sum([d,d]),p=pr(x);
+    return`<tr><td class="cl">${WD[dStart(d).getDay()]} ${fmtD(d)}</td>${ks.map(k=>{const m=money(k,[d,d]);return`<td class="num ${m.rev||m.spend?cl(m.profit):'mut'}">${m.rev||m.spend?brl0(m.profit):'—'}</td>`}).join('')}<td class="num">${x.n}</td><td class="num">${brl(x.rev)}</td><td class="num">${x.spend?brl(x.spend):'—'}</td><td class="num ${cl(p)}">${brl(p)}</td><td class="num">${x.spend?pct(p,x.spend,0):'—'}</td></tr>`}).join('')+'</tbody>';
+  // gráfico
+  const asc=[...days].reverse(),vals=asc.map(d=>pr(sum([d,d]))),mx=Math.max(1,...vals.map(Math.abs)),W0=600,H=180,bw=W0/asc.length,z=vals.some(v=>v<0)?H/2:H-18;
+  const sc=(z-8)/mx;$('achart').setAttribute('viewBox',`0 0 ${W0} ${H}`);
+  $('achart').innerHTML=`<line x1="0" x2="${W0}" y1="${z}" y2="${z}" stroke="#2a2d38"/>`+vals.map((v,i)=>{const h=Math.abs(v)*sc;return`<rect x="${i*bw+2}" width="${bw-4}" y="${v>=0?z-h:z}" height="${Math.max(h,1)}" rx="2" fill="${v>=0?'#22c55e':'#ef4444'}"><title>${fmtD(asc[i])}: ${brl(v)}</title></rect>`}).join('')+
+    asc.map((d,i)=>i%5===4||i===asc.length-1?`<text x="${i*bw+bw/2}" y="${H-3}" fill="#6b6e7c" font-size="9" text-anchor="middle" font-family="Space Grotesk">${fmtD(d)}</text>`:'').join('')}
+
+/* =================== GASTO =================== */
+function syncSpendInput(){const d=$('spend-date').value||todayK();$('spend-date').value=d;const v=spend.get(HK(view,d));$('spend').value=v?String(v).replace('.',','):''}
+let spT=null;
+$('spend').oninput=()=>{clearTimeout(spT);spT=setTimeout(saveSpend,700)};
+$('spend-date').onchange=syncSpendInput;
+async function saveSpend(){const d=$('spend-date').value||todayK(),v=parseFloat(String($('spend').value).replace(/\./g,'').replace(',','.'))||0,k=HK(view,d);
+  spend.set(k,v);if(!DEMO)LS.set('v4_spend_'+k,String(v));render();
+  if(!DEMO&&api.saveSpend){try{await api.saveSpend(view,d,v)}catch(e){canWrite=false;showBanner('⚠️ O gasto foi salvo só neste navegador: as regras do Firebase não permitem gravar na coleção <b>ad_spend</b>. Para o resumo das 23h enxergar o gasto, libere essa coleção nas regras (veja o guia).')}}}
+
+/* =================== SONS + AVISOS =================== */
+let actx=null,soundOn=LS.get('v4_sound')!=='0';
+function ensureAudio(){if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(actx&&actx.state==='suspended')actx.resume();updSndBtn()}
+function updSndBtn(){const ok=soundOn&&actx&&actx.state==='running';$('snd').textContent=ok?'🔔 Sons ligados':soundOn?'🔇 Clique para ativar sons':'🔕 Sons desligados';$('snd').classList.toggle('on',!!ok)}
+$('snd').onclick=()=>{if(soundOn&&actx&&actx.state==='running'){soundOn=false}else{soundOn=true;ensureAudio();setTimeout(()=>beep('chk'),50)}LS.set('v4_sound',soundOn?'1':'0');updSndBtn()};
+document.addEventListener('pointerdown',()=>{if(soundOn)ensureAudio()},{once:true});
+function tone(f,t0,d,type='sine',g=.18){const o=actx.createOscillator(),v=actx.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);v.gain.setValueAtTime(0,t0);v.gain.linearRampToValueAtTime(g,t0+.01);v.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(v).connect(actx.destination);o.start(t0);o.stop(t0+d+.05)}
+function beep(kind){if(!soundOn||!actx||actx.state!=='running')return;const t=actx.currentTime;
+  if(kind==='chk'){tone(880,t,.18,'sine',.16);tone(1320,t+.13,.28,'sine',.14)}                        // plim-plim: entrou no checkout
+  else{[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.09,.35,'triangle',.2));tone(2093,t+.42,.5,'sine',.08);tone(1568,t+.5,.6,'sine',.06)}} // arpejo "caixa registradora": venda
+function toast(kind,title,sub){const el=document.createElement('div');el.className='toast'+(kind==='sale'?' sale':'');el.innerHTML=`${title}${sub?`<small>${sub}</small>`:''}`;$('toasts').prepend(el);setTimeout(()=>el.remove(),kind==='sale'?12000:7000);
+  if(kind==='sale'){let n=0;const o=document.title;const iv=setInterval(()=>{document.title=n++%2?'💰 VENDA!':o;if(n>9){clearInterval(iv);document.title=o}},700)}}
+const seenChk=new Set(),seenSale=new Set();let primed={s:false,v:false};
+function detectSessions(arr){arr.forEach(s=>{if(isChk(s)&&!seenChk.has(s.id)){seenChk.add(s.id);if(primed.s&&sessDay(s)===todayK()){const p=pinfo(prodOf(s));beep('chk');toast('chk',`🛒 Entrou no checkout · ${p.icon} ${esc(p.name)}`,`🎬 ${esc(creativeOf(s))}${s.clickedPlan?' · plano '+esc(s.clickedPlan):''}`)}}});primed.s=true}
+function detectSales(arr){arr.forEach(v=>{if(paid(v)&&!seenSale.has(v.id)){seenSale.add(v.id);if(primed.v&&Date.now()-toDate(v.createdAt)<6*36e5){const p=pinfo(prodOf(v));beep('sale');toast('sale',`💰 Venda ${brl(net(v))} · ${p.icon} ${esc(p.name)}`,`${esc(v.customerName||'Cliente')}${isUpsell(v)?' · ⬆️ upsell':''}${bumpsOf(v).length?' · + bump':''}${creativeOfSale(v)?' · 🎬 '+esc(creativeOfSale(v)):''}`)}}});primed.v=true}
+
+/* =================== UI =================== */
+function setStatus(t,err){$('st').textContent=t;$('stb').classList.toggle('err',!!err)}
+function showBanner(h){$('banner').innerHTML=h;$('banner').classList.remove('hidden')}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{spyF=b.dataset.f;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));renderSpy()});
-let pend=false;const sched=()=>{if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;if(ready[0]&&ready[1])render()})};
-const spKey=()=>tab.legacy?'lp_spend_day':'lp_spend_day_'+tab.key;
-function drawTabs(){$('ptabs').innerHTML=CFG.tabs.map(t=>`<button class="ptab${t===tab?' active':''}" data-k="${t.key}">${t.icon} ${t.name}</button>`).join('');$('ttl').textContent=tab.name+' — Meta Ads';$('lg').textContent=tab.icon;document.title=tab.name+' — Meta Ads';try{$('spend').value=localStorage.getItem(spKey())||''}catch(e){$('spend').value=''}}
-try{const k=localStorage.getItem('lp_tab');tab=CFG.tabs.find(t=>t.key===k)||tab}catch(e){}
-drawTabs();
-$('ptabs').onclick=e=>{const b=e.target.closest('.ptab');if(!b)return;tab=CFG.tabs.find(t=>t.key===b.dataset.k)||tab;try{localStorage.setItem('lp_tab',tab.key)}catch(x){}drawTabs();sched()};
-$('src').onchange=sched;$('sales-filter').onchange=renderSales;
-$('spend').oninput=()=>{try{localStorage.setItem(spKey(),$('spend').value)}catch(e){}sched()};
-const db=getFirestore(initializeApp(FB));
-const err=()=>{$('st').textContent='Erro no Firebase'};
-onSnapshot(query(collection(db,'lp_sessions'),orderBy('lastActivity','desc'),limit(800)),n=>{sess=n.docs.map(d=>({id:d.id,...d.data()}));ready[0]=true;sched()},err);
-onSnapshot(query(collection(db,'sales'),orderBy('createdAt','desc'),limit(300)),n=>{sales=n.docs.map(d=>({id:d.id,...d.data()}));ready[1]=true;sched()},err);
-setInterval(()=>{if(!document.hidden&&ready[0]&&ready[1])render()},15000);
+$('ptabs').onclick=e=>{const b=e.target.closest('.ptab');if(!b)return;view=b.dataset.k;LS.set('v4_view',view);render()};
+['src','fun-p','org-p','cr-p','bu-p','sales-filter','ap-p'].forEach(id=>$(id).onchange=render);
+let pend=false;const sched=()=>{dataVer++;if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;render()})};
+setInterval(()=>{if(!document.hidden)render()},15000);
+$('spend-date').value=todayK();updSndBtn();
+
+/* =================== HISTÓRICO (resumos por dia) =================== */
+function loadLocalHist(){try{const from=addD(todayK(),-CFG.historyDays);for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k||!k.startsWith('v4_agg_'))continue;
+  try{const g=JSON.parse(localStorage.getItem(k));if(g.date<from){localStorage.removeItem(k);continue}if(!hist.has(HK(g.product,g.date)))hist.set(HK(g.product,g.date),g)}catch(e){}}}catch(e){}}
+async function backfill(){const t=todayK(),need=[];
+  for(let i=1;i<=CFG.historyDays;i++){const d=addD(t,-i);if(d<firstDataDay)break;const ks=productKeys();const have=ks.some(k=>{const g=hist.get(HK(k,d));return g&&g.final});if(!have)need.push(d)}
+  if(!need.length){histNote='';return}
+  const batch=need.slice(0,CFG.backfillPerLoad);const from=batch[batch.length-1],to=addD(batch[0],1);
+  setStatus('Montando histórico ('+batch.length+' dias)…');
+  let S;try{S=await api.rangeSessions(dStart(addD(from,-1)),dStart(to))}catch(e){histNote='Não consegui montar o histórico agora ('+(e.code||e.message)+').';return}
+  const ks=new Set(productKeys());S.forEach(s=>ks.add(prodOf(s)));
+  for(const d of batch)for(const k of ks){const g=buildAgg(k,d,S,sales);if(!g.all.leads&&!Object.keys(g.attr).length&&!g.final)continue;hist.set(HK(k,d),g);if(!DEMO)LS.set('v4_agg_'+HK(k,d),JSON.stringify(g));if(api.saveAgg&&canWrite&&(g.all.leads||Object.keys(g.attr).length))api.saveAgg(g).catch(()=>{canWrite=false})}
+  if(need.length>batch.length)histNote=`Faltam ${need.length-batch.length} dia(s) de histórico, que entram nas próximas aberturas do painel.`;else histNote='';
+  sched()}
+
+/* =================== FONTE DE DADOS =================== */
+let api={};
+async function startFirebase(){
+  const A=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+  const F=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+  const{getFirestore,collection,onSnapshot,limit,query,orderBy,where,getDocs,doc,setDoc}=F;
+  const db=getFirestore(A.initializeApp(FB));
+  const fail=e=>{const q=e&&(e.code==='resource-exhausted'||/quota/i.test(e.message||''));setStatus(q?'Cota do Firebase estourada':'Erro no Firebase',true);
+    if(q)showBanner('⚠️ <b>A cota diária grátis do Firebase acabou.</b> Ela volta sozinha por volta das 5h da manhã. Para não acontecer mais, ative o plano <b>Blaze</b> no Firebase: 100 mil leituras custam alguns centavos de dólar.')};
+  // descobre o tipo do campo de data (Timestamp, número ou texto) para montar o filtro certo
+  const kind=async(col,f)=>{try{const sn=await getDocs(query(collection(db,col),orderBy(f,'desc'),limit(1)));const v=sn.docs[0]?.data()[f];if(v==null||v.toDate)return'ts';if(typeof v==='number')return v>1e12?'ms':'s';if(typeof v==='string')return'iso';return'ts'}catch(e){fail(e);return'ts'}};
+  const B=(k,d)=>k==='ms'?d.getTime():k==='s'?Math.floor(d/1e3):k==='iso'?d.toISOString():d;
+  const[ks,kv]=await Promise.all([kind('lp_sessions','lastActivity'),kind('sales','createdAt')]);
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('v4_spend_')){const kk=k.slice(9);if(!spend.has(kk))spend.set(kk,Number(LS.get(k))||0)}}}catch(e){}
+  const t0=dStart(todayK()),h0=dStart(addD(todayK(),-(CFG.historyDays+5)));
+  // opcional: coleção "products" com {name, icon, prices:[p1,p2]} — doc id = slug do produto
+  getDocs(collection(db,'products')).then(sn=>{sn.docs.forEach(d=>extraProducts[d.id]=d.data());sched()}).catch(()=>{});
+  // AO VIVO: só as sessões de hoje
+  onSnapshot(query(collection(db,'lp_sessions'),where('lastActivity','>=',B(ks,t0)),orderBy('lastActivity','desc'),limit(4000)),n=>{live=n.docs.map(d=>({id:d.id,...d.data()}));detectSessions(live);ready.s=true;sched()},fail);
+  onSnapshot(query(collection(db,'sales'),where('createdAt','>=',B(kv,h0)),orderBy('createdAt','desc'),limit(4000)),n=>{sales=n.docs.map(d=>norm({id:d.id,...d.data()}));detectSales(sales);const was=ready.v;ready.v=true;sched();if(!was)afterReady()},fail);
+  onSnapshot(query(collection(db,'ad_spend'),where('date','>=',addD(todayK(),-70))),n=>{n.docs.forEach(d=>{const x=d.data();if(x.product&&x.date)spend.set(HK(x.product,x.date),Number(x.amount)||0)});if(view!=='__all'&&document.activeElement!==$('spend'))syncSpendInput();sched()},()=>{});
+  onSnapshot(query(collection(db,'daily_reports'),orderBy('createdAt','desc'),limit(20)),n=>{aiReports=n.docs.map(d=>d.data());sched()},()=>{});
+  api.rangeSessions=async(a,b)=>{const sn=await getDocs(query(collection(db,'lp_sessions'),where('lastActivity','>=',B(ks,a)),where('lastActivity','<',B(ks,b)),orderBy('lastActivity','desc')));return sn.docs.map(d=>({id:d.id,...d.data()}))};
+  api.saveSpend=(p,d,v)=>setDoc(doc(db,'ad_spend',p+'_'+d),{product:p,date:d,amount:v,updatedAt:new Date()});
+  api.saveAgg=g=>setDoc(doc(db,'daily_stats',g.product+'_'+g.date),g);
+  api.loadAggs=async()=>{try{const sn=await getDocs(query(collection(db,'daily_stats'),where('date','>=',addD(todayK(),-CFG.historyDays))));sn.docs.forEach(d=>{const g=d.data();if(g.v===4)hist.set(HK(g.product,g.date),g)})}catch(e){}};
+  async function afterReady(){await api.loadAggs();loadLocalHist();sched();backfill()}
+}
+
+/* ---------- MODO DEMO (?demo=1): dados fictícios para ver o painel funcionando ---------- */
+function startDemo(){const R=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];let id=0;
+  const P=[['lp-receitas',1],['receitinhas-nanna',.6],['marmitinhas-semana',.35]],CR=['criativo-A-video-ugc','criativo-B-carrossel','criativo-C-depoimento','criativo-D-estatico'],W=[.4,.25,.25,.1];
+  const crw=()=>{let r=Math.random(),a=0;for(let i=0;i<CR.length;i++){a+=W[i];if(r<a)return CR[i]}return CR[0]};
+  const all=[],S=[];const now=Date.now(),NAMES=['Ana','Bruna','Carla','Daniela','Elaine','Fernanda','Gabriela','Helena','Isabela','Juliana','Larissa','Mariana','Patrícia','Renata','Sabrina','Tatiane','Vanessa'];
+  function mkSession(p,t){const cr=crw(),q=cr.includes('C')?1.25:cr.includes('D')?.6:1,ms=Math.random()<.45?pick([0,10,25]):pick([50,75,100,100]),vp=ms>=75&&Math.random()<.7,ck=vp&&Math.random()<.32*q;
+    const s={id:'s'+(++id),sessionId:'s'+id+Math.random().toString(36).slice(2,6),product:p,utm_source:Math.random()<.9?'facebook':'google',utm_campaign:'cbo-'+p,utm_content:cr,maxScroll:ms,viewedPlans:vp,clickedPlan:ck?pick(['p1','p2','p2']):null,checkout:ck,device:pick(['mobile','mobile','mobile','desktop']),enteredAt:new Date(t),lastActivity:new Date(t+R(20e3,240e3))};S.push(s);return s}
+  function mkSale(s,p,late){const pl=s.clickedPlan==='p1'?10:18,t=s.lastActivity.getTime()+(late?R(35,170)*6e4:R(.5,6)*6e4);if(t>Date.now())return;const st=Math.random()<.18?'pending':'paid';
+    const v={id:'v'+(++id),product:p,amount:pl,paymentMethod:Math.random()<.8?'pix':'card',status:st,customerName:pick(NAMES)+' '+pick(['S.','M.','R.','A.','L.']),createdAt:new Date(t),orderBumps:Math.random()<(p==='lp-receitas'?.36:.12)?[{name:p==='lp-receitas'?'Guia Lancheira Saudável':'Cardápio Festa Infantil',amount:p==='lp-receitas'?7.9:9.9}]:[]};all.push(v);
+    if(st==='paid'&&Math.random()<.09)all.push({id:'v'+(++id),product:p,amount:27,paymentMethod:'card',status:'paid',type:'upsell',offerName:'Plano Anual de Cardápios',customerName:v.customerName,createdAt:new Date(t+9e4)})}
+  for(let d=33;d>=0;d--){const day=new Date();day.setHours(0,0,0,0);day.setDate(day.getDate()-d);
+    P.forEach(([p,w])=>{if(p==='marmitinhas-semana'&&d>9)return;const n=Math.round((d===0?(new Date().getHours()+1)/24:1)*R(90,170)*w);for(let i=0;i<n;i++){const t=day.getTime()+R(7,23.9)*36e5;if(t>now-6e4)continue;const s=mkSession(p,t);if(s.checkout&&Math.random()<.55)mkSale(s,p,Math.random()<.25)}
+      const dd=dk(day);if(d>0||new Date().getHours()>9)spend.set(HK(p,dd),Math.round(R(55,95)*w*(1+(d%5)*.04)))})}
+  live=S.filter(s=>sessDay(s)===todayK());sales=all.sort((a,b)=>b.createdAt-a.createdAt);
+  aiReports=[{product:'lp-receitas',date:'Ontem · 23:00',text:'Exemplo de resumo (o real chega às 23h):\n\n• 41 vendas, R$ 591 líquidos, gasto R$ 412, lucro R$ 179 (ROI 43%).\n• Criativo C (depoimento) converte 1,3x a média. Vale modelar mais 2 variações.\n• Order bump "Guia Lancheira" saiu em 36% das vendas: vale virar produto.\n• 48% saem antes da metade da página há 3 dias. Testar nova headline.'}];
+  detectSessions(live);detectSales(sales);
+  api.rangeSessions=async(a,b)=>S.filter(s=>{const t=s.lastActivity.getTime();return t>=a.getTime()&&t<b.getTime()});
+  ready.s=ready.v=true;render();backfill().then(()=>backfill()).then(()=>backfill()).then(()=>backfill()).then(()=>backfill());
+  // simula leads ao vivo
+  setInterval(()=>{const[p,w]=pick(P),s=mkSession(p,Date.now()-R(5e3,6e4));s.lastActivity=new Date();live=[s,...live];
+    live.slice(0,25).forEach(x=>{if(!x.checkout&&Math.random()<.04){x.maxScroll=100;x.viewedPlans=true;x.checkout=true;x.clickedPlan='p2';x.lastActivity=new Date()}});
+    live=[...live];detectSessions(live);
+    if(Math.random()<.18){const c=live.find(x=>x.checkout&&!sales.some(v=>v.sid===x.id));if(c){const v={id:'v'+(++id),sid:c.id,product:prodOf(c),amount:18,paymentMethod:'pix',status:'paid',customerName:pick(NAMES)+' '+pick(['S.','M.']),createdAt:new Date(),orderBumps:Math.random()<.35?[{name:'Guia Lancheira Saudável',amount:7.9}]:[]};sales=[v,...sales];detectSales(sales)}}
+    sched()},4000);
+  showBanner('🧪 <b>Modo demonstração</b>: dados fictícios. Tire o <b>?demo=1</b> do endereço para ver os dados reais.')}
+
+if(DEMO)startDemo();else startFirebase().catch(e=>{setStatus('Erro ao conectar',true);console.error(e)});
 </script></body></html>
