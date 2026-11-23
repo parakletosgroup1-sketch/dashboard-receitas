@@ -22,6 +22,10 @@ button,select,input{font:inherit;color:inherit}
 .lchip b{color:var(--txt);font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
 .lchip.g b{color:var(--up)}.lchip.y b{color:var(--warn)}
 .lchip .ld{margin:0}
+/* modo resumido */
+body.compact .fo{display:none!important}
+body.compact .grid6{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:640px){body.compact .grid6{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ld{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 8px var(--up);animation:pd 1.5s infinite;margin-right:6px;vertical-align:middle}
 @keyframes pd{50%{opacity:.35}}
 .ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -162,6 +166,7 @@ details>summary::before{content:"▸ "}details[open]>summary::before{content:"�
   <div class="pick"><button class="pbtn" id="pbtn"></button><div class="menu hidden" id="pmenu"></div></div>
   <div class="seg" id="seg"><button data-p="today">Hoje</button><button data-p="yesterday">Ontem</button><button data-p="7d">7 dias</button><button data-p="week">Semana</button><button data-p="month">Mês</button><button data-p="lastmonth">Mês passado</button><button data-p="30d">30 dias</button><button data-p="custom">📅 Datas</button></div>
   <div class="inp hidden" id="crange">de <input type="date" id="cfrom"> até <input type="date" id="cto"></div>
+  <div class="seg" id="mode"><button data-m="c">⚡ Resumido</button><button data-m="f">Completo</button></div>
   <button class="ibtn" id="snd">🔇 Sons</button>
  </div>
 </div>
@@ -171,9 +176,9 @@ details>summary::before{content:"▸ "}details[open]>summary::before{content:"�
 
 <div class="sec">📊 Resultado <span id="cmplbl">· vs período anterior</span></div>
 <div class="grid6" id="cards"></div>
-<div class="pills" id="pills"></div>
+<div class="pills fo" id="pills"></div>
 
-<div class="card">
+<div class="card fo">
  <div class="hh-top"><div><div class="ct">🕐 Hora a hora · hoje x ontem</div><div class="cs" id="hhsub">Cada barra é uma hora do dia</div></div>
  <div class="mini-seg" id="hhm"><button data-m="rev" class="on">Faturamento</button><button data-m="n">Vendas</button><button data-m="ic">Checkout (IC)</button><button data-m="visits">Visitas</button><button data-m="spend">Gasto</button></div></div>
  <div class="score" id="hhscore"></div>
@@ -184,24 +189,24 @@ details>summary::before{content:"▸ "}details[open]>summary::before{content:"�
 
 <div class="g3" id="hls"></div>
 
-<div class="g3">
+<div class="g3 fo">
  <div class="card"><div class="ct">Funil</div><div class="cs">Pessoas em cada etapa</div><div class="fs" id="funnel"></div></div>
  <div class="card"><div class="ct">Meta</div><div class="cs" id="metasub">Dados dos anúncios</div><div id="metabox"></div></div>
  <div class="card"><div class="ct">De onde vem o lucro</div><div class="cs">Faturamento bruto até o lucro real</div><div class="pl" id="profit"></div></div>
 </div>
 
-<div class="card" id="offercard"><div class="ct">Por oferta</div><div class="cs">Cada oferta com a sua cor</div><div class="scroll"><table class="tb" id="offers"></table></div></div>
+<div class="card fo" id="offercard"><div class="ct">Por oferta</div><div class="cs">Cada oferta com a sua cor</div><div class="scroll"><table class="tb" id="offers"></table></div></div>
 
 <div class="card"><div class="ct">🧭 O que olhar agora</div><div class="cs">Os pontos mais importantes do período</div><div class="ins" id="ins"></div></div>
 
-<div class="card"><div class="hh-top"><div><div class="ct">🕵️ Espião ao vivo</div><div class="cs"><b id="spy-count">0</b> pessoas hoje</div></div>
+<div class="card fo"><div class="hh-top"><div><div class="ct">🕵️ Espião ao vivo</div><div class="cs"><b id="spy-count">0</b> pessoas hoje</div></div>
 <div class="tabs"><button class="tab active" data-f="all">Todos</button><button class="tab" data-f="online">🟢 Online</button><button class="tab" data-f="checkout">Checkout</button><button class="tab" data-f="sale">Vendas</button></div></div>
 <div class="ga" id="spy-grid"><div class="empty">Conectando…</div></div></div>
 
-<div class="card"><div class="hh-top"><div class="ct">💰 Últimas compras</div><select id="sales-filter" class="ibtn"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 dias</option><option value="30d">30 dias</option></select></div>
+<div class="card fo"><div class="hh-top"><div class="ct">💰 Últimas compras</div><select id="sales-filter" class="ibtn"><option value="today">Hoje</option><option value="yesterday">Ontem</option><option value="7d" selected>7 dias</option><option value="30d">30 dias</option></select></div>
 <div id="sales-list" style="display:flex;flex-direction:column;gap:7px;max-height:480px;overflow-y:auto;margin-top:14px"></div></div>
 
-<details class="card"><summary>📚 Mais análises · criativos, campanhas, dia a dia, resumo do Claude</summary>
+<details class="card fo"><summary>📚 Mais análises · criativos, campanhas, dia a dia, resumo do Claude</summary>
 <div style="display:flex;flex-direction:column;gap:22px;margin-top:16px">
  <div><div class="ct">🎬 Criativos</div><div class="cs">No período escolhido</div><div class="scroll"><table class="tb" id="crt"></table></div></div>
  <div><div class="ct">📣 Campanhas</div><div class="cs">No período escolhido</div><div class="scroll"><table class="tb" id="cpt"></table></div></div>
@@ -466,7 +471,7 @@ function prevOf(per){const t=todayK();
 const curCut=per=>per==='today'?msDay(new Date()):undefined;
 
 /* =================== RENDER v7 =================== */
-let PER=LS.get('v7_per')||'today',HHM='rev';
+let PER=LS.get('v7_per')||'today',HHM='rev',MODE=LS.get('v7_mode')||'f';
 const dlt=(a,b,inv)=>{if(b==null||a==null||!isFinite(a)||!isFinite(b))return'';if(!b&&!a)return'<span class="dl eq">=</span>';if(!b)return'<span class="dl up">novo</span>';const d=(a-b)/Math.abs(b);const good=inv?d<0:d>0;if(Math.abs(d)<.005)return'<span class="dl eq">= 0%</span>';return`<span class="dl ${good?'up':'down'}">${d>0?'↗':'↘'} ${Math.abs(d*100).toFixed(1).replace('.',',')}%</span>`};
 function spark(vals,color){if(!vals||vals.length<2||!vals.some(v=>v))return'';const mx=Math.max(...vals),mn=Math.min(0,...vals),W=200,H=34,sx=W/(vals.length-1),sy=v=>H-3-(v-mn)/((mx-mn)||1)*(H-6);
   const pts=vals.map((v,i)=>`${(i*sx).toFixed(1)},${sy(v).toFixed(1)}`).join(' ');return`<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`}
@@ -482,6 +487,7 @@ function render(){if(!(ready.s&&ready.v))return;
   const ml=[...metaD.values()].map(m=>toDate(m.updatedAt)).filter(Boolean).sort((x,y)=>y-x)[0];
   $('metaupd').innerHTML=ml?'gasto da Meta lido às <b>'+ml.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>':'<span style="color:var(--warn)">Meta não conectada · gasto manual</span>';
   document.title=(view===ALL?'Todas as ofertas':pinfo(view).name)+' — Visão geral';
+  document.body.classList.toggle('compact',MODE==='c');document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.m===MODE));
   renderLive();renderSignals();renderCards();renderHourly();renderHighlights();renderFunnel2();renderMeta();renderProfit();renderOffers();renderIns();renderSpy();renderSales();renderMore();
   $('st').textContent=DEMO?'Modo demonstração':'Ao vivo';$('manualbox').classList.toggle('hidden',view===ALL);if(view!==ALL)syncSpendInput()}
 
@@ -511,6 +517,7 @@ function renderSignals(){const out=[];
 function renderCards(){const s=stats(view,PER,curCut(PER)),pv=prevOf(PER),q=stats(view,pv.per,pv.cut);$('cmplbl').textContent='· '+pv.lbl;
   const ac=colorOf(view),C=(k,v,d,sub,sp,cls)=>`<div class="card mc"><div class="k">${k}</div><div class="row"><div class="v ${cls||''}">${v}</div>${d||''}</div>${sp||''}<div class="s">${sub||''}</div></div>`;
   const pc=(a,b)=>b?pct(a,b,1):'—';
+  const keep=MODE==='c'?[0,2,3,4,6,8]:null; // resumido: bruto, gasto, lucro, ROI, CPA, vendas
   $('cards').innerHTML=[
     C('Faturamento bruto',brl(s.gross),dlt(s.gross,q.gross),s.ups?`inclui ${brl(Object.values(s.upsells).reduce((t,x)=>t+x.rev,0))} de upsell`:'',spark(series(view,PER,'gross'),'#3ee6e0')),
     C('Faturamento líquido',brl(s.rev),dlt(s.rev,q.rev),'já sem as taxas da plataforma',spark(series(view,PER,'net'),'#3ee6e0')),
@@ -524,7 +531,7 @@ function renderCards(){const s=stats(view,PER,curCut(PER)),pv=prevOf(PER),q=stat
     C('Aprovação PIX',pc(s.pixPaid,s.pixGen),dlt(s.pixGen?s.pixPaid/s.pixGen:null,q.pixGen?q.pixPaid/q.pixGen:null),`${s.pixPaid} pagos de ${s.pixGen} gerados`),
     C('Checkout → venda',pc(s.sales,s.chk),dlt(s.chk?s.sales/s.chk:null,q.chk?q.sales/q.chk:null),`${Math.round(s.chk)} cliques no checkout`),
     C('Bump / Upsell',`${pc(s.bumpSales,s.sales)} · ${pc(s.ups,s.sales)}`,'','pedidos com bump · compradores do upsell')
-  ].join('');
+  ].filter((_,i)=>!keep||keep.includes(i)).join('');
   const P=(l,v,c)=>`<div class="pill">${l}<b class="${c||''}">${v}</b></div>`;
   $('pills').innerHTML=P('Pix pendentes',s.pend,'w')+P('Carrinhos abandonados',s.aband,'r')+P('Recuperadas',s.rec.rec,'g')+P('Reembolsadas',s.refund,'r')+P('Chargeback',s.cb,'r')}
 
@@ -654,6 +661,7 @@ document.addEventListener('click',()=>$('pmenu').classList.add('hidden'));
 $('pmenu').onclick=e=>{const b=e.target.closest('button');if(!b)return;view=b.dataset.k;LS.set('v7_view',view);$('pmenu').classList.add('hidden');render()};
 $('seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.p==='custom'){const t=todayK();PER='c:'+addD(t,-6)+':'+t}else PER=b.dataset.p;LS.set('v7_per',PER);render()};
 const setC=()=>{const a=$('cfrom').value,b=$('cto').value;if(a&&b){PER='c:'+a+':'+b;LS.set('v7_per',PER);render()}};$('cfrom').onchange=setC;$('cto').onchange=setC;
+$('mode').onclick=e=>{const b=e.target.closest('button');if(!b)return;MODE=b.dataset.m;LS.set('v7_mode',MODE);render()};
 $('hhm').onclick=e=>{const b=e.target.closest('button');if(!b)return;HHM=b.dataset.m;renderHourly()};
 $('sales-filter').onchange=renderSales;
 let pend=false;const sched=()=>{dataVer++;if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;render()})};
