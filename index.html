@@ -418,7 +418,10 @@ function spendAt(p,d,cut){const m=metaOf(p,d);
   if(m){const base=cut!=null&&m.hours&&m.hours.spend?hourFrac(m.hours.spend,cut):(cut!=null&&d===todayK()?Number(m.spend)||0:cut!=null?(Number(m.spend)||0)*cut/864e5:Number(m.spend)||0);return base*(1+CFG.metaTax)}
   const v=spend.get(HK(p,d))||0;return cut!=null&&d!==todayK()?v*cut/864e5:v}
 
-function stats(p,per,cut){const[a,b]=Array.isArray(per)?per:period(per),P=prods(p);
+// cache: a mesma conta só é feita uma vez por atualização de dados
+const SC={v:-1,m:new Map()};
+function stats(p,per,cut){if(SC.v!==dataVer){SC.v=dataVer;SC.m.clear()}const key=p+'|'+(Array.isArray(per)?per.join(':'):per)+'|'+(cut==null?'':Math.floor(cut/6e4));if(SC.m.has(key))return SC.m.get(key);const r=stats0(p,per,cut==null?cut:Math.floor(cut/6e4)*6e4);SC.m.set(key,r);return r}
+function stats0(p,per,cut){const[a,b]=Array.isArray(per)?per:period(per),P=prods(p);
   const r={leads:0,st:new Array(7).fill(0),chk:0,cr:{},cp:{},sales:0,ups:0,pend:0,pendV:0,rev:0,gross:0,spend:0,spendNT:0,aband:0,refund:0,cb:0,pixPaid:0,pixGen:0,cardPaid:0,
     plans:{},rec:{dir:0,rec:0,nt:0},recRev:{dir:0,rec:0,nt:0},bumps:{},upsells:{},bumpSales:0,missing:0,days:0,meta:{imp:0,clk:0,lclk:0,ic:0,lpv:0,has:false}};
   const days=daysIn(a,b);
@@ -618,7 +621,7 @@ function renderSales(){const[a,b]=period($('sales-filter').value),t0=dStart(a).g
       at.cr&&!pd&&at.cr!=='(sem rastreio)'?`<span class="tg">🎬 ${esc(at.cr)}</span>`:'',...bs.map(x=>`<span class="tg y">+ ${esc(x.name)}</span>`)].join('');
     return`<div class="sale-item" style="--oc:${colorOf(k)};${pd?'opacity:.6':''}"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta">${tags}<span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(amt(v))}</div></div>`}).join(''):'<div class="empty">Nenhuma venda no período</div>'}
 
-function renderMore(){const s=stats(view,PER,curCut(PER));
+function renderMore(){const det=$('crt').closest('details');if(det&&!det.open){if(!det.dataset.h){det.dataset.h=1;det.addEventListener('toggle',()=>{if(det.open)renderMore()})}return}const s=stats(view,PER,curCut(PER));
   const tb=(o,id)=>{const rows=Object.entries(o).map(([k,x])=>({k,...x})).filter(x=>x.v||x.l>=1||x.sp).sort((a,b)=>b.v-a.v||b.rev-a.rev||b.l-a.l).slice(0,40);
     $(id).innerHTML=`<thead><tr><th>Nome</th><th class="n">Visitas</th><th class="n">Checkouts</th><th class="n">Vendas</th><th class="n">Conv.</th><th class="n">Faturamento</th><th class="n">Gasto</th><th class="n">ROI</th></tr></thead><tbody>`+
     (rows.length?rows.map(r=>`<tr><td>${esc(r.k)}</td><td class="n">${Math.round(r.l)||'—'}</td><td class="n">${Math.round(r.c)||'—'}</td><td class="n">${r.v}</td><td class="n">${r.l?pct(r.v,r.l,1):'—'}</td><td class="n">${brl(r.rev)}</td><td class="n">${r.sp?brl(r.sp):'—'}</td><td class="n ${r.sp?(r.rev>=r.sp?'up':'down'):''}">${r.sp?(r.rev/r.sp).toFixed(2).replace('.',','):'—'}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">Sem dados</td></tr>')+'</tbody>'};
@@ -679,8 +682,8 @@ const setC=()=>{const a=$('cfrom').value,b=$('cto').value;if(a&&b){PER='c:'+a+':
 $('mode').onclick=e=>{const b=e.target.closest('button');if(!b)return;MODE=b.dataset.m;LS.set('v7_mode',MODE);render()};
 $('hhm').onclick=e=>{const b=e.target.closest('button');if(!b)return;HHM=b.dataset.m;renderHourly()};
 $('sales-filter').onchange=renderSales;
-let pend=false;const sched=()=>{dataVer++;if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;render()})};
-setInterval(()=>{if(!document.hidden)render()},20000);
+let pend=false,lastR=0;const sched=()=>{dataVer++;if(pend)return;pend=true;const wait=Math.max(0,3000-(Date.now()-lastR));setTimeout(()=>requestAnimationFrame(()=>{pend=false;lastR=Date.now();render()}),wait)};
+setInterval(()=>{if(!document.hidden){dataVer++;render()}},30000);
 setInterval(()=>{if(!document.hidden&&ready.s)renderLive()},5000);
 $('spend-date').value=todayK();updSndBtn();
 // pede para a Vercel puxar os dados da Meta (a cada 10 min enquanto o painel estiver aberto)
