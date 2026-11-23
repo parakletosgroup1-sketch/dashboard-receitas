@@ -487,7 +487,9 @@ function render(){if(!(ready.s&&ready.v))return;
 
 // online e IC ao vivo (atualiza a cada 5 s, sem recalcular o resto da tela)
 function renderLive(){const S=live.filter(s=>inP(view,s)),now=Date.now(),on=S.filter(online).length;
-  const icNow=S.filter(s=>isChk(s)&&now-toDate(s.lastActivity)<15*6e4).length,icToday=S.filter(s=>isChk(s)&&sessDay(s)===todayK()).length;
+  // no checkout agora: clicou no checkout há até 10 min (ou ainda está online) e ainda não pagou
+  const bought=new Set();prods(view).forEach(k=>{const g=aggOf(k,todayK());if(g)Object.values(g.attr).forEach(x=>x.sid&&bought.add(x.sid))});
+  const icNow=S.filter(s=>isChk(s)&&!bought.has(s.id)&&(online(s)||now-toDate(s.lastActivity)<10*6e4)).length,icToday=S.filter(s=>isChk(s)&&sessDay(s)===todayK()).length;
   $('livebar').innerHTML=`<span class="lchip g"><span class="ld"></span><b>${on}</b> online agora</span><span class="lchip y">🛒 <b>${icNow}</b> no checkout agora</span><span class="lchip">🧲 <b>${icToday}</b> IC hoje</span>`}
 function renderPicker(){const ks=productKeys(),lv=new Set(live.filter(online).map(prodOf));
   const it=k=>`<span class="dot" style="background:${colorOf(k)}"></span>${k===ALL?'Todas as ofertas':esc(pinfo(k).name)}`;
