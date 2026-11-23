@@ -17,6 +17,11 @@ button,select,input{font:inherit;color:inherit}
 .top .sub{font-size:14px;color:var(--mut);margin-top:4px;font-weight:600}
 .meta-line{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:12px;color:var(--mut)}
 .meta-line b{color:var(--txt)}
+.livebar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.lchip{display:inline-flex;align-items:center;gap:7px;background:#ffffff0d;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--mut)}
+.lchip b{color:var(--txt);font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.lchip.g b{color:var(--up)}.lchip.y b{color:var(--warn)}
+.lchip .ld{margin:0}
 .ld{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 8px var(--up);animation:pd 1.5s infinite;margin-right:6px;vertical-align:middle}
 @keyframes pd{50%{opacity:.35}}
 .ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -150,6 +155,7 @@ details>summary::before{content:"▸ "}details[open]>summary::before{content:"�
  <div>
   <h1>Visão geral</h1>
   <div class="sub" id="sub">Lucro, vendas, funil e Meta — ao vivo</div>
+  <div class="livebar" id="livebar"></div>
   <div class="meta-line"><span><span class="ld" id="ldot"></span><span id="st">Conectando…</span></span><span id="upd"></span><span id="metaupd"></span></div>
  </div>
  <div class="ctrls">
@@ -476,9 +482,13 @@ function render(){if(!(ready.s&&ready.v))return;
   const ml=[...metaD.values()].map(m=>toDate(m.updatedAt)).filter(Boolean).sort((x,y)=>y-x)[0];
   $('metaupd').innerHTML=ml?'gasto da Meta lido às <b>'+ml.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>':'<span style="color:var(--warn)">Meta não conectada · gasto manual</span>';
   document.title=(view===ALL?'Todas as ofertas':pinfo(view).name)+' — Visão geral';
-  renderSignals();renderCards();renderHourly();renderHighlights();renderFunnel2();renderMeta();renderProfit();renderOffers();renderIns();renderSpy();renderSales();renderMore();
+  renderLive();renderSignals();renderCards();renderHourly();renderHighlights();renderFunnel2();renderMeta();renderProfit();renderOffers();renderIns();renderSpy();renderSales();renderMore();
   $('st').textContent=DEMO?'Modo demonstração':'Ao vivo';$('manualbox').classList.toggle('hidden',view===ALL);if(view!==ALL)syncSpendInput()}
 
+// online e IC ao vivo (atualiza a cada 5 s, sem recalcular o resto da tela)
+function renderLive(){const S=live.filter(s=>inP(view,s)),now=Date.now(),on=S.filter(online).length;
+  const icNow=S.filter(s=>isChk(s)&&now-toDate(s.lastActivity)<15*6e4).length,icToday=S.filter(s=>isChk(s)&&sessDay(s)===todayK()).length;
+  $('livebar').innerHTML=`<span class="lchip g"><span class="ld"></span><b>${on}</b> online agora</span><span class="lchip y">🛒 <b>${icNow}</b> no checkout agora</span><span class="lchip">🧲 <b>${icToday}</b> IC hoje</span>`}
 function renderPicker(){const ks=productKeys(),lv=new Set(live.filter(online).map(prodOf));
   const it=k=>`<span class="dot" style="background:${colorOf(k)}"></span>${k===ALL?'Todas as ofertas':esc(pinfo(k).name)}`;
   $('pbtn').innerHTML=it(view)+'<span class="car">▾</span>';
@@ -646,6 +656,7 @@ $('hhm').onclick=e=>{const b=e.target.closest('button');if(!b)return;HHM=b.datas
 $('sales-filter').onchange=renderSales;
 let pend=false;const sched=()=>{dataVer++;if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;render()})};
 setInterval(()=>{if(!document.hidden)render()},20000);
+setInterval(()=>{if(!document.hidden&&ready.s)renderLive()},5000);
 $('spend-date').value=todayK();updSndBtn();
 // pede para a Vercel puxar os dados da Meta (a cada 10 min enquanto o painel estiver aberto)
 function metaSync(){if(DEMO||!CFG.metaSyncUrl)return;fetch(CFG.metaSyncUrl+(CFG.metaSyncUrl.includes('?')?'&':'?')+'k='+encodeURIComponent(CFG.metaSyncKey)).catch(()=>{})}
