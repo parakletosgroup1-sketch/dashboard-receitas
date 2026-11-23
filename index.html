@@ -277,7 +277,10 @@ const paid=v=>v.isPaid===true||v.paid===true||['pago','paid','approved','aprovad
 const pending=v=>!paid(v)&&(v.isPending===true||['pending','pendente','waiting','waiting_payment','aguardando','aguardando_pagamento','pix_generated','pix_gerado','boleto_impresso','billet_printed','processing','created','unpaid'].includes(ST(v)));
 const method=v=>low(v.paymentMethod||v.payment_method||v.method||'pix');
 const amt=v=>Number(v.amount??v.value??v.total??v.price??0)||0;
-const net=v=>{const a=amt(v);if(v.fee!=null&&!isNaN(v.fee))return a-Number(v.fee);return method(v)==='pix'?a*(1-CFG.fees.pix):a*(1-CFG.fees.other)};
+// líquido = valor pago − taxa da Wiapy (vem no webhook). Sem taxa gravada, estima pela tabela da Wiapy:
+// PIX até R$30: R$1; acima: R$1 + 4,99%; cartão: R$1 + 7,78%; + R$0,30 da entrega por WhatsApp
+const wiapyFee=v=>{const a=amt(v);return(method(v)==='pix'?(a<=30?1:1+a*.0499):1+a*.0778)+.3};
+const net=v=>{const a=amt(v);if(v.fee!=null&&v.fee!==''&&!isNaN(v.fee))return a-Number(v.fee);return a?a-wiapyFee(v):0};
 const isUpsell=v=>v.isUpsell===true||v.upsell===true||v.isDownsell===true||/upsell|downsell|one.?click/i.test(String(v.type||v.offerType||v.offer_type||v.saleType||''));
 const offerName=v=>v.offerName||v.offer_name||v.offer||v.productName||v.product_name||(isUpsell(v)?'Upsell':'Produto principal');
 function bumpsOf(v){
@@ -459,7 +462,7 @@ function stats0(p,per,cut){const[a,b]=Array.isArray(per)?per:period(per),P=prods
 // série por hora de um dia (para gráfico e comparação)
 function hourly(p,d){const o={rev:new Array(24).fill(0),n:new Array(24).fill(0),ic:new Array(24).fill(0),visits:new Array(24).fill(0),spend:new Array(24).fill(0)};
   const t0=dStart(d).getTime(),t1=t0+864e5;
-  sales.forEach(v=>{if(!inP(p,v)||!paid(v))return;const t=toDate(v.createdAt);if(!t||t<t0||t>=t1)return;const h=t.getHours();o.rev[h]+=amt(v);if(!isUpsell(v))o.n[h]++});
+  sales.forEach(v=>{if(!inP(p,v)||!paid(v))return;const t=toDate(v.createdAt);if(!t||t<t0||t>=t1)return;const h=t.getHours();o.rev[h]+=net(v);if(!isUpsell(v))o.n[h]++});
   prods(p).forEach(k=>{const g=aggOf(k,d);if(g&&g.all.h){g.all.h.l.forEach((x,i)=>o.visits[i]+=x);g.all.h.c.forEach((x,i)=>o.ic[i]+=x)}
     const m=metaOf(k,d);if(m&&m.hours&&m.hours.spend)m.hours.spend.forEach((x,i)=>o.spend[i]+=(Number(x)||0)*(1+CFG.metaTax))});
   return o}
@@ -524,7 +527,7 @@ function renderSignals(){const out=[];
 function renderCards(){const s=stats(view,PER,curCut(PER)),pv=prevOf(PER),q=stats(view,pv.per,pv.cut);$('cmplbl').textContent='· '+pv.lbl;
   const ac=colorOf(view),C=(k,v,d,sub,sp,cls)=>`<div class="card mc"><div class="k">${k}</div><div class="row"><div class="v ${cls||''}">${v}</div>${d||''}</div>${sp||''}<div class="s">${sub||''}</div></div>`;
   const pc=(a,b)=>b?pct(a,b,1):'—';
-  const keep=MODE==='c'?[0,2,3,4,6,8]:null; // resumido: bruto, gasto, lucro, ROI, CPA, vendas
+  const keep=MODE==='c'?[1,2,3,4,6,8]:null; // resumido: líquido, gasto, lucro, ROI, CPA, vendas
   $('cards').innerHTML=[
     C('Faturamento bruto',brl(s.gross),dlt(s.gross,q.gross),s.ups?`inclui ${brl(Object.values(s.upsells).reduce((t,x)=>t+x.rev,0))} de upsell`:'',spark(series(view,PER,'gross'),'#3ee6e0')),
     C('Faturamento líquido',brl(s.rev),dlt(s.rev,q.rev),'já sem as taxas da plataforma',spark(series(view,PER,'net'),'#3ee6e0')),
@@ -594,9 +597,9 @@ function renderProfit(){const s=stats(view,PER,curCut(PER)),tax=s.spend-s.spendN
   <div class="tot"><span>Lucro real</span><span class="${s.profit>=0?'up':'down'}">${brl(s.profit)}</span></div>`}
 
 function renderOffers(){const show=view===ALL;$('offercard').classList.toggle('hidden',!show);if(!show)return;
-  const ks=productKeys(),rows=ks.map(k=>({k,s:stats(k,PER,curCut(PER))})).filter(x=>x.s.gross||x.s.spend||x.s.leads),T=rows.reduce((a,x)=>a+x.s.gross,0);
-  $('offers').innerHTML=`<thead><tr><th>Oferta</th><th class="n">Vendas</th><th class="n">Bruto</th><th class="n">Gasto</th><th class="n">Lucro</th><th class="n">ROI</th><th>Participação</th></tr></thead><tbody>`+
-   (rows.length?rows.map(({k,s})=>`<tr><td><span class="dot" style="background:${colorOf(k)};margin-right:8px"></span>${esc(pinfo(k).name)}</td><td class="n">${s.sales}</td><td class="n">${brl(s.gross)}</td><td class="n">${s.spend?brl(s.spend):'—'}</td><td class="n ${s.profit>=0?'up':'down'}">${brl(s.profit)}</td><td class="n">${s.roi!=null?(1+s.roi).toFixed(2).replace('.',','):'—'}</td><td><div class="share"><i style="width:${T?s.gross/T*100:0}%;background:${colorOf(k)}"></i></div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">Sem movimento no período</td></tr>')+'</tbody>'}
+  const ks=productKeys(),rows=ks.map(k=>({k,s:stats(k,PER,curCut(PER))})).filter(x=>x.s.gross||x.s.spend||x.s.leads),T=rows.reduce((a,x)=>a+x.s.rev,0);
+  $('offers').innerHTML=`<thead><tr><th>Oferta</th><th class="n">Vendas</th><th class="n">Líquido</th><th class="n">Gasto</th><th class="n">Lucro</th><th class="n">ROI</th><th>Participação</th></tr></thead><tbody>`+
+   (rows.length?rows.map(({k,s})=>`<tr><td><span class="dot" style="background:${colorOf(k)};margin-right:8px"></span>${esc(pinfo(k).name)}</td><td class="n">${s.sales}</td><td class="n">${brl(s.rev)}</td><td class="n">${s.spend?brl(s.spend):'—'}</td><td class="n ${s.profit>=0?'up':'down'}">${brl(s.profit)}</td><td class="n">${s.roi!=null?(1+s.roi).toFixed(2).replace('.',','):'—'}</td><td><div class="share"><i style="width:${T?s.rev/T*100:0}%;background:${colorOf(k)}"></i></div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">Sem movimento no período</td></tr>')+'</tbody>'}
 
 function renderIns(){const ps=view===ALL?productKeys():[view];let all=[];ps.forEach(k=>insights(k).forEach(i=>all.push({...i,tx:(view===ALL?`<span class="dot" style="background:${colorOf(k)};margin-right:6px"></span>`:'')+i.tx})));
   const ord={bad:0,warn:1,good:2,info:3};all=all.filter(i=>i.lv!=='info').sort((a,b)=>ord[a.lv]-ord[b.lv]).slice(0,4);
@@ -622,7 +625,7 @@ function renderSales(){const[a,b]=period($('sales-filter').value),t0=dStart(a).g
     const tags=[view===ALL?`<span class="tg" style="color:${colorOf(k)}">${esc(pinfo(k).name)}</span>`:'',`<span class="tg">${m==='pix'?'⚡ PIX':'💳 Cartão'}</span>`,
       pd?'<span class="tg y">⏳ Pendente</span>':isUpsell(v)?'<span class="tg p">⬆️ Upsell</span>':at.rec==='rec'?'<span class="tg p">🔁 Recuperada</span>':at.rec==='dir'?'<span class="tg g">🎯 Direta</span>':'<span class="tg">Sem rastreio</span>',
       at.cr&&!pd&&at.cr!=='(sem rastreio)'?`<span class="tg">🎬 ${esc(at.cr)}</span>`:'',...bs.map(x=>`<span class="tg y">+ ${esc(x.name)}</span>`)].join('');
-    return`<div class="sale-item" style="--oc:${colorOf(k)};${pd?'opacity:.6':''}"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta">${tags}<span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(amt(v))}</div></div>`}).join(''):'<div class="empty">Nenhuma venda no período</div>'}
+    return`<div class="sale-item" style="--oc:${colorOf(k)};${pd?'opacity:.6':''}"><div class="sale-av">${esc(name.charAt(0).toUpperCase())}</div><div class="sale-info"><div class="sale-name">${esc(name)}</div><div class="sale-meta">${tags}<span>🕐 ${d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span></div></div><div class="sale-amt">${brl(net(v))}<small style="display:block;font-size:11px;font-weight:500;opacity:.55;text-align:right">pago ${brl(amt(v))}</small></div></div>`}).join(''):'<div class="empty">Nenhuma venda no período</div>'}
 
 function renderMore(){const det=$('crt').closest('details');if(det&&!det.open){if(!det.dataset.h){det.dataset.h=1;det.addEventListener('toggle',()=>{if(det.open)renderMore()})}return}const s=stats(view,PER,curCut(PER));
   const tb=(o,id)=>{const rows=Object.entries(o).map(([k,x])=>({k,...x})).filter(x=>x.v||x.l>=1||x.sp).sort((a,b)=>b.v-a.v||b.rev-a.rev||b.l-a.l).slice(0,40);
@@ -670,7 +673,7 @@ function toast(kind,title,sub){const el=document.createElement('div');el.classNa
   if(kind==='sale'){let n=0;const o=document.title;const iv=setInterval(()=>{document.title=n++%2?'💰 VENDA!':o;if(n>9){clearInterval(iv);document.title=o}},700)}}
 const seenChk=new Set(),seenSale=new Set();let primed={s:false,v:false};
 function detectSessions(arr){arr.forEach(s=>{if(isChk(s)&&!seenChk.has(s.id)){seenChk.add(s.id);if(primed.s&&sessDay(s)===todayK()){const p=pinfo(prodOf(s));beep('chk');toast('chk',`🛒 Entrou no checkout · ${p.icon} ${esc(p.name)}`,`🎬 ${esc(creativeOf(s))}${s.clickedPlan?' · plano '+esc(s.clickedPlan):''}`)}}});primed.s=true}
-function detectSales(arr){arr.forEach(v=>{if(paid(v)&&!seenSale.has(v.id)){seenSale.add(v.id);if(primed.v&&Date.now()-toDate(v.createdAt)<6*36e5){const p=pinfo(prodOf(v)),top=amt(v)>CFG.topSale;beep(top?'top':'sale');if(top&&!document.hidden)confetti();toast('sale',`${top?'🏆 VENDA TOP':'💰 Venda'} ${brl(amt(v))} · ${p.icon} ${esc(p.name)}`,`${esc(v.customerName||'Cliente')}${isUpsell(v)?' · ⬆️ upsell':''}${bumpsOf(v).length?' · + bump':''}${creativeOfSale(v)?' · 🎬 '+esc(creativeOfSale(v)):''}`)}}});primed.v=true}
+function detectSales(arr){arr.forEach(v=>{if(paid(v)&&!seenSale.has(v.id)){seenSale.add(v.id);if(primed.v&&Date.now()-toDate(v.createdAt)<6*36e5){const p=pinfo(prodOf(v)),top=amt(v)>CFG.topSale;beep(top?'top':'sale');if(top&&!document.hidden)confetti();toast('sale',`${top?'🏆 VENDA TOP':'💰 Venda'} ${brl(net(v))} líquido · ${p.icon} ${esc(p.name)}`,`${esc(v.customerName||'Cliente')}${isUpsell(v)?' · ⬆️ upsell':''}${bumpsOf(v).length?' · + bump':''}${creativeOfSale(v)?' · 🎬 '+esc(creativeOfSale(v)):''}`)}}});primed.v=true}
 
 
 /* =================== UI =================== */
