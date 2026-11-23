@@ -232,6 +232,7 @@ const CFG={
   metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads','an','msg'],
   recoveryMin:30,                        // venda paga +30 min depois do último clique do lead = recuperada (provável)
   historyDays:62, backfillPerLoad:10,     // histórico é montado aos poucos para não estourar a cota do Firebase
+  topSale:40,                           // venda acima deste valor (R$) toca o som de comemoração
   metaTax:.1215,                        // imposto que a Meta cobra no Brasil sobre o gasto (confira na sua fatura)
   metaSyncUrl:'https://receitas-secretas-phi.vercel.app/api/meta-sync', // pede atualização dos dados da Meta
   metaSyncKey:'',                       // a SYNC_KEY cadastrada na Vercel
@@ -639,17 +640,31 @@ async function saveSpend(){if(view==='__all')return;const d=$('spend-date').valu
 let actx=null,soundOn=LS.get('v4_sound')!=='0';
 function ensureAudio(){if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(actx&&actx.state==='suspended')actx.resume();updSndBtn()}
 function updSndBtn(){const ok=soundOn&&actx&&actx.state==='running';$('snd').textContent=ok?'🔔 Sons ligados':soundOn?'🔇 Clique para ativar sons':'🔕 Sons desligados';$('snd').classList.toggle('on',!!ok)}
-$('snd').onclick=()=>{if(soundOn&&actx&&actx.state==='running'){soundOn=false}else{soundOn=true;ensureAudio();setTimeout(()=>beep('chk'),50)}LS.set('v4_sound',soundOn?'1':'0');updSndBtn()};
+$('snd').onclick=()=>{if(soundOn&&actx&&actx.state==='running'){soundOn=false}else{soundOn=true;ensureAudio();setTimeout(()=>beep('sale'),50)}LS.set('v4_sound',soundOn?'1':'0');updSndBtn()};
 document.addEventListener('pointerdown',()=>{if(soundOn)ensureAudio()},{once:true});
 function tone(f,t0,d,type='sine',g=.18){const o=actx.createOscillator(),v=actx.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);v.gain.setValueAtTime(0,t0);v.gain.linearRampToValueAtTime(g,t0+.01);v.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(v).connect(actx.destination);o.start(t0);o.stop(t0+d+.05)}
 function beep(kind){if(!soundOn||!actx||actx.state!=='running')return;const t=actx.currentTime;
   if(kind==='chk'){tone(880,t,.18,'sine',.16);tone(1320,t+.13,.28,'sine',.14)}                        // plim-plim: entrou no checkout
-  else{[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.09,.35,'triangle',.2));tone(2093,t+.42,.5,'sine',.08);tone(1568,t+.5,.6,'sine',.06)}} // arpejo "caixa registradora": venda
+  else if(kind==='top'){coins(t,7);fanfare(t+.55)}                                                    // venda acima de R$ 40: moedas + fanfarra
+  else coins(t,5)}                                                                                       // venda: moedas caindo
+// moeda metálica: dois parciais agudos com decaimento rápido
+function ping(t0,f,g){[[1,1],[2.76,.45],[5.4,.18]].forEach(([m,a])=>{const o=actx.createOscillator(),v=actx.createGain();o.type='sine';o.frequency.setValueAtTime(f*m,t0);v.gain.setValueAtTime(0,t0);v.gain.linearRampToValueAtTime(g*a,t0+.004);v.gain.exponentialRampToValueAtTime(.0001,t0+.35);o.connect(v).connect(actx.destination);o.start(t0);o.stop(t0+.4)})}
+// várias moedas caindo e quicando, com os intervalos diminuindo
+function coins(t0,n){let dt=.16,x=t0;for(let i=0;i<n;i++){ping(x,1900+Math.random()*700,.16*(1-i/(n+2)));x+=dt;dt*=.72}
+  tone(1568,x+.05,.25,'triangle',.12);tone(2093,x+.13,.45,'triangle',.12)}                              // "tchin-tchin" no final
+// fanfarra comemorativa
+function fanfare(t0){const n=[[523,0],[659,.12],[784,.24],[1047,.36]];n.forEach(([f,d])=>{tone(f,t0+d,.22,'square',.06);tone(f,t0+d,.3,'triangle',.14)});
+  [523,659,784,1047].forEach(f=>{tone(f,t0+.52,1.4,'triangle',.11);tone(f*1.003,t0+.52,1.4,'sawtooth',.025)});
+  for(let i=0;i<10;i++)ping(t0+.6+i*.09,2600+Math.random()*1800,.07)}
+// confete na tela para venda top
+function confetti(){const c=document.createElement('canvas');c.style.cssText='position:fixed;inset:0;z-index:80;pointer-events:none';c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const x=c.getContext('2d'),cols=['#ffc14d','#3ee6a0','#f472b6','#22d3ee','#8b7bff','#fff'],P=Array.from({length:160},()=>({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*15-4,s:4+Math.random()*6,c:cols[Math.random()*cols.length|0],r:Math.random()*6}));
+  let f=0;(function step(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.4;p.x+=p.vx;p.y+=p.vy;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<150)requestAnimationFrame(step);else c.remove()})()}
 function toast(kind,title,sub){const el=document.createElement('div');el.className='toast'+(kind==='sale'?' sale':'');el.innerHTML=`${title}${sub?`<small>${sub}</small>`:''}`;$('toasts').prepend(el);setTimeout(()=>el.remove(),kind==='sale'?12000:7000);
   if(kind==='sale'){let n=0;const o=document.title;const iv=setInterval(()=>{document.title=n++%2?'💰 VENDA!':o;if(n>9){clearInterval(iv);document.title=o}},700)}}
 const seenChk=new Set(),seenSale=new Set();let primed={s:false,v:false};
 function detectSessions(arr){arr.forEach(s=>{if(isChk(s)&&!seenChk.has(s.id)){seenChk.add(s.id);if(primed.s&&sessDay(s)===todayK()){const p=pinfo(prodOf(s));beep('chk');toast('chk',`🛒 Entrou no checkout · ${p.icon} ${esc(p.name)}`,`🎬 ${esc(creativeOf(s))}${s.clickedPlan?' · plano '+esc(s.clickedPlan):''}`)}}});primed.s=true}
-function detectSales(arr){arr.forEach(v=>{if(paid(v)&&!seenSale.has(v.id)){seenSale.add(v.id);if(primed.v&&Date.now()-toDate(v.createdAt)<6*36e5){const p=pinfo(prodOf(v));beep('sale');toast('sale',`💰 Venda ${brl(net(v))} · ${p.icon} ${esc(p.name)}`,`${esc(v.customerName||'Cliente')}${isUpsell(v)?' · ⬆️ upsell':''}${bumpsOf(v).length?' · + bump':''}${creativeOfSale(v)?' · 🎬 '+esc(creativeOfSale(v)):''}`)}}});primed.v=true}
+function detectSales(arr){arr.forEach(v=>{if(paid(v)&&!seenSale.has(v.id)){seenSale.add(v.id);if(primed.v&&Date.now()-toDate(v.createdAt)<6*36e5){const p=pinfo(prodOf(v)),top=amt(v)>CFG.topSale;beep(top?'top':'sale');if(top&&!document.hidden)confetti();toast('sale',`${top?'🏆 VENDA TOP':'💰 Venda'} ${brl(amt(v))} · ${p.icon} ${esc(p.name)}`,`${esc(v.customerName||'Cliente')}${isUpsell(v)?' · ⬆️ upsell':''}${bumpsOf(v).length?' · + bump':''}${creativeOfSale(v)?' · 🎬 '+esc(creativeOfSale(v)):''}`)}}});primed.v=true}
 
 
 /* =================== UI =================== */
