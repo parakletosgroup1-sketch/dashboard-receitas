@@ -432,7 +432,7 @@ const hourFrac=(arr,cut)=>{if(!arr)return 0;if(cut==null)return arr.reduce((a,b)
 
 // gasto com imposto de um produto/dia, até um horário (cut em ms do dia) se informado
 function spendAt(p,d,cut){const m=metaOf(p,d);
-  if(m){const base=cut!=null&&m.hours&&m.hours.spend?hourFrac(m.hours.spend,cut):(cut!=null&&d===todayK()?Number(m.spend)||0:cut!=null?(Number(m.spend)||0)*cut/864e5:Number(m.spend)||0);return base*(1+CFG.metaTax)}
+  if(m){const base=cut!=null&&d!==todayK()&&m.hours&&m.hours.spend?hourFrac(m.hours.spend,cut):(cut!=null&&d===todayK()?Number(m.spend)||0:cut!=null?(Number(m.spend)||0)*cut/864e5:Number(m.spend)||0);return base*(1+CFG.metaTax)}
   const v=spend.get(HK(p,d))||0;return cut!=null&&d!==todayK()?v*cut/864e5:v}
 
 // cache: a mesma conta só é feita uma vez por atualização de dados
@@ -445,7 +445,7 @@ function stats0(p,per,cut){const[a,b]=Array.isArray(per)?per:period(per),P=prods
   days.forEach(d=>{r.days++;P.forEach(k=>{
     const sp=spendAt(k,d,cut);r.spend+=sp;r.spendNT+=sp/(1+CFG.metaTax);
     const m=metaOf(k,d);if(m){r.meta.has=true;const f=cut!=null&&m.hours?null:1;
-      const g=(key)=>cut!=null&&m.hours&&m.hours[key]?hourFrac(m.hours[key],cut):(Number(m[key])||0)*(cut!=null&&d!==todayK()?cut/864e5:1);
+      const g=(key)=>cut!=null&&d!==todayK()&&m.hours&&m.hours[key]?hourFrac(m.hours[key],cut):(Number(m[key])||0)*(cut!=null&&d!==todayK()?cut/864e5:1);
       r.meta.imp+=g('impressions');r.meta.clk+=g('clicks');r.meta.lclk+=g('linkClicks');r.meta.ic+=g('ic');r.meta.lpv+=g('lpv');
       for(const[id,x]of Object.entries(m.campaigns||{})){const o=r.cp[cln(x.name)]=r.cp[cln(x.name)]||{l:0,c:0,v:0,rev:0,sp:0};o.sp+=(Number(x.spend)||0)*(1+CFG.metaTax)*(cut!=null&&d!==todayK()?cut/864e5:1)}
       for(const[id,x]of Object.entries(m.ads||{})){const o=r.cr[cln(x.name)]=r.cr[cln(x.name)]||{l:0,c:0,v:0,rev:0,sp:0};o.sp=(o.sp||0)+(Number(x.spend)||0)*(1+CFG.metaTax)*(cut!=null&&d!==todayK()?cut/864e5:1)}}
