@@ -154,7 +154,8 @@ details>summary::before{content:"▸ "}details[open]>summary::before{content:"�
  </div>
  <div class="ctrls">
   <div class="pick"><button class="pbtn" id="pbtn"></button><div class="menu hidden" id="pmenu"></div></div>
-  <div class="seg" id="seg"><button data-p="today">Hoje</button><button data-p="yesterday">Ontem</button><button data-p="7d">7 dias</button><button data-p="month">Mês</button><button data-p="30d">30 dias</button></div>
+  <div class="seg" id="seg"><button data-p="today">Hoje</button><button data-p="yesterday">Ontem</button><button data-p="7d">7 dias</button><button data-p="week">Semana</button><button data-p="month">Mês</button><button data-p="lastmonth">Mês passado</button><button data-p="30d">30 dias</button><button data-p="custom">📅 Datas</button></div>
+  <div class="inp hidden" id="crange">de <input type="date" id="cfrom"> até <input type="date" id="cto"></div>
   <button class="ibtn" id="snd">🔇 Sons</button>
  </div>
 </div>
@@ -219,7 +220,7 @@ const CFG={
   fees:{pix:.05,other:.10},              // taxa da plataforma usada no faturamento líquido
   metaSrc:['facebook','meta','instagram','fb','ig','fb-ads','meta-ads','an','msg'],
   recoveryMin:30,                        // venda paga +30 min depois do último clique do lead = recuperada (provável)
-  historyDays:30, backfillPerLoad:7,     // histórico é montado aos poucos para não estourar a cota do Firebase
+  historyDays:62, backfillPerLoad:10,     // histórico é montado aos poucos para não estourar a cota do Firebase
   metaTax:.1215,                        // imposto que a Meta cobra no Brasil sobre o gasto (confira na sua fatura)
   metaSyncUrl:'https://receitas-secretas-phi.vercel.app/api/meta-sync', // pede atualização dos dados da Meta
   metaSyncKey:'',                       // a SYNC_KEY cadastrada na Vercel
@@ -249,6 +250,8 @@ const WD=['dom','seg','ter','qua','qui','sex','sáb'];
 function period(p){const t=todayK();
   if(p==='today')return[t,t];if(p==='yesterday'){const y=addD(t,-1);return[y,y]}
   if(p==='7d')return[addD(t,-6),t];if(p==='30d')return[addD(t,-29),t];
+  if(p==='week'){const d=dStart(t),w=(d.getDay()+6)%7;return[addD(t,-w),t]}
+  if(typeof p==='string'&&p.startsWith('c:')){const[,a,b]=p.split(':');return a<=b?[a,b]:[b,a]}
   if(p==='month')return[t.slice(0,8)+'01',t];
   if(p==='lastmonth'){const d=dStart(t.slice(0,8)+'01');d.setDate(0);const e=dk(d);return[e.slice(0,8)+'01',e]}
   return[t,t]}
@@ -449,6 +452,9 @@ function prevOf(per){const t=todayK();
   if(per==='yesterday')return{per:[addD(t,-2),addD(t,-2)],lbl:'vs anteontem'};
   if(per==='7d')return{per:[addD(t,-13),addD(t,-7)],lbl:'vs 7 dias anteriores'};
   if(per==='30d')return{per:[addD(t,-59),addD(t,-30)],lbl:'vs 30 dias anteriores'};
+  if(per==='week'){const[a,b]=period('week');return{per:[addD(a,-7),addD(b,-7)],lbl:'vs mesmos dias da semana passada'}}
+  if(per==='lastmonth'){const[a]=period('lastmonth'),d=dStart(a);d.setMonth(d.getMonth()-1);const s=dk(d),e=dk(new Date(d.getFullYear(),d.getMonth()+1,0));return{per:[s,e],lbl:'vs mês anterior a ele'}}
+  if(String(per).startsWith('c:')){const[a,b]=period(per),n=daysIn(a,b).length;return{per:[addD(a,-n),addD(a,-1)],lbl:`vs ${n} dia(s) anteriores`}}
   if(per==='month'){const[a]=period('month'),n=daysIn(a,t).length,d=dStart(a);d.setMonth(d.getMonth()-1);const s=dk(d);return{per:[s,addD(s,n-1)],lbl:'vs mesmo trecho do mês passado'}}
   return{per:[addD(t,-1),addD(t,-1)],lbl:'vs período anterior'}}
 const curCut=per=>per==='today'?msDay(new Date()):undefined;
@@ -464,7 +470,7 @@ function series(p,per,f){const[a,b]=period(per);if(a===b){const h=hourly(p,a),li
 function render(){if(!(ready.s&&ready.v))return;
   const ks=productKeys();if(view!==ALL&&!ks.includes(view))view=ALL;
   const ac=colorOf(view);document.documentElement.style.setProperty('--ac',ac);document.documentElement.style.setProperty('--ac2',ac+'33');
-  renderPicker();document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.p===PER));
+  renderPicker();const isC=String(PER).startsWith('c:');document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.p===PER||(isC&&b.dataset.p==='custom')));$('crange').classList.toggle('hidden',!isC);if(isC){const[a,b]=period(PER);$('cfrom').value=a;$('cto').value=b}
   $('sub').textContent=view===ALL?'Todas as ofertas somadas · lucro, vendas, funil e Meta':pinfo(view).name+' · lucro, vendas, funil e Meta';
   $('upd').innerHTML='atualizado às <b>'+new Date().toLocaleTimeString('pt-BR')+'</b>';
   const ml=[...metaD.values()].map(m=>toDate(m.updatedAt)).filter(Boolean).sort((x,y)=>y-x)[0];
@@ -529,7 +535,7 @@ function renderHourly(){const t=todayK(),y=addD(t,-1),H=hourly(view,t),Y=hourly(
   let rows='',ct=0,cy=0;for(let i=0;i<=nowH;i++){ct+=a[i];cy+=b[i];rows+=`<tr class="${i===nowH?'now':''}"><td>${pad(i)}h${i===nowH?' (agora)':''}</td><td>${fmt(a[i])}</td><td>${fmt(b[i])}</td><td>${dlt(a[i],b[i],m==='spend')}</td><td>${fmt(ct)}</td><td>${fmt(cy)}</td><td>${dlt(ct,cy,m==='spend')}</td></tr>`}
   $('hhtab').innerHTML=`<thead><tr><th>Hora</th><th>Hoje</th><th>Ontem</th><th>Δ hora</th><th>Acum. hoje</th><th>Acum. ontem</th><th>Δ acum.</th></tr></thead><tbody>${rows.split('</tr>').reverse().join('</tr>')}</tbody>`}
 
-function renderHighlights(){const s=stats(view,PER,curCut(PER)),lbl={today:'hoje',yesterday:'ontem','7d':'nos 7 dias',month:'no mês','30d':'nos 30 dias'}[PER];
+function renderHighlights(){const s=stats(view,PER,curCut(PER)),lbl={today:'hoje',yesterday:'ontem','7d':'nos 7 dias',week:'na semana',month:'no mês',lastmonth:'no mês passado','30d':'nos 30 dias'}[PER]||'no período';
   const ev=(o)=>({...o,roi:o.sp?(o.rev-o.sp)/o.sp:null,conv:o.l?o.v/o.l:0});
   const cps=Object.entries(s.cp).filter(([k])=>!/^\(sem/.test(k)).map(([k,o])=>({k,...ev(o)}));
   const crs=Object.entries(s.cr).filter(([k])=>!/^\(sem/.test(k)).map(([k,o])=>({k,...ev(o)}));
@@ -634,7 +640,8 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{spyF=b.dataset.f;doc
 $('pbtn').onclick=e=>{e.stopPropagation();$('pmenu').classList.toggle('hidden')};
 document.addEventListener('click',()=>$('pmenu').classList.add('hidden'));
 $('pmenu').onclick=e=>{const b=e.target.closest('button');if(!b)return;view=b.dataset.k;LS.set('v7_view',view);$('pmenu').classList.add('hidden');render()};
-$('seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;PER=b.dataset.p;LS.set('v7_per',PER);render()};
+$('seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.p==='custom'){const t=todayK();PER='c:'+addD(t,-6)+':'+t}else PER=b.dataset.p;LS.set('v7_per',PER);render()};
+const setC=()=>{const a=$('cfrom').value,b=$('cto').value;if(a&&b){PER='c:'+a+':'+b;LS.set('v7_per',PER);render()}};$('cfrom').onchange=setC;$('cto').onchange=setC;
 $('hhm').onclick=e=>{const b=e.target.closest('button');if(!b)return;HHM=b.dataset.m;renderHourly()};
 $('sales-filter').onchange=renderSales;
 let pend=false;const sched=()=>{dataVer++;if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;render()})};
