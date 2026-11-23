@@ -357,9 +357,12 @@ function money(p,per){const[a,b]=Array.isArray(per)?per:period(per);const t0=dSt
 let firstDataDay='0000-00-00';
 
 /* =================== PRODUTOS VISÍVEIS =================== */
-function productKeys(){const s=new Set(Object.keys(CFG.products));Object.keys(extraProducts).forEach(k=>s.add(k));
+// lista de produtos guardada até chegar dado novo (antes era refeita para cada venda e travava a tela)
+const PKC={v:-1,k:[],s:new Set()};
+function productSet(){productKeys();return PKC.s}
+function productKeys(){if(PKC.v===dataVer)return PKC.k.slice();const s=new Set(Object.keys(CFG.products));Object.keys(extraProducts).forEach(k=>s.add(k));
   live.forEach(x=>s.add(prodOf(x)));sales.forEach(x=>s.add(prodOf(x)));for(const g of hist.values())s.add(g.product);for(const k of spend.keys())s.add(k.split('|')[0]);for(const k of metaD.keys())s.add(k.split('|')[0]);
-  s.delete('teste');return[...s]} // vendas de teste da Wiapy ficam fora do painel
+  s.delete('teste');PKC.v=dataVer;PKC.k=[...s];PKC.s=new Set(PKC.k);return PKC.k.slice()} // vendas de teste da Wiapy ficam fora do painel
 
 /* ---------- DIAGNÓSTICO (regras) ---------- */
 function insights(p){const out=[],t=stats(p,'today'),w=stats(p,'7d'),y=stats(p,'yesterday');const add=(lv,ic,tx)=>out.push({lv,ic,tx});
@@ -404,7 +407,7 @@ function insights(p){const out=[],t=stats(p,'today'),w=stats(p,'7d'),y=stats(p,'
 /* =================== ESTATÍSTICAS v7 =================== */
 const ALL='__all';
 const prods=p=>p===ALL?productKeys():[p];
-const inP=(p,x)=>p===ALL?productKeys().includes(prodOf(x)):prodOf(x)===p;
+const inP=(p,x)=>p===ALL?productSet().has(prodOf(x)):prodOf(x)===p;
 const PAL=['#22d3ee','#f472b6','#a3e635','#fbbf24','#fb923c','#34d399','#c084fc','#60a5fa'];
 function colorOf(k){if(k===ALL)return'#8b7bff';const i=pinfo(k);if(i.color)return i.color;const ks=productKeys();return PAL[Math.max(0,ks.indexOf(k))%PAL.length]}
 const metaOf=(p,d)=>metaD.get(HK(p,d));
