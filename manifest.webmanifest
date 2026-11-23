@@ -1,0 +1,18 @@
+{
+  "name": "Painel de Vendas",
+  "short_name": "Vendas",
+  "description": "Vendas, lucro e funil das ofertas ao vivo",
+  "id": "/",
+  "start_url": "/?app=1",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#120d2b",
+  "theme_color": "#5b3df5",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/api/icon?s=192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/api/icon?s=512", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/api/icon?s=512&m=1", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
